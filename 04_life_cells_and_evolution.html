@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="paper" data-size="md" style="--accent: #16a34a; --accent-soft: rgba(22, 163, 74, 0.12);">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book IV: Life, Cells, and Evolution</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#faf8f4" id="meta-theme-color" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Foundations" />
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
+  <style>
+:root {
+  --bg: #faf8f4;
+  --surface: #ffffff;
+  --surface-muted: #f3efe7;
+  --text: #1c1917;
+  --text-muted: #57534e;
+  --border: #e5dfd3;
+  --quote-bg: #f6f3ec;
+  --shadow: 0 8px 30px rgba(28, 25, 23, 0.06);
+  --font-serif: "Charter", "Georgia", "Cambria", "Times New Roman", serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --base-size: 18px;
+}
+
+html[data-theme="sepia"] {
+  --bg: #f4ecd8;
+  --surface: #fbf6ea;
+  --surface-muted: #ede2ca;
+  --text: #2c2219;
+  --text-muted: #695847;
+  --border: #dfd1b5;
+  --quote-bg: #f0e6d0;
+}
+
+html[data-theme="night"] {
+  --bg: #111318;
+  --surface: #181b22;
+  --surface-muted: #20242e;
+  --text: #e7e5e4;
+  --text-muted: #a8a29e;
+  --border: #2b303d;
+  --quote-bg: #1e232e;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+html[data-size="sm"] { --base-size: 16px; }
+html[data-size="md"] { --base-size: 18px; }
+html[data-size="lg"] { --base-size: 20px; }
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.7;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+a {
+  color: var(--accent, #2563eb);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+#reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--accent, #2563eb);
+  z-index: 1000;
+  transition: width 0.08s linear;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 1.5rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+}
+
+.topbar-left, .topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.pill-btn, .pill-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.38rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+.pill-btn:hover, .pill-link:hover {
+  border-color: var(--accent, #2563eb);
+  text-decoration: none;
+}
+.pill-btn.active {
+  background: var(--accent, #2563eb);
+  color: #ffffff;
+  border-color: var(--accent, #2563eb);
+}
+
+.book-shell {
+  display: grid;
+  grid-template-columns: 290px minmax(0, 1fr);
+  max-width: 1320px;
+  margin: 0 auto;
+  gap: 2rem;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.sidebar {
+  position: sticky;
+  top: 4.5rem;
+  align-self: start;
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.15rem;
+  box-shadow: var(--shadow);
+}
+
+.sidebar-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 0.75rem;
+}
+
+.sidebar-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.sidebar-chapter > a {
+  display: block;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--text);
+  padding: 0.35rem 0.45rem;
+  border-radius: 8px;
+}
+.sidebar-chapter > a:hover {
+  background: var(--surface-muted);
+  text-decoration: none;
+}
+
+.sidebar-concepts {
+  list-style: none;
+  padding: 0.15rem 0 0.45rem 0.85rem;
+  margin: 0;
+  border-left: 2px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.sidebar-concepts a {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 0.18rem 0.35rem;
+  border-radius: 6px;
+}
+.sidebar-concepts a:hover {
+  color: var(--accent, #2563eb);
+  background: var(--surface-muted);
+  text-decoration: none;
+}
+
+.reader-column {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2.75rem clamp(1.35rem, 4vw, 3.75rem);
+  box-shadow: var(--shadow);
+  font-family: var(--font-serif);
+  font-size: var(--base-size);
+}
+
+.book-hero {
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 1.75rem;
+  margin-bottom: 2rem;
+}
+
+.volume-badge {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  margin-bottom: 0.9rem;
+}
+
+.book-hero h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.85rem, 3.2vw, 2.55rem);
+  line-height: 1.2;
+  margin: 0 0 0.85rem;
+}
+
+.book-meta-lines {
+  font-family: var(--font-sans);
+  font-size: 0.94rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.book-stats {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.book-stats span {
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.65rem;
+  border-radius: 8px;
+}
+
+.chapter-heading {
+  font-family: var(--font-sans);
+  font-size: 1.48rem;
+  line-height: 1.3;
+  margin: 2.4rem 0 0.9rem;
+  padding-top: 0.5rem;
+  color: var(--text);
+}
+
+.section-divider {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 2.25rem 0;
+}
+
+.concept-card {
+  margin: 1.75rem 0 2.25rem;
+  padding: 1.4rem 1.55rem;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--accent);
+  background: var(--surface);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+}
+
+.concept-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+}
+
+.concept-title {
+  font-family: var(--font-sans);
+  font-size: 1.18rem;
+  margin: 0;
+  color: var(--accent);
+}
+
+.bookmark-btn {
+  flex-shrink: 0;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.bookmark-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.bookmark-btn.saved {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  border: 1px solid rgba(22, 163, 74, 0.35);
+  background: rgba(22, 163, 74, 0.12);
+  color: #15803d;
+}
+html[data-theme="night"] .status-pill {
+  color: #4ade80;
+  border-color: rgba(74, 222, 128, 0.35);
+}
+.status-pill.is-offline {
+  border-color: rgba(217, 119, 6, 0.45);
+  background: rgba(217, 119, 6, 0.14);
+  color: #b45309;
+}
+html[data-theme="night"] .status-pill.is-offline {
+  color: #fbbf24;
+}
+.install-btn {
+  background: var(--accent, #2563eb);
+  color: #ffffff;
+  border-color: var(--accent, #2563eb);
+}
+.install-btn:hover { opacity: 0.92; }
+
+.isolated-definition {
+  margin: 0 0 1rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: 10px;
+  background: var(--quote-bg);
+  border-left: 3px solid var(--accent);
+  font-size: 1.02em;
+}
+
+.concept-part {
+  margin: 0.85rem 0;
+}
+
+.role-distinction {
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  background: var(--surface-muted);
+  font-size: 0.95em;
+}
+
+.toc-list, .concept-index-list {
+  padding-left: 1.25rem;
+}
+.toc-list li, .concept-index-list li {
+  margin: 0.4rem 0;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  margin: 1.25rem 0;
+}
+.distinctions-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+.distinctions-table th, .distinctions-table td {
+  border: 1px solid var(--border);
+  padding: 0.7rem 0.85rem;
+  text-align: left;
+  vertical-align: top;
+}
+.distinctions-table th {
+  background: var(--surface-muted);
+  font-weight: 700;
+}
+
+.self-check-list {
+  padding-left: 1.25rem;
+}
+.self-check-item {
+  margin: 1.1rem 0;
+}
+.question-text {
+  font-weight: 600;
+  margin-bottom: 0.45rem;
+}
+.answer-reveal {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.45rem 0.85rem;
+}
+.answer-reveal summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--accent);
+}
+.answer-body {
+  margin-top: 0.5rem;
+  color: var(--text);
+}
+
+.book-footer-nav {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-family: var(--font-sans);
+}
+
+@media (max-width: 960px) {
+  .book-shell {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    position: static;
+    max-height: none;
+  }
+}
+
+@media print {
+  .topbar, .sidebar, #reading-progress, .book-footer-nav, .bookmark-btn { display: none !important; }
+  .book-shell { display: block; padding: 0; }
+  .reader-column { border: 0; box-shadow: none; padding: 0; }
+  .concept-card { break-inside: avoid; }
+  .answer-reveal[open] summary { display: none; }
+}
+</style>
+</head>
+<body data-book-label="Book IV: Life &amp; Evolution">
+  <div id="reading-progress"></div>
+  <header class="topbar">
+    <div class="topbar-left">
+      <a class="pill-link" href="index.html">&larr; Library Index</a>
+      <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">
+        Volume IV &middot; Living Systems
+      </span>
+      <span id="pwa-status-pill" class="status-pill" hidden>Offline Ready</span>
+    </div>
+    <div class="topbar-right">
+      <button type="button" id="pwa-install-btn" class="pill-btn install-btn" hidden>Install App</button>
+      <button type="button" class="pill-btn" data-set-size="sm">A-</button>
+      <button type="button" class="pill-btn" data-set-size="md">A</button>
+      <button type="button" class="pill-btn" data-set-size="lg">A+</button>
+      <button type="button" class="pill-btn" data-set-theme="paper">Paper</button>
+      <button type="button" class="pill-btn" data-set-theme="sepia">Sepia</button>
+      <button type="button" class="pill-btn" data-set-theme="night">Night</button>
+      <a class="pill-link" href="04_life_cells_and_evolution.md">Markdown</a>
+    </div>
+  </header>
+
+  <div class="book-shell">
+    <aside class="sidebar">
+      <div class="sidebar-label">Isolated Concepts &amp; Chapters</div>
+      <ul class="sidebar-nav">
+<li class="sidebar-chapter">
+<a href="#core-thesis">Core Thesis</a>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-1-what-makes-something-alive">Chapter 1: What Makes Something Alive</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-11-boundaries-and-selective-exchange">1.1: Boundaries and Selective Exchange</a></li>
+<li><a href="#concept-12-metabolism-building-and-burning">1.2: Metabolism (Building and Burning)</a></li>
+<li><a href="#concept-13-homeostasis-active-inner-balance">1.3: Homeostasis (Active Inner Balance)</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-2-the-cell-as-a-living-city">Chapter 2: The Cell as a Living City</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-21-the-cell-as-the-minimum-unit-of-life">2.1: The Cell as the Minimum Unit of Life</a></li>
+<li><a href="#concept-22-proteins-as-molecular-workers">2.2: Proteins as Molecular Workers</a></li>
+<li><a href="#concept-23-energy-currency-inside-cells">2.3: Energy Currency Inside Cells</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-3-information-and-inheritance">Chapter 3: Information and Inheritance</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-31-genes-as-biological-recipes">3.1: Genes as Biological Recipes</a></li>
+<li><a href="#concept-32-mutation-copying-slips-and-variation">3.2: Mutation (Copying Slips and Variation)</a></li>
+<li><a href="#concept-33-nature-working-together-with-nurture">3.3: Nature Working Together With Nurture</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-4-natural-selection-and-adaptation">Chapter 4: Natural Selection and Adaptation</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-41-the-three-ingredients-of-natural-selection">4.1: The Three Ingredients of Natural Selection</a></li>
+<li><a href="#concept-42-adaptation-versus-luck-drift">4.2: Adaptation Versus Luck (Drift)</a></li>
+<li><a href="#concept-43-common-descent-and-deep-time">4.3: Common Descent and Deep Time</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-5-ecosystems-and-living-feedback">Chapter 5: Ecosystems and Living Feedback</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-51-energy-flows-one-way-matter-recycles">5.1: Energy Flows One Way, Matter Recycles</a></li>
+<li><a href="#concept-52-carrying-capacity-and-limiting-factors">5.2: Carrying Capacity and Limiting Factors</a></li>
+<li><a href="#concept-53-mutualism-parasitism-and-competition">5.3: Mutualism, Parasitism, and Competition</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#key-distinctions-at-a-glance">Key Distinctions at a Glance</a>
+</li>
+<li class="sidebar-chapter">
+<a href="#plain-english-concept-index">Plain-English Concept Index</a>
+</li>
+<li class="sidebar-chapter">
+<a href="#self-check-questions">Self-Check Questions</a>
+</li>
+</ul>
+    </aside>
+
+    <main class="reader-column">
+      <section class="book-hero">
+        <div class="volume-badge">Plain-English Foundations &middot; Book IV</div>
+        <h1>Book IV: Life, Cells, and Evolution</h1>
+        <div class="book-meta-lines"><div><strong>Series:</strong> The Plain-English Foundations Library — Volume IV</div>
+<div><strong>Focus:</strong> Living organization, cells, inheritance, adaptation, and ecosystems — isolated cleanly in plain English without chemical formulas or technical barriers.</div></div>
+        <div class="book-stats">
+          <span>15 Isolated Concepts</span>
+          <span>~4,920 Words</span>
+          <span>~23 Min Read</span>
+          <span>Zero Code &middot; Plain English</span>
+        </div>
+      </section>
+
+      <hr class="section-divider" />
+<h2 id="core-thesis" class="chapter-heading">Core Thesis</h2>
+<p>Living things look miraculously purposeful, yet biology rests on a small set of physical and informational principles working relentlessly across billions of cycles. A cell draws a boundary against chaos, repairs itself from the inside out, stores instructions in durable molecular ribbons, copies those instructions with occasional tiny differences, and submits every variation to the test of survival in a shared environment. Isolating each biological concept in plain English shows how life bridges inert chemistry and intricate ecosystems.</p>
+<hr class="section-divider" />
+<h2 id="table-of-contents" class="chapter-heading">Table of Contents</h2>
+<ul class="toc-list"><li><a href="#chapter-1-what-makes-something-alive">Chapter 1: What Makes Something Alive</a></li><li><a href="#chapter-2-the-cell-as-a-living-city">Chapter 2: The Cell as a Living City</a></li><li><a href="#chapter-3-information-and-inheritance">Chapter 3: Information and Inheritance</a></li><li><a href="#chapter-4-natural-selection-and-adaptation">Chapter 4: Natural Selection and Adaptation</a></li><li><a href="#chapter-5-ecosystems-and-living-feedback">Chapter 5: Ecosystems and Living Feedback</a></li><li><a href="#key-distinctions-at-a-glance">Key Distinctions at a Glance</a></li><li><a href="#plain-english-concept-index">Plain-English Concept Index</a></li><li><a href="#self-check-questions">Self-Check Questions</a></li></ul>
+<hr class="section-divider" />
+<h2 id="chapter-1-what-makes-something-alive" class="chapter-heading">Chapter 1: What Makes Something Alive</h2>
+<p>A candle flame consumes fuel, grows larger, breathes oxygen, and flickers in response to wind—yet nobody calls a candle alive. What separates living organisms from mere energetic reactions?</p>
+<article id="concept-11-boundaries-and-selective-exchange" class="concept-card" data-concept-id="concept-11-boundaries-and-selective-exchange" data-concept-title="Concept 1.1: Boundaries and Selective Exchange">
+<div class="concept-header-row"><h3 class="concept-title">Concept 1.1: Boundaries and Selective Exchange</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-11-boundaries-and-selective-exchange" data-bookmark-title="Concept 1.1: Boundaries and Selective Exchange" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Every living thing begins with an active boundary that separates its internal chemistry from the surrounding world while letting chosen nutrients in and pushing wastes out.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Think of a medieval stone walled town with guarded gates. Without walls, the town dissolves into open countryside; with sealed walls that never open, the town starves inside. Life lives strictly in <em>selective</em> openness.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Left open to raw nature, complex molecules quickly drift apart and spoil. Life solves that problem first by building a flexible, self-healing boundary—such as a cell's oily skin—that refuses to let vital ingredients float away. Yet unlike a painted wooden box or a sealed glass jar, a living boundary is constantly active. Tiny protein doorways decide moment by moment which sugars, salts, and signals enter, and which spent scraps leave. Life maintains an orderly island precisely by managing traffic across its border.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Your own skin keeps moisture and blood neatly inside while sweating out heat and keeping countless outdoor bacteria from wandering freely into your bloodstream.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Passive containers.</strong> A plastic water bottle separates water from air, yet cannot repair a crack, harvest materials to rebuild itself, or actively pump specific molecules across its wall.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-12-metabolism-building-and-burning" class="concept-card" data-concept-id="concept-12-metabolism-building-and-burning" data-concept-title="Concept 1.2: Metabolism (Building and Burning)">
+<div class="concept-header-row"><h3 class="concept-title">Concept 1.2: Metabolism (Building and Burning)</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-12-metabolism-building-and-burning" data-bookmark-title="Concept 1.2: Metabolism (Building and Burning)" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Metabolism is the ongoing two-way chemical economy inside an organism that breaks down incoming food or sunlight for fuel while using that energy to build and repair living parts.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Picture a busy carpentry workshop where old wooden shipping crates are broken apart to heat the stove and supply fresh planks for repairing chairs, tables, and roof beams every single day.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Most people hear "metabolism" and picture only how fast someone burns off lunch. In biology, metabolism has two inseparable halves: tearing down and building up. One side strips energy out of sunlight, sugar, or fat—much like taking apart batteries carefully without exploding them—while the other side spends that captured energy assembling muscles, enzymes, membranes, and fresh copies of the organism. Stop metabolism for even a few minutes in a complex animal, and internal maintenance halts immediately.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Even while you sleep soundly all night without moving a muscle, your metabolism quietly heals tiny muscle tears, replaces millions of worn blood cells, keeps your heart pumping, and holds your brain at steady warmth.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Digestion alone.</strong> Digestion merely chops food small enough in your gut to cross into your blood; metabolism is what happens inside <em>every single cell</em> afterward.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-13-homeostasis-active-inner-balance" class="concept-card" data-concept-id="concept-13-homeostasis-active-inner-balance" data-concept-title="Concept 1.3: Homeostasis (Active Inner Balance)">
+<div class="concept-header-row"><h3 class="concept-title">Concept 1.3: Homeostasis (Active Inner Balance)</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-13-homeostasis-active-inner-balance" data-bookmark-title="Concept 1.3: Homeostasis (Active Inner Balance)" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Homeostasis is a living system's habit of continually monitoring its inner state and nudging things back inside a narrow safe zone even as the outside world swings wildly.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Think of a home thermostat linked to both a furnace and an air conditioner. Whether January blizzards freeze the porch or August heatwaves bake the roof, sensors notice any slight drift indoors and turn on heating or cooling until the living room sits comfortably steady again.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Living chemistry is picky. Enzymes break down if your body gets far too hot, seize up if too cold, and fail if blood gets too acidic or dehydrated. Instead of hiding in a climate-controlled cave forever, living organisms carry internal feedback loops everywhere they go. When blood sugar spikes after a sweet meal, hormones signal liver and muscle cells to pull sugar inside for storage; hours later when sugar dips, another signal releases reserve fuel back into circulation. Stability in life is never frozen stillness—it is constant microscopic balancing.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Step out on a hot July afternoon run and you sweat to cool your skin while breathing faster to dump heat and carbon dioxide; step into freezing rain without a coat and your muscles shiver automatically to generate internal warmth.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Static rigidity.</strong> A granite boulder sits at one temperature in a cellar only because the room stays still; a living body holds steady inside precisely by reacting dynamically when outside conditions change.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="chapter-2-the-cell-as-a-living-city" class="chapter-heading">Chapter 2: The Cell as a Living City</h2>
+<p>Every blade of grass, whale, mushroom, and bacterium is built from cells. Understanding how one single cell runs makes all larger biology immediately understandable.</p>
+<article id="concept-21-the-cell-as-the-minimum-unit-of-life" class="concept-card" data-concept-id="concept-21-the-cell-as-the-minimum-unit-of-life" data-concept-title="Concept 2.1: The Cell as the Minimum Unit of Life">
+<div class="concept-header-row"><h3 class="concept-title">Concept 2.1: The Cell as the Minimum Unit of Life</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-21-the-cell-as-the-minimum-unit-of-life" data-bookmark-title="Concept 2.1: The Cell as the Minimum Unit of Life" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> A cell is the smallest self-contained structure capable of maintaining boundaries, running metabolism, responding to surroundings, and copying itself.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Just as a brick house breaks into bricks and mortar—where a single grain of sand cannot make a wall on its own—an oak tree or human body breaks down into billions of cooperative cells, while chopping a single cell into loose pieces stops it from living on its own.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> You can break a leaf into cells and keep individual plant cells alive inside a warm nutrient dish. Break a cell open into raw proteins and oils, however, and life stops—the spilled parts cannot repair themselves or reproduce. Simple microbes like bacteria spend their whole lives as lone one-room studio cells; complex creatures like trees and dogs are towering cities of trillions of specialized cells—muscle cells built for pulling, nerve cells built for wiring signals, skin cells built for shielding—all working together while sharing one origin.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> A single fertilized egg cell divides into two, four, eight, and eventually trillions of cells, gradually specializing into beating heart muscle, transparent eye lenses, and rigid bone scaffolding—all still carrying the same original archive inside.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Viruses.</strong> A virus holds genetic instructions inside a protein shell, yet lacks its own energy factories or building workshops; outside a host cell it sits completely inert like a stray instruction thumb drive waiting for a computer.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-22-proteins-as-molecular-workers" class="concept-card" data-concept-id="concept-22-proteins-as-molecular-workers" data-concept-title="Concept 2.2: Proteins as Molecular Workers">
+<div class="concept-header-row"><h3 class="concept-title">Concept 2.2: Proteins as Molecular Workers</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-22-proteins-as-molecular-workers" data-bookmark-title="Concept 2.2: Proteins as Molecular Workers" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Proteins are long chains of smaller building blocks folded into precise three-dimensional tools that perform nearly every physical and chemical task inside a living cell.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Imagine folding a ribbon of magnetic snap-beads into a custom pair of scissors, a tiny spring-loaded lock, a cargo truck, or a structural girder. The exact same set of twenty bead types produces thousands of wildly different tools depending solely on the order in which they are strung and folded.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> If instructions inside the cell are the blueprints in a town archive, proteins are the carpenters, motors, doors, shields, and assembly machines actually doing the work. Some proteins form rigid scaffolding fibers giving cells their shape; some act as tiny rotational turbines churning out cellular fuel; others act as enzymes—precision cradles that bring two chemical partners together at just the right angle so reactions that would take centuries on their own happen in milliseconds. Because a protein's job depends directly on its folded three-dimensional shape, heating or acidifying an egg turns clear liquid protein white and rubbery as folded chains tangle permanently out of shape.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Red blood cells carry an iron-holding protein shaped specifically like a molecular basket that scoops up oxygen in your lungs and drops it off gently where working leg muscles release acidic carbon dioxide.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Dietary protein grams alone.</strong> Eating chicken or beans simply supplies raw amino-acid beads after digestion; your own cells immediately re-string those beads into custom human proteins.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-23-energy-currency-inside-cells" class="concept-card" data-concept-id="concept-23-energy-currency-inside-cells" data-concept-title="Concept 2.3: Energy Currency Inside Cells">
+<div class="concept-header-row"><h3 class="concept-title">Concept 2.3: Energy Currency Inside Cells</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-23-energy-currency-inside-cells" data-bookmark-title="Concept 2.3: Energy Currency Inside Cells" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Instead of burning food directly like a bonfire, cells convert fuel into a uniform rechargeable molecular battery passed cleanly from power plants to every miniature worker in the cell.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Think of electrical wall outlets inside a house. Rather than running a miniature coal furnace inside your toaster, your lamp, and your clock separately, one power station charges standard electrical flow that <em>every</em> appliance plugs into effortlessly.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Releasing all the energy in a single sugar molecule in one flash would cook the cell instantly. Instead, cells dismantle sugars and fats slowly step by step, capturing tiny manageable packets of chemical energy by snapping an extra high-tension piece onto a reusable carrier molecule. That charged carrier drifts directly to any cellular pump, muscle fiber, or assembly machine, snaps the piece off to deliver a clean micro-push of energy, and glides back empty to be recharged again—millions of times every minute.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> When you sprint up stairs faster than your lungs can supply fresh oxygen, your muscles burn through their tiny reserve of charged molecular batteries within seconds, switching temporarily to fast emergency fuel cycles that leave muscles burning until breathing catches up.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Body fat stores.</strong> Body fat is a long-term savings vault in a basement; cellular energy carriers are loose coins spent and recharged thousands of times per hour inside active cells.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="chapter-3-information-and-inheritance" class="chapter-heading">Chapter 3: Information and Inheritance</h2>
+<p>How does an oak acorn reliably build another oak tree rather than a pine tree or a beetle, generation after generation? Life discovered a remarkably durable way to record, copy, and read instructions.</p>
+<article id="concept-31-genes-as-biological-recipes" class="concept-card" data-concept-id="concept-31-genes-as-biological-recipes" data-concept-title="Concept 3.1: Genes as Biological Recipes">
+<div class="concept-header-row"><h3 class="concept-title">Concept 3.1: Genes as Biological Recipes</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-31-genes-as-biological-recipes" data-bookmark-title="Concept 3.1: Genes as Biological Recipes" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> DNA is a long double-stranded molecular archive written in a four-letter chemical alphabet; a gene is a specific functional passage along that archive telling a cell how and when to build a protein or regulator.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Imagine a massive multi-volume cookbook locked safely inside the head library of every cell. A single gene is one recipe card inside that library—not a finished cake sitting on a shelf, nor a direct miniature blueprint of a nose, just instructions for making one specific molecular ingredient and timing when to mix it.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Every cell in your body holds nearly the complete master library. Why, then, does an eye lens cell look crystal clear while a bone cell turns rock hard? Because different rooms in the city read <em>different chapters</em> of the exact same library! Chemical switches sitting alongside each gene turn recipes up, down, or completely silent depending on where the cell lives and what signals arrive from neighbors. Even more striking, living things copy that master library cleanly each time a cell splits—using one old strand as a matching template to rebuild its partner strand accurately.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Identical twins begin with virtually the same genetic cookbook. Yet slight differences in environment, tiny developmental turns, and life habits still leave subtle differences in fingerprints, muscle strength, and health—showing that recipes interact constantly with surroundings.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Rigid destiny.</strong> Very few human traits work like "one gene equals one rigid outcome"; most traits emerge from dozens or hundreds of recipes interacting together alongside nutrition, weather, exercise, and chance.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-32-mutation-copying-slips-and-variation" class="concept-card" data-concept-id="concept-32-mutation-copying-slips-and-variation" data-concept-title="Concept 3.2: Mutation (Copying Slips and Variation)">
+<div class="concept-header-row"><h3 class="concept-title">Concept 3.2: Mutation (Copying Slips and Variation)</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-32-mutation-copying-slips-and-variation" data-bookmark-title="Concept 3.2: Mutation (Copying Slips and Variation)" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> A mutation is any accidental change in the sequence of genetic letters caused by copying slips, radiation, or chemical wear.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Think of a scribe copying a thousand-page manual by hand. Even a remarkably careful scribe eventually types "bake" instead of "make," skips a paragraph, or duplicates a page twice.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Most people assume "mutation" always produces glowing monsters or fatal disease. In reality, the overwhelming majority of tiny copying slips land in quiet stretches of the genome and change nothing noticeable at all. A smaller fraction break an existing working recipe—making them harmful—while a rare tiny percentage accidentally alters a protein in a way that happens to work <em>better</em> in a new setting, such as digesting a newly introduced sugar or withstanding freezing winters. Without occasional errors in copying, every generation would be an exact clone forever, leaving species helpless whenever climates or diseases shift.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> A stray bacterium mutates slightly in the shape of its outer doorway, preventing an antibiotic drug from latching onto it cleanly. Under normal life that change may barely matter; once antibiotics flood the dish, that single variant survives and multiplies.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Intentional adaptation.</strong> Cells do <em>not</em> know what future danger is coming and deliberately invent helpful mutations on purpose; copying slips happen randomly, and the environment later decides which variants survive.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-33-nature-working-together-with-nurture" class="concept-card" data-concept-id="concept-33-nature-working-together-with-nurture" data-concept-title="Concept 3.3: Nature Working Together With Nurture">
+<div class="concept-header-row"><h3 class="concept-title">Concept 3.3: Nature Working Together With Nurture</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-33-nature-working-together-with-nurture" data-bookmark-title="Concept 3.3: Nature Working Together With Nurture" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Every living trait grows out of constant interaction between inherited genetic tendencies and the physical, nutritional, and social environment around the organism.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Asking whether a rectangle's area owes more to its width or its height makes no sense—remove either one and the area drops to zero. Genes and environment are equally inseparable partners in shaping a real creature.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Plant two genetically identical seeds from the same flower pod: put one in rich sunlit garden soil with steady rain, and put the other in cold gravel inside a dark closet. Their recipes are identical, yet one grows tall with bright blossoms while the other stays pale and stunted. Conversely, plant corn and oak seeds side by side in the same garden soil, and their genetic recipes build wildly different plants out of identical dirt and sunlight. Separating the two in clean English means asking <em>how much of the difference between individuals in one specific setting</em> came from genes versus surroundings—never pretending either operates alone.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> A child with inherited natural height potential still grows noticeably shorter than siblings if starved of protein during childhood; abundant food unlocks the height encoded in the family recipes without rewriting a single gene.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Fifty-fifty arithmetic split.</strong> "Half nature, half nurture" is a misleading slogan; traits cannot be sliced neatly into independent halves like two layers of a cake, because genes literally tune how sensitively an organism responds to its environment.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="chapter-4-natural-selection-and-adaptation" class="chapter-heading">Chapter 4: Natural Selection and Adaptation</h2>
+<p>Before Charles Darwin, the fitted perfection of an eagle's eye or a beaver's teeth seemed impossible without an engineer drawing blueprints in advance. Natural selection showed how mindless filtering creates exquisite design over deep time.</p>
+<article id="concept-41-the-three-ingredients-of-natural-selection" class="concept-card" data-concept-id="concept-41-the-three-ingredients-of-natural-selection" data-concept-title="Concept 4.1: The Three Ingredients of Natural Selection">
+<div class="concept-header-row"><h3 class="concept-title">Concept 4.1: The Three Ingredients of Natural Selection</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-41-the-three-ingredients-of-natural-selection" data-bookmark-title="Concept 4.1: The Three Ingredients of Natural Selection" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Whenever individuals in a population vary, pass those differences down to offspring, and survive or reproduce unequally because of those differences, the population automatically shifts toward traits that fit current conditions best.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Picture shaking mixed gravel through a wire screen with quarter-inch holes. Nobody inside the gravel "wants" to be small, and the wire screen has no brain—yet after ten minutes of shaking, every pebble on the floor below fits neatly through the holes. Filtering plus time imitates intentional sorting.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Natural selection is not a mysterious conscious force; it is an unavoidable arithmetic consequence whenever three plain conditions hold at once: individuals differ slightly from one another (variation); children resemble parents more than strangers (inheritance); and more offspring are born than local food, space, and safety can support (differential survival and reproduction). Any slight edge—thicker fur in an ice age, sharper camouflage in brush, quicker nectar drinking—helps its carrier leave slightly more descendants. Repeated across thousands of generations, tiny advantages compound into wings, eyes, sonar, and camouflage.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> During nineteenth-century coal industrialization in England, soot blackened light tree bark near factories. Light-colored moths stood out brightly to hungry birds, while rare dark-winged moths blended into sooty trunks and survived to breed—rapidly flipping local moth populations dark without any single moth deciding to dye its wings.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Individual learning within one lifetime.</strong> A giraffe stretching its neck all summer builds slightly stronger muscles, yet does not rewrite the height genes inside its reproductive cells; selection works across generations by favoring those born slightly taller in the first place.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-42-adaptation-versus-luck-drift" class="concept-card" data-concept-id="concept-42-adaptation-versus-luck-drift" data-concept-title="Concept 4.2: Adaptation Versus Luck (Drift)">
+<div class="concept-header-row"><h3 class="concept-title">Concept 4.2: Adaptation Versus Luck (Drift)</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-42-adaptation-versus-luck-drift" data-bookmark-title="Concept 4.2: Adaptation Versus Luck (Drift)" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Adaptation shapes traits steadily because they improve survival or reproduction in an environment; genetic drift shifts traits purely through random luck in small populations.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Flip a fair coin ten times and you might easily get seven heads purely by fluke. Flip it ten thousand times and heads settle cleanly near half. Small groups swing dramatically from pure sampling luck even when no side holds any real advantage.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> It is tempting to invent a clever survival story for every single feature on every animal—"Why do humans have chins? Why are flamingos pink? Why do male peacocks drag giant tails?" Some features truly are adaptations finely tuned for feeding, defense, or mating. Others are harmless side effects strapped onto useful features (like blood being red simply because iron-bearing hemoglobin happens to look red), and still others spread purely by lucky accidents when small bands split off to colonize new islands.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> If a storm washes ten beetles out of a varied mainland forest onto a remote island, and six of those ten lucky survivors happen to carry green spots by sheer coincidence, the new island colony starts heavily green-spotted—not because green spots beat brown spots, but because of founder luck.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Perfection.</strong> Evolution never scraps everything to design from a clean drawing board; it patches old parts already sitting in the ancestor, which is why whales still carry tiny leftover hip bones and human backs suffer from upright spines rebuilt out of four-legged frames.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-43-common-descent-and-deep-time" class="concept-card" data-concept-id="concept-43-common-descent-and-deep-time" data-concept-title="Concept 4.3: Common Descent and Deep Time">
+<div class="concept-header-row"><h3 class="concept-title">Concept 4.3: Common Descent and Deep Time</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-43-common-descent-and-deep-time" data-bookmark-title="Concept 4.3: Common Descent and Deep Time" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> All living organisms on Earth share branching family ancestry stretching back across immense spans of time, explaining why wildly different creatures carry matching bone layouts and shared molecular toolkits.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Think of your own family tree extending backward from siblings to cousins, second cousins, and shared great-great-grandparents—then stretching outward millions of times farther until mammals, birds, fish, and trees meet at ancient shared ancestors.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Look inside the paddle of a whale, the wing of a bat, the digging paw of a mole, and the grasping hand of a human. One swims, one flies, one tunnels, one plays piano—yet under the skin, <em>every single one</em> shares the exact same arrangement: one upper arm bone, two forearm bones, a cluster of wrist bones, and five finger rays. If each creature were invented separately from scratch, using identical wrist joints inside a stiff whale flipper would make zero sense. Shared modification of an ancient ancestor's limb explains it effortlessly, especially given hundreds of millions of years—a span so vast that tiny seasonal nudges accumulate into entirely new species.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Just as modern Spanish, French, Italian, and Portuguese share matching grammar and vocabulary words because all branched slowly out of ancient Latin across centuries of separated towns, living species share conserved molecular recipes because they branched from common ancestors.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Linear ladder of progress.</strong> Humans did <em>not</em> evolve from modern chimpanzees, nor are oak trees "less evolved" than deer; chimpanzees, oak trees, and humans are modern cousin branches that all kept evolving equally long from older shared ancestors.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="chapter-5-ecosystems-and-living-feedback" class="chapter-heading">Chapter 5: Ecosystems and Living Feedback</h2>
+<p>No organism survives in a vacuum. Every breath you exhale feeds nearby trees; every fallen leaf feeds soil fungi that unlock minerals back into tree roots. Life organizes itself in interlocking webs.</p>
+<article id="concept-51-energy-flows-one-way-matter-recycles" class="concept-card" data-concept-id="concept-51-energy-flows-one-way-matter-recycles" data-concept-title="Concept 5.1: Energy Flows One Way, Matter Recycles">
+<div class="concept-header-row"><h3 class="concept-title">Concept 5.1: Energy Flows One Way, Matter Recycles</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-51-energy-flows-one-way-matter-recycles" data-bookmark-title="Concept 5.1: Energy Flows One Way, Matter Recycles" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Energy enters ecosystems from sunlight or deep chemistry, passes upward step by step as organisms eat one another, and escapes steadily as warm waste heat; physical atoms like carbon and nitrogen cycle endlessly around and around.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Think of a waterwheel sitting over a flowing stream while workers on the shore pass the same set of reusable wooden buckets round and round. The stream of energy passes through once and never climbs back up; the material buckets are washed and reused for millions of years.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Plants capture sunlight to lock carbon from air and water into sugars. Herbivores eat plants; predators eat herbivores; fungi and bacteria break down fallen leaves and dead bodies back into soil minerals and gas. At every single step up a food chain, roughly ninety percent of energy is burned just staying warm, moving around, and leaking heat into the sky—leaving only about ten percent to build body tissue for the next diner up. That steep energy drop explains why grassy meadows support countless grasshoppers, fewer songbirds, and only a tiny handful of hawks—and why Earth constantly requires fresh sunshine while never running out of carbon atoms.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> The carbon atoms inside an apple you eat at lunch may once have floated inside nineteenth-century forest smoke, fed an ancient fern, or drifted in ocean shell limestone before cycling into your orchard tree.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Energy recycling.</strong> While decomposers brilliantly recycle nitrogen, phosphorus, and water back to plant roots, <em>energy</em> cannot be composted back into sunlight—once radiated away as room heat, fresh energy must arrive from the sun.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-52-carrying-capacity-and-limiting-factors" class="concept-card" data-concept-id="concept-52-carrying-capacity-and-limiting-factors" data-concept-title="Concept 5.2: Carrying Capacity and Limiting Factors">
+<div class="concept-header-row"><h3 class="concept-title">Concept 5.2: Carrying Capacity and Limiting Factors</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-52-carrying-capacity-and-limiting-factors" data-bookmark-title="Concept 5.2: Carrying Capacity and Limiting Factors" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Carrying capacity is the largest steady population of a species a local environment can sustain indefinitely; whichever single essential resource runs short first acts as the bottleneck limiting growth.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Imagine assembling wooden barrels out of uneven vertical slats. No matter how tall nineteen of the oak staves stand, water pours straight over whichever <em>shortest</em> stave sits on the side. Fixing tall slats changes nothing until you raise the shortest slat.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Left in a paradise of unlimited food and no enemies, even slow-breeding elephants would cover the globe rapidly through compound multiplication. In reality, growth always collides with limits—clean water, nesting hollows, sunlight under a forest canopy, mineral nutrients, predators, or crowd diseases. Once a herd expands near carrying capacity, competition intensifies and birth rates balance death rates. Adding mountains of extra fertilizer to a pond whose real bottleneck is dissolved oxygen won't save fish; identifying the true limiting factor reveals where the whole system hinges.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Releasing wolves back into an overgrazed valley doesn't simply cut elk numbers directly; elk avoid open riverbanks where wolves hunt cleanly, allowing young willow trees to regrow, which stabilizes creek banks and invites beavers and songbirds back into the ecosystem.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Static permanent cap.</strong> Carrying capacity shifts with rainfall, seasons, soil health, and technology—though ignoring limits altogether leads to sudden overshoot and painful crashes.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-53-mutualism-parasitism-and-competition" class="concept-card" data-concept-id="concept-53-mutualism-parasitism-and-competition" data-concept-title="Concept 5.3: Mutualism, Parasitism, and Competition">
+<div class="concept-header-row"><h3 class="concept-title">Concept 5.3: Mutualism, Parasitism, and Competition</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-53-mutualism-parasitism-and-competition" data-bookmark-title="Concept 5.3: Mutualism, Parasitism, and Competition" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Living relationships range across mutually helpful partnerships (both gain), one-sided exploitation (one gains at the other's expense), and competition (both pay a cost chasing the same limited resource).</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Think of three neighborhood businesses on one street: a coffee shop next to a warm bakery sharing happy morning foot traffic (mutualism); a pickpocket working the crowded line outside (parasitism); and two identical hot dog carts fighting over the same noon sidewalk corner (competition).</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Nature is neither pure tooth-and-claw warfare nor pure peaceful harmony—it is an intricate blend of both. Flowering plants feed bees sweet nectar while bees carry plant pollen cleanly across fields; hidden soil fungi trade scarce water and phosphorus directly into forest tree roots in exchange for tree-made sugars. At the same time, ticks drain host blood, cuckoos trick smaller birds into raising giant cuckoo chicks, and trees race upward for sunlight. Even sharp predators and prey keep each other healthy over time—without wolves culling weak deer, deer eat saplings bare until famine devastates the herd itself.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Inside your own gut live trillions of friendly bacteria enjoying warm shelter and leftover fiber while manufacturing essential vitamins and crowding out dangerous invading germs before they gain a foothold.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Moral virtue or cruelty.</strong> Bees do not pollinate flowers out of generosity, nor do wolves hunt out of malice; organisms simply follow adaptations that paid off in survival for their ancestors.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="key-distinctions-at-a-glance" class="chapter-heading">Key Distinctions at a Glance</h2>
+<div class="table-wrap"><table class="distinctions-table"><thead><tr><th>Concept Pair</th><th>First Concept in Plain English</th><th>Second Concept in Plain English</th><th>Why Isolating Them Matters</th></tr></thead><tbody><tr><td><strong>Cell vs. Virus</strong></td><td>Living self-powered workshop that repairs and copies itself.</td><td>Inert genetic message waiting to hijack a living host cell.</td><td>Antibiotics disrupt living bacterial machinery and therefore do nothing to viruses.</td></tr><tr><td><strong>Gene vs. Protein</strong></td><td>Stored recipe passage recorded inside the DNA archive.</td><td>Active folded molecular worker carrying out life's tasks.</td><td>Knowing a recipe exists differs from knowing how much worker protein is actually made and folded.</td></tr><tr><td><strong>Adaptation vs. Drift</strong></td><td>Population shift driven steadily by survival advantages.</td><td>Random shift in traits caused by sampling luck in small groups.</td><td>Stops us from inventing fake purpose stories for harmless evolutionary coincidences.</td></tr><tr><td><strong>Energy Flow vs. Matter Cycle</strong></td><td>Sunlight arrives, climbs food chains, and escapes as waste heat.</td><td>Atoms of carbon, water, and nutrients cycle endlessly through life and soil.</td><td>Explains why ecosystems need endless sunlight yet preserve ancient chemical elements.</td></tr><tr><td><strong>Homeostasis vs. Stiffness</strong></td><td>Dynamic active adjusting that holds internal states steady.</td><td>Frozen unresponsiveness where nothing changes inside or out.</td><td>Healthy bodies vary smoothly to keep vital chemistry safe; absolute flatness often signals trouble.</td></tr></tbody></table></div>
+<hr class="section-divider" />
+<h2 id="plain-english-concept-index" class="chapter-heading">Plain-English Concept Index</h2>
+<ul class="concept-index-list"><li><strong>Adaptation:</strong> A trait shaped over generations because it improved survival or reproduction in specific surroundings.</li><li><strong>Carrying Capacity:</strong> The maximum steady population an environment can support over time without collapsing resources.</li><li><strong>Cell:</strong> The smallest self-maintaining unit of life capable of metabolism and reproduction.</li><li><strong>Cellular Energy Currency:</strong> Reusable high-tension carrier molecules passing manageable energy packets to cell workers.</li><li><strong>Common Descent:</strong> Shared branching ancestry linking distinct living species back to earlier shared ancestors.</li><li><strong>Ecosystem:</strong> A community of interacting organisms alongside the physical sunlight, water, soil, and air around them.</li><li><strong>Gene:</strong> A specific informational passage in DNA guiding when and how to build a biological component.</li><li><strong>Genetic Drift:</strong> Shifts in trait frequency driven purely by chance rather than survival advantage.</li><li><strong>Homeostasis:</strong> Continuous internal self-regulation keeping vital inner conditions inside safe boundaries.</li><li><strong>Limiting Factor:</strong> The single scarcest essential ingredient restraining growth in a system.</li><li><strong>Metabolism:</strong> All chemical reactions breaking fuel down for energy and assembling cellular structures inside an organism.</li><li><strong>Mutation:</strong> An accidental copying slip or structural change in genetic instructions.</li><li><strong>Mutualism:</strong> A cooperative interaction between different species in which both sides benefit.</li><li><strong>Natural Selection:</strong> Automatic multi-generation filtering whenever heritable variation causes uneven survival or reproduction.</li><li><strong>Protein:</strong> A folded chain of amino acids forming enzymes, motors, pumps, and scaffolds inside cells.</li><li><strong>Selective Boundary:</strong> A living membrane controlling which molecules enter and exit a cell.</li></ul>
+<hr class="section-divider" />
+<h2 id="self-check-questions" class="chapter-heading">Self-Check Questions</h2>
+<ol class="self-check-list"><li class="self-check-item"><div class="question-text"><strong>Why isn't a roaring campfire considered alive, even though it consumes fuel, grows, moves, and spawns sparks that start new fires?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> A fire has no selective self-maintaining boundary, no internal homeostatic regulation, and no inherited informational archive guiding repairs—it simply burns outward indiscriminately until fuel runs out.</div></details></li><li class="self-check-item"><div class="question-text"><strong>If a parent lifts heavy weights for ten years and builds massive arm muscles, why aren't their newborn babies born with giant muscles?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> Exercise strengthens existing muscle cells during one lifetime without editing the genetic recipes inside reproductive cells passed to children.</div></details></li><li class="self-check-item"><div class="question-text"><strong>Why are there always far fewer lions on a savanna than zebras, and far less weight of zebras than grass?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> Because energy drops sharply at every step up the food chain—most energy plants catch from sunlight is burned as movement and heat before reaching zebras, and most zebra energy is burned before reaching lions.</div></details></li><li class="self-check-item"><div class="question-text"><strong>Why do antibiotics stop working well when people stop taking their prescription early or overuse them on minor viral colds?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> Overuse kills easy bacteria while sparing rare randomly mutated bacteria with slight resistance, letting resistant descendants inherit the whole field through rapid natural selection.</div></details></li><li class="self-check-item"><div class="question-text"><strong>Why does looking at the bones inside a whale's flipper offer such strong evidence of common descent?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> The flipper contains an upper arm, two forearm bones, wrist bones, and five finger chains inherited and reshaped from land-walking mammal ancestors rather than built anew like a fish fin.</div></details></li></ol>
+
+      <nav class="book-footer-nav">
+        <div><a class="pill-link" href="03_matter_energy_and_physics.html">&larr; Book III: Matter &amp; Energy</a></div>
+        <div><a class="pill-link" href="index.html">All Volumes</a></div>
+        <div><a class="pill-link" href="05_computation_information_and_systems.html">Book V: Information &amp; Systems &rarr;</a></div>
+      </nav>
+    </main>
+  </div>
+  <script>
+(function () {
+  const root = document.documentElement;
+  const THEME_COLORS = { paper: '#faf8f4', sepia: '#f4ecd8', night: '#111318' };
+  const BOOKMARKS_KEY = 'plain-books-bookmarks';
+  const LAST_READ_KEY = 'plain-books-last-read';
+  const savedTheme = localStorage.getItem('plain-books-theme') || 'paper';
+  const savedSize = localStorage.getItem('plain-books-size') || 'md';
+  root.setAttribute('data-theme', savedTheme);
+  root.setAttribute('data-size', savedSize);
+
+  function syncThemeMeta(theme) {
+    const meta = document.getElementById('meta-theme-color');
+    if (meta) meta.setAttribute('content', THEME_COLORS[theme] || '#faf8f4');
+  }
+
+  function syncButtons() {
+    const theme = root.getAttribute('data-theme');
+    const size = root.getAttribute('data-size');
+    syncThemeMeta(theme);
+    document.querySelectorAll('[data-set-theme]').forEach((btn) => {
+      btn.classList.toggle('active', btn.getAttribute('data-set-theme') === theme);
+    });
+    document.querySelectorAll('[data-set-size]').forEach((btn) => {
+      btn.classList.toggle('active', btn.getAttribute('data-set-size') === size);
+    });
+  }
+
+  function readBookmarks() {
+    try {
+      return JSON.parse(localStorage.getItem(BOOKMARKS_KEY) || '[]');
+    } catch {
+      return [];
+    }
+  }
+
+  function writeBookmarks(list) {
+    localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(list));
+    window.dispatchEvent(new CustomEvent('plain-books-bookmarks-changed'));
+  }
+
+  function currentPageFile() {
+    const parts = location.pathname.split('/');
+    const last = parts[parts.length - 1] || 'index.html';
+    return last.endsWith('.html') ? last : last + '.html';
+  }
+
+  function syncBookmarksUI() {
+    const page = currentPageFile();
+    const saved = readBookmarks();
+    const savedSet = new Set(saved.map((b) => b.href));
+    document.querySelectorAll('.bookmark-btn').forEach((btn) => {
+      const id = btn.getAttribute('data-bookmark-id');
+      const href = page + '#' + id;
+      const isSaved = savedSet.has(href);
+      btn.classList.toggle('saved', isSaved);
+      btn.setAttribute('aria-pressed', isSaved ? 'true' : 'false');
+      btn.textContent = isSaved ? 'Saved' : 'Bookmark';
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    const tBtn = e.target.closest('[data-set-theme]');
+    if (tBtn) {
+      const val = tBtn.getAttribute('data-set-theme');
+      root.setAttribute('data-theme', val);
+      localStorage.setItem('plain-books-theme', val);
+      syncButtons();
+    }
+    const sBtn = e.target.closest('[data-set-size]');
+    if (sBtn) {
+      const val = sBtn.getAttribute('data-set-size');
+      root.setAttribute('data-size', val);
+      localStorage.setItem('plain-books-size', val);
+      syncButtons();
+    }
+    const bBtn = e.target.closest('.bookmark-btn');
+    if (bBtn) {
+      const page = currentPageFile();
+      const id = bBtn.getAttribute('data-bookmark-id');
+      const title = bBtn.getAttribute('data-bookmark-title');
+      const bookTitle = document.body.getAttribute('data-book-label') || document.title;
+      const accent = getComputedStyle(root).getPropertyValue('--accent').trim() || '#2563eb';
+      const href = page + '#' + id;
+      const list = readBookmarks();
+      const idx = list.findIndex((item) => item.href === href);
+      if (idx >= 0) {
+        list.splice(idx, 1);
+      } else {
+        list.unshift({ href, title, book: bookTitle, accent });
+      }
+      writeBookmarks(list);
+      syncBookmarksUI();
+    }
+  });
+
+  // Track reading progress & last-read concept on book pages
+  const conceptCards = Array.from(document.querySelectorAll('.concept-card[data-concept-id]'));
+  function updateReadingState() {
+    const bar = document.getElementById('reading-progress');
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = total > 0 ? Math.min(100, Math.max(0, (window.scrollY / total) * 100)) : 0;
+    if (bar) bar.style.width = pct.toFixed(1) + '%';
+
+    if (conceptCards.length) {
+      let activeCard = conceptCards[0];
+      for (const card of conceptCards) {
+        if (card.getBoundingClientRect().top <= 160) {
+          activeCard = card;
+        }
+      }
+      const page = currentPageFile();
+      const id = activeCard.getAttribute('data-concept-id');
+      const title = activeCard.getAttribute('data-concept-title');
+      const bookLabel = document.body.getAttribute('data-book-label') || document.title;
+      localStorage.setItem(LAST_READ_KEY, JSON.stringify({
+        href: page + '#' + id,
+        bookHref: page,
+        book: bookLabel,
+        title: title,
+        pct: Math.round(pct),
+      }));
+    }
+  }
+
+  window.addEventListener('scroll', updateReadingState, { passive: true });
+  if (conceptCards.length) {
+    updateReadingState();
+  }
+
+  // PWA Service Worker registration & Install button
+  const statusPill = document.getElementById('pwa-status-pill');
+  const installBtn = document.getElementById('pwa-install-btn');
+  let deferredInstallPrompt = null;
+
+  function refreshConnectionStatus(cachedReady) {
+    if (!statusPill) return;
+    if (!navigator.onLine) {
+      statusPill.hidden = false;
+      statusPill.classList.add('is-offline');
+      statusPill.textContent = 'Offline Mode';
+    } else if (cachedReady) {
+      statusPill.hidden = false;
+      statusPill.classList.remove('is-offline');
+      statusPill.textContent = 'Offline Ready';
+    }
+  }
+
+  if ('serviceWorker' in navigator && (location.protocol === 'http:' || location.protocol === 'https:')) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').then((reg) => {
+        if (reg.active) {
+          refreshConnectionStatus(true);
+        }
+      }).catch(() => {});
+    });
+    navigator.serviceWorker.addEventListener('message', (event) => {
+      if (event.data && event.data.type === 'OFFLINE_READY') {
+        refreshConnectionStatus(true);
+      }
+    });
+    window.addEventListener('online', () => refreshConnectionStatus(true));
+    window.addEventListener('offline', () => refreshConnectionStatus(true));
+  }
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    if (installBtn) installBtn.hidden = false;
+  });
+
+  if (installBtn) {
+    installBtn.addEventListener('click', async () => {
+      if (!deferredInstallPrompt) return;
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      installBtn.hidden = true;
+    });
+  }
+
+  window.addEventListener('appinstalled', () => {
+    deferredInstallPrompt = null;
+    if (installBtn) installBtn.hidden = true;
+  });
+
+  syncButtons();
+  syncBookmarksUI();
+})();
+</script>
+</body>
+</html>

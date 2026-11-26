@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="paper" data-size="md" style="--accent: #2563eb; --accent-soft: rgba(37, 99, 235, 0.12);">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book I: Logic, Reasoning, and How We Know</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#faf8f4" id="meta-theme-color" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Foundations" />
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
+  <style>
+:root {
+  --bg: #faf8f4;
+  --surface: #ffffff;
+  --surface-muted: #f3efe7;
+  --text: #1c1917;
+  --text-muted: #57534e;
+  --border: #e5dfd3;
+  --quote-bg: #f6f3ec;
+  --shadow: 0 8px 30px rgba(28, 25, 23, 0.06);
+  --font-serif: "Charter", "Georgia", "Cambria", "Times New Roman", serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --base-size: 18px;
+}
+
+html[data-theme="sepia"] {
+  --bg: #f4ecd8;
+  --surface: #fbf6ea;
+  --surface-muted: #ede2ca;
+  --text: #2c2219;
+  --text-muted: #695847;
+  --border: #dfd1b5;
+  --quote-bg: #f0e6d0;
+}
+
+html[data-theme="night"] {
+  --bg: #111318;
+  --surface: #181b22;
+  --surface-muted: #20242e;
+  --text: #e7e5e4;
+  --text-muted: #a8a29e;
+  --border: #2b303d;
+  --quote-bg: #1e232e;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+html[data-size="sm"] { --base-size: 16px; }
+html[data-size="md"] { --base-size: 18px; }
+html[data-size="lg"] { --base-size: 20px; }
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.7;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+a {
+  color: var(--accent, #2563eb);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+#reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--accent, #2563eb);
+  z-index: 1000;
+  transition: width 0.08s linear;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 1.5rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+}
+
+.topbar-left, .topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.pill-btn, .pill-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.38rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+.pill-btn:hover, .pill-link:hover {
+  border-color: var(--accent, #2563eb);
+  text-decoration: none;
+}
+.pill-btn.active {
+  background: var(--accent, #2563eb);
+  color: #ffffff;
+  border-color: var(--accent, #2563eb);
+}
+
+.book-shell {
+  display: grid;
+  grid-template-columns: 290px minmax(0, 1fr);
+  max-width: 1320px;
+  margin: 0 auto;
+  gap: 2rem;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.sidebar {
+  position: sticky;
+  top: 4.5rem;
+  align-self: start;
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.15rem;
+  box-shadow: var(--shadow);
+}
+
+.sidebar-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 0.75rem;
+}
+
+.sidebar-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.sidebar-chapter > a {
+  display: block;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--text);
+  padding: 0.35rem 0.45rem;
+  border-radius: 8px;
+}
+.sidebar-chapter > a:hover {
+  background: var(--surface-muted);
+  text-decoration: none;
+}
+
+.sidebar-concepts {
+  list-style: none;
+  padding: 0.15rem 0 0.45rem 0.85rem;
+  margin: 0;
+  border-left: 2px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.sidebar-concepts a {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 0.18rem 0.35rem;
+  border-radius: 6px;
+}
+.sidebar-concepts a:hover {
+  color: var(--accent, #2563eb);
+  background: var(--surface-muted);
+  text-decoration: none;
+}
+
+.reader-column {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2.75rem clamp(1.35rem, 4vw, 3.75rem);
+  box-shadow: var(--shadow);
+  font-family: var(--font-serif);
+  font-size: var(--base-size);
+}
+
+.book-hero {
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 1.75rem;
+  margin-bottom: 2rem;
+}
+
+.volume-badge {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  margin-bottom: 0.9rem;
+}
+
+.book-hero h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.85rem, 3.2vw, 2.55rem);
+  line-height: 1.2;
+  margin: 0 0 0.85rem;
+}
+
+.book-meta-lines {
+  font-family: var(--font-sans);
+  font-size: 0.94rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.book-stats {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.book-stats span {
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.65rem;
+  border-radius: 8px;
+}
+
+.chapter-heading {
+  font-family: var(--font-sans);
+  font-size: 1.48rem;
+  line-height: 1.3;
+  margin: 2.4rem 0 0.9rem;
+  padding-top: 0.5rem;
+  color: var(--text);
+}
+
+.section-divider {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 2.25rem 0;
+}
+
+.concept-card {
+  margin: 1.75rem 0 2.25rem;
+  padding: 1.4rem 1.55rem;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--accent);
+  background: var(--surface);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+}
+
+.concept-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+}
+
+.concept-title {
+  font-family: var(--font-sans);
+  font-size: 1.18rem;
+  margin: 0;
+  color: var(--accent);
+}
+
+.bookmark-btn {
+  flex-shrink: 0;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.bookmark-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.bookmark-btn.saved {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  border: 1px solid rgba(22, 163, 74, 0.35);
+  background: rgba(22, 163, 74, 0.12);
+  color: #15803d;
+}
+html[data-theme="night"] .status-pill {
+  color: #4ade80;
+  border-color: rgba(74, 222, 128, 0.35);
+}
+.status-pill.is-offline {
+  border-color: rgba(217, 119, 6, 0.45);
+  background: rgba(217, 119, 6, 0.14);
+  color: #b45309;
+}
+html[data-theme="night"] .status-pill.is-offline {
+  color: #fbbf24;
+}
+.install-btn {
+  background: var(--accent, #2563eb);
+  color: #ffffff;
+  border-color: var(--accent, #2563eb);
+}
+.install-btn:hover { opacity: 0.92; }
+
+.isolated-definition {
+  margin: 0 0 1rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: 10px;
+  background: var(--quote-bg);
+  border-left: 3px solid var(--accent);
+  font-size: 1.02em;
+}
+
+.concept-part {
+  margin: 0.85rem 0;
+}
+
+.role-distinction {
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  background: var(--surface-muted);
+  font-size: 0.95em;
+}
+
+.toc-list, .concept-index-list {
+  padding-left: 1.25rem;
+}
+.toc-list li, .concept-index-list li {
+  margin: 0.4rem 0;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  margin: 1.25rem 0;
+}
+.distinctions-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+.distinctions-table th, .distinctions-table td {
+  border: 1px solid var(--border);
+  padding: 0.7rem 0.85rem;
+  text-align: left;
+  vertical-align: top;
+}
+.distinctions-table th {
+  background: var(--surface-muted);
+  font-weight: 700;
+}
+
+.self-check-list {
+  padding-left: 1.25rem;
+}
+.self-check-item {
+  margin: 1.1rem 0;
+}
+.question-text {
+  font-weight: 600;
+  margin-bottom: 0.45rem;
+}
+.answer-reveal {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.45rem 0.85rem;
+}
+.answer-reveal summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--accent);
+}
+.answer-body {
+  margin-top: 0.5rem;
+  color: var(--text);
+}
+
+.book-footer-nav {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-family: var(--font-sans);
+}
+
+@media (max-width: 960px) {
+  .book-shell {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    position: static;
+    max-height: none;
+  }
+}
+
+@media print {
+  .topbar, .sidebar, #reading-progress, .book-footer-nav, .bookmark-btn { display: none !important; }
+  .book-shell { display: block; padding: 0; }
+  .reader-column { border: 0; box-shadow: none; padding: 0; }
+  .concept-card { break-inside: avoid; }
+  .answer-reveal[open] summary { display: none; }
+}
+</style>
+</head>
+<body data-book-label="Book I: Logic &amp; Reasoning">
+  <div id="reading-progress"></div>
+  <header class="topbar">
+    <div class="topbar-left">
+      <a class="pill-link" href="index.html">&larr; Library Index</a>
+      <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">
+        Volume I &middot; Thinking &amp; Evidence
+      </span>
+      <span id="pwa-status-pill" class="status-pill" hidden>Offline Ready</span>
+    </div>
+    <div class="topbar-right">
+      <button type="button" id="pwa-install-btn" class="pill-btn install-btn" hidden>Install App</button>
+      <button type="button" class="pill-btn" data-set-size="sm">A-</button>
+      <button type="button" class="pill-btn" data-set-size="md">A</button>
+      <button type="button" class="pill-btn" data-set-size="lg">A+</button>
+      <button type="button" class="pill-btn" data-set-theme="paper">Paper</button>
+      <button type="button" class="pill-btn" data-set-theme="sepia">Sepia</button>
+      <button type="button" class="pill-btn" data-set-theme="night">Night</button>
+      <a class="pill-link" href="01_logic_and_reasoning.md">Markdown</a>
+    </div>
+  </header>
+
+  <div class="book-shell">
+    <aside class="sidebar">
+      <div class="sidebar-label">Isolated Concepts &amp; Chapters</div>
+      <ul class="sidebar-nav">
+<li class="sidebar-chapter">
+<a href="#core-thesis">Core Thesis</a>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-1-the-anatomy-of-an-argument">Chapter 1: The Anatomy of an Argument</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-11-claims-premises-and-conclusions">1.1: Claims, Premises, and Conclusions</a></li>
+<li><a href="#concept-12-validity-versus-soundness">1.2: Validity Versus Soundness</a></li>
+<li><a href="#concept-13-hidden-assumptions">1.3: Hidden Assumptions</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-2-certainty-patterns-and-best-explanations">Chapter 2: Certainty, Patterns, and Best Explanations</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-21-deductive-reasoning">2.1: Deductive Reasoning</a></li>
+<li><a href="#concept-22-inductive-reasoning">2.2: Inductive Reasoning</a></li>
+<li><a href="#concept-23-abductive-reasoning-best-explanation">2.3: Abductive Reasoning (Best Explanation)</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-3-cause-correlation-and-hidden-variables">Chapter 3: Cause, Correlation, and Hidden Variables</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-31-correlation-versus-causation">3.1: Correlation Versus Causation</a></li>
+<li><a href="#concept-32-confounding-variables">3.2: Confounding Variables</a></li>
+<li><a href="#concept-33-survivorship-bias">3.3: Survivorship Bias</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-4-everyday-traps-and-reasoning-fallacies">Chapter 4: Everyday Traps and Reasoning Fallacies</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-41-equivocation-shifting-meanings-mid-stream">4.1: Equivocation (Shifting Meanings Mid-Stream)</a></li>
+<li><a href="#concept-42-straw-man-versus-steel-man">4.2: Straw Man Versus Steel Man</a></li>
+<li><a href="#concept-43-base-rate-neglect">4.3: Base-Rate Neglect</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-5-testing-claims-and-updating-your-mind">Chapter 5: Testing Claims and Updating Your Mind</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-51-falsifiability">5.1: Falsifiability</a></li>
+<li><a href="#concept-52-occams-razor-parsimony">5.2: Occam&#x27;s Razor (Parsimony)</a></li>
+<li><a href="#concept-53-updating-beliefs-proportionally-to-evidence">5.3: Updating Beliefs Proportionally to Evidence</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#key-distinctions-at-a-glance">Key Distinctions at a Glance</a>
+</li>
+<li class="sidebar-chapter">
+<a href="#plain-english-concept-index">Plain-English Concept Index</a>
+</li>
+<li class="sidebar-chapter">
+<a href="#self-check-questions">Self-Check Questions</a>
+</li>
+</ul>
+    </aside>
+
+    <main class="reader-column">
+      <section class="book-hero">
+        <div class="volume-badge">Plain-English Foundations &middot; Book I</div>
+        <h1>Book I: Logic, Reasoning, and How We Know</h1>
+        <div class="book-meta-lines"><div><strong>Series:</strong> The Plain-English Foundations Library — Volume I</div>
+<div><strong>Focus:</strong> Clear thinking, argument structure, evidence, uncertainty, and isolating hidden flaws in reasoning — written entirely in plain English without symbolic notation.</div></div>
+        <div class="book-stats">
+          <span>15 Isolated Concepts</span>
+          <span>~4,882 Words</span>
+          <span>~23 Min Read</span>
+          <span>Zero Code &middot; Plain English</span>
+        </div>
+      </section>
+
+      <hr class="section-divider" />
+<h2 id="core-thesis" class="chapter-heading">Core Thesis</h2>
+<p>Good thinking is not a mysterious talent reserved for specialists. It is the habit of separating one claim from another, asking what reasons hold each claim up, checking whether those reasons are actually true, and noticing where language hides a leap in logic. When every step of an argument is isolated and stated in ordinary English, weak reasoning has nowhere to hide and strong reasoning becomes unmistakable.</p>
+<hr class="section-divider" />
+<h2 id="table-of-contents" class="chapter-heading">Table of Contents</h2>
+<ul class="toc-list"><li><a href="#chapter-1-the-anatomy-of-an-argument">Chapter 1: The Anatomy of an Argument</a></li><li><a href="#chapter-2-certainty-patterns-and-best-explanations">Chapter 2: Certainty, Patterns, and Best Explanations</a></li><li><a href="#chapter-3-cause-correlation-and-hidden-variables">Chapter 3: Cause, Correlation, and Hidden Variables</a></li><li><a href="#chapter-4-everyday-traps-and-reasoning-fallacies">Chapter 4: Everyday Traps and Reasoning Fallacies</a></li><li><a href="#chapter-5-testing-claims-and-updating-your-mind">Chapter 5: Testing Claims and Updating Your Mind</a></li><li><a href="#key-distinctions-at-a-glance">Key Distinctions at a Glance</a></li><li><a href="#plain-english-concept-index">Plain-English Concept Index</a></li><li><a href="#self-check-questions">Self-Check Questions</a></li></ul>
+<hr class="section-divider" />
+<h2 id="chapter-1-the-anatomy-of-an-argument" class="chapter-heading">Chapter 1: The Anatomy of an Argument</h2>
+<p>Before we can decide whether a conclusion deserves our belief, we must separate the conclusion itself from the reasons offered in its defense. Most confusion in public and private debate happens because multiple claims, assumptions, and emotional reactions are blended together into a single paragraph.</p>
+<article id="concept-11-claims-premises-and-conclusions" class="concept-card" data-concept-id="concept-11-claims-premises-and-conclusions" data-concept-title="Concept 1.1: Claims, Premises, and Conclusions">
+<div class="concept-header-row"><h3 class="concept-title">Concept 1.1: Claims, Premises, and Conclusions</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-11-claims-premises-and-conclusions" data-bookmark-title="Concept 1.1: Claims, Premises, and Conclusions" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> An argument is a connected set of statements in which one or more supporting statements, called premises, are offered as reasons to accept a target statement, called the conclusion.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Picture a wooden table. The tabletop is the conclusion—the point you want someone to accept. The legs supporting the tabletop are the premises. If the legs are missing, crooked, or disconnected from the tabletop, the table cannot stand on its own, no matter how nicely the top is polished.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> In everyday speech, the word "argument" sounds like a shouting match. In clear reasoning, an argument is simply a structured justification. Every genuine argument answers two distinct questions: <em>What are you claiming?</em> (the conclusion) and <em>Why should anyone think so?</em> (the premises). A single isolated opinion—"Winter is better than summer"—is merely a statement, not an argument. Once you add supporting reasons—"Winter is better because insects are gone and sleeping under heavy blankets is more comfortable"—you have built an argument whose parts can be examined separately.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Suppose a coworker says, "We should leave for the airport now because highway traffic doubles after four o'clock and security lines are slow on Fridays." The conclusion is "We should leave now." The two premises are "highway traffic doubles after four o'clock" and "security lines are slow on Fridays."</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Disagreement or quarrel.</strong> Two people can shout opinions at each other for an hour without making a single argument, because neither side offers structured premises supporting a conclusion.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-12-validity-versus-soundness" class="concept-card" data-concept-id="concept-12-validity-versus-soundness" data-concept-title="Concept 1.2: Validity Versus Soundness">
+<div class="concept-header-row"><h3 class="concept-title">Concept 1.2: Validity Versus Soundness</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-12-validity-versus-soundness" data-bookmark-title="Concept 1.2: Validity Versus Soundness" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> An argument is valid when its conclusion strictly follows from its premises if those premises are taken as true; it is sound only when it is valid and all of its premises are actually true in the real world.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Think of a calculator versus a balance scale. Validity checks the internal wiring: <em>if</em> you feed these numbers in, does the arithmetic follow cleanly? Soundness also checks whether the numbers you typed in match reality. Clean wiring fed with false inputs still outputs nonsense.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Separating validity from soundness solves one of the most common mistakes in human reasoning: confusing a well-structured story with a true one. Consider this chain: "Every bird can fly. Penguins are birds. Therefore, penguins can fly." The structure is completely valid—if the first two sentences were true, the third sentence would be unavoidable. Yet the argument is unsound, because the first premise is false in reality. Conversely, you can have true premises that fail to support a conclusion. "Paris is in France, and water freezes at zero degrees Celsius; therefore, it will rain tomorrow" has two true premises, yet the conclusion does not follow from them, making it invalid.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> A detective says, "Whoever opened the safe knew the combination; only the manager knew the combination; therefore, the manager opened the safe." The logic is valid. To know if it is sound, you must verify both premises independently—perhaps the manager wrote the combination on a sticky note, making the second premise false.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Truth of the conclusion alone.</strong> A terrible, invalid argument can stumble onto a true conclusion by luck, and a logically tight, valid argument can produce a false conclusion if one starting premise is wrong.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-13-hidden-assumptions" class="concept-card" data-concept-id="concept-13-hidden-assumptions" data-concept-title="Concept 1.3: Hidden Assumptions">
+<div class="concept-header-row"><h3 class="concept-title">Concept 1.3: Hidden Assumptions</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-13-hidden-assumptions" data-bookmark-title="Concept 1.3: Hidden Assumptions" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> A hidden assumption is an unstated premise that an argument quietly relies upon in order for its conclusion to follow from its stated premises.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Imagine a stone bridge across a river where one arch is underwater. You walk over the visible stones, never noticing that the whole crossing would collapse without the submerged support underneath.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Real people rarely spell out every premise when they talk. Often, the most questionable part of an argument is the piece nobody bothered to say aloud. When someone says, "This restaurant is always crowded, so the food must be great," they are silently leaning on the hidden assumption that <em>crowds only form at places with great food</em>. Once you pull that unstated rule out into the open, you can test it: maybe the restaurant is simply the only open spot near a train station, or maybe it went viral for cheap drinks rather than quality cooking.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> A policy announcement states, "Students who study Latin score higher on vocabulary tests, so schools should require Latin for everyone." The hidden assumption is that <em>taking Latin caused the higher scores</em>, rather than students with strong reading habits choosing Latin in the first place.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Mind reading or personal attack.</strong> Exposing a hidden assumption does not mean claiming the speaker is dishonest; it simply names the missing logical link required for the reasoning to work.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="chapter-2-certainty-patterns-and-best-explanations" class="chapter-heading">Chapter 2: Certainty, Patterns, and Best Explanations</h2>
+<p>Not all good reasoning works the same way. Sometimes we lock down certainty from general rules; other times we learn general patterns from repeated experience; and often we work backward from clues to find the most sensible explanation.</p>
+<article id="concept-21-deductive-reasoning" class="concept-card" data-concept-id="concept-21-deductive-reasoning" data-concept-title="Concept 2.1: Deductive Reasoning">
+<div class="concept-header-row"><h3 class="concept-title">Concept 2.1: Deductive Reasoning</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-21-deductive-reasoning" data-bookmark-title="Concept 2.1: Deductive Reasoning" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Deductive reasoning moves from general rules or definitions to a guaranteed specific conclusion, leaving no room for the conclusion to be false if the starting premises are true.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Think of a locked safe containing items. Deduction never puts anything new inside the safe; it simply opens the door and pulls out what was already guaranteed to be inside by the rules you accepted at the start.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Deduction is the gold standard for airtight certainty, because the conclusion is already packed inside the premises. If every member of a club must be at least eighteen years old, and Maya is a member of the club, then Maya must be at least eighteen. There is no guesswork and no probability involved—unless one of the rules turns out to be broken or misstated. The strength of deduction is complete reliability; its limitation is that it cannot discover brand-new facts about nature on its own without true starting rules.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Knowing that all trains on Track Four go directly to the central station, and seeing that you just boarded a train on Track Four, you deduce with certainty that this train goes to the central station (assuming the station signs are accurate).</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Guessing from clues.</strong> Sherlock Holmes famously called his detective work "deduction," yet most of what he actually practiced—inferring muddy boots meant a walk through a marsh—was abductive and inductive reasoning, not strict deduction.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-22-inductive-reasoning" class="concept-card" data-concept-id="concept-22-inductive-reasoning" data-concept-title="Concept 2.2: Inductive Reasoning">
+<div class="concept-header-row"><h3 class="concept-title">Concept 2.2: Inductive Reasoning</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-22-inductive-reasoning" data-bookmark-title="Concept 2.2: Inductive Reasoning" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Inductive reasoning draws a general pattern or future expectation from a limited set of specific observations, making the conclusion probable rather than guaranteed.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Imagine tasting three spoons of soup from a well-stirred pot and concluding the whole pot is salty. Your conclusion reaches further than the three spoons you actually tasted—and if the pot wasn't stirred well, you could still be surprised.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Almost everything we learn about daily life, weather, medicine, and human behavior relies on induction. Every morning you have ever lived, the sun rose in the east; therefore, you expect it to rise in the east tomorrow. Every time you touched a hot stove burner, it burned; therefore, you generalize that hot burners burn skin. Notice that induction <em>adds</em> new reach beyond your data, which means it always carries a slim margin of surprise. Seeing ten thousand white swans makes "all swans are white" look rock-solid—until someone visits Australia and finds a black swan.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> After noticing that your delivery packages arrive around two in the afternoon every Tuesday for two months, you conclude that Tuesday deliveries usually arrive around two. That conclusion is reasonable and useful, yet a snowstorm or new driver could break the pattern next week.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Proof.</strong> Even a million confirming examples in induction increase confidence without creating absolute logical certainty.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-23-abductive-reasoning-best-explanation" class="concept-card" data-concept-id="concept-23-abductive-reasoning-best-explanation" data-concept-title="Concept 2.3: Abductive Reasoning (Best Explanation)">
+<div class="concept-header-row"><h3 class="concept-title">Concept 2.3: Abductive Reasoning (Best Explanation)</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-23-abductive-reasoning-best-explanation" data-bookmark-title="Concept 2.3: Abductive Reasoning (Best Explanation)" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Abductive reasoning looks at an observed clue or surprise and works backward to select the simplest, most plausible explanation that would account for it.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> You step outside in the morning and see that the driveway and lawn are wet, while the neighbor's sprinklers are dry and the sky is clearing. You work backward from the wet ground to the simplest story that fits all clues: it rained overnight.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Doctors diagnosing a fever, mechanics listening to a knocking engine, historians piecing together letters, and engineers hunting a failed bridge joint all live inside abductive reasoning. Because multiple stories could always explain the same clue—maybe a fire truck sprayed your lawn, or maybe dew fell heavily—abduction compares rival explanations. We prefer explanations that account for all the facts without inventing bizarre coincidences or unnecessary extra assumptions.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> You return home to find your front door unlocked, mud footprints leading to the kitchen, and an empty sandwich plate on the counter. You infer your teenage brother came home early from practice and made lunch—not because you watched him do it, but because that single explanation cleanly ties together every detail.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Jumping to the first explanation.</strong> Strong abductive reasoning deliberately lists at least two or three competing explanations before choosing the one that fits the evidence best.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="chapter-3-cause-correlation-and-hidden-variables" class="chapter-heading">Chapter 3: Cause, Correlation, and Hidden Variables</h2>
+<p>The human mind is wired to spot patterns quickly. That instinct kept our ancestors alive, yet it constantly tricks us into seeing cause-and-effect where only coincidence or a hidden shared driver exists.</p>
+<article id="concept-31-correlation-versus-causation" class="concept-card" data-concept-id="concept-31-correlation-versus-causation" data-concept-title="Concept 3.1: Correlation Versus Causation">
+<div class="concept-header-row"><h3 class="concept-title">Concept 3.1: Correlation Versus Causation</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-31-correlation-versus-causation" data-bookmark-title="Concept 3.1: Correlation Versus Causation" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Correlation means two things tend to rise or fall together; causation means one thing actively produces or changes the other.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Think of umbrellas opening on a sidewalk and puddles forming in the street. They appear together almost every time. Yet opening an umbrella does not cause rain, and puddles do not force umbrellas open.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Whenever two trends move in step, there are at least four completely different possibilities: the first causes the second; the second causes the first; a hidden third factor drives both; or the two lines merely happened to drift in the same direction by coincidence. Treating correlation as automatic causation is one of the costliest errors in medicine, business, and public policy, because pulling the wrong lever changes nothing.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Towns with more ice cream sales also see more drowning incidents during the same months. Banning ice cream would save zero lives, because summer heat—the hidden third factor—pushes people both to buy ice cream and to go swimming.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Sequence in time.</strong> Even when one event happens right before another, earlier timing alone does not prove it caused the later event; roosters crow before sunrise, yet roosters do not pull up the sun.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-32-confounding-variables" class="concept-card" data-concept-id="concept-32-confounding-variables" data-concept-title="Concept 3.2: Confounding Variables">
+<div class="concept-header-row"><h3 class="concept-title">Concept 3.2: Confounding Variables</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-32-confounding-variables" data-bookmark-title="Concept 3.2: Confounding Variables" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> A confounding variable is an unmeasured background factor that is tied to both the apparent cause and the observed outcome, creating a misleading impression of a direct link.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Suppose a puppet master stands behind a curtain holding two strings—one attached to a wooden dancer's left hand, the other to its right foot. Watching only the stage, it looks as though the raised hand pulls the foot upward, when in reality both are moved by the unseen hand above.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Whenever we compare two groups in the real world without randomly assigning them, confounding variables sneak in. People who drink red wine moderately may live longer than people who drink none, not purely because of grapes, but because moderate wine drinkers in many surveys also tend to earn higher incomes, eat more fresh vegetables, and have better access to healthcare. Unless we isolate or control for income, diet, and healthcare, we cannot tell how much credit belongs to the drink itself.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> A hospital notices that patients treated in the intensive care wing have a higher death rate than patients treated in the walk-in clinic. The wing is not dangerous; the severity of illness is the confounding variable that sends sicker patients to intensive care in the first place.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Noise or random error.</strong> Random error scatters measurements unevenly without favoring one direction; a confounder pushes results systematically in a misleading direction.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-33-survivorship-bias" class="concept-card" data-concept-id="concept-33-survivorship-bias" data-concept-title="Concept 3.3: Survivorship Bias">
+<div class="concept-header-row"><h3 class="concept-title">Concept 3.3: Survivorship Bias</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-33-survivorship-bias" data-bookmark-title="Concept 3.3: Survivorship Bias" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Survivorship bias occurs when we judge a whole group by examining only the visible winners or survivors, ignoring the invisible failures that dropped out of view.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> You walk through an ancient cemetery and read dates carved on grand marble monuments showing people who lived into their eighties, concluding that everyone in that era lived long lives—forgetting that the poor and those who died young rarely received lasting stone markers.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Success leaves behind loud, bright artifacts; failure vanishes quietly. When magazines profile ten college dropouts who founded giant technology companies, readers easily conclude that dropping out leads to billionaire success, because the hundreds of thousands of dropouts struggling with debt are never featured on magazine covers. To understand what actually raises your odds, you must look at the whole starting pool—both survivors and dropouts—not only the trophy shelf.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> During the Second World War, analysts examined returning bombers and saw bullet holes clustered along the wings and tail, while the engine and cockpit looked untouched. Someone nearly reinforced the wings until statistician Abraham Wald pointed out the truth: bombers hit in the engines never flew home to be inspected. The armor belonged where the holes were <em>missing</em>.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Optimism.</strong> Survivorship bias is a measurement blind spot caused by missing data, not merely having a cheerful attitude.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="chapter-4-everyday-traps-and-reasoning-fallacies" class="chapter-heading">Chapter 4: Everyday Traps and Reasoning Fallacies</h2>
+<p>Fallacies are tempting shortcuts in thinking. They survive because they <em>feel</em> persuasive at first glance—often by subtly shifting the topic, changing a word's meaning mid-sentence, or exploiting how our brains estimate odds.</p>
+<article id="concept-41-equivocation-shifting-meanings-mid-stream" class="concept-card" data-concept-id="concept-41-equivocation-shifting-meanings-mid-stream" data-concept-title="Concept 4.1: Equivocation (Shifting Meanings Mid-Stream)">
+<div class="concept-header-row"><h3 class="concept-title">Concept 4.1: Equivocation (Shifting Meanings Mid-Stream)</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-41-equivocation-shifting-meanings-mid-stream" data-bookmark-title="Concept 4.1: Equivocation (Shifting Meanings Mid-Stream)" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Equivocation happens when an argument uses the same word in two different senses across its premises and conclusion, making a leap look logical when the meaning quietly changed.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Imagine trading a "pound" of feathers for a British "pound" of money because both use the word "pound." The spelling stayed identical while the underlying reality swapped underneath you.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Ordinary English words carry multiple shades of meaning depending on context. Words like <em>law</em>, <em>natural</em>, <em>right</em>, <em>faith</em>, <em>theory</em>, and <em>free</em> are frequent culprits. A speaker might argue: "Nothing is better than eternal happiness; a cold sandwich is better than nothing; therefore, a cold sandwich is better than eternal happiness." Here the word "nothing" flips from meaning <em>the absence of anything superior</em> to meaning <em>having zero food at all</em>. In serious discussions, equivocation is harder to spot—such as sliding between "theory" meaning a casual guess and "theory" meaning a heavily tested scientific framework.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> "Every law needs a lawmaker. Nature follows the laws of physics. Therefore, nature has a lawmaker." Here "law" shifts from human legal statutes passed by legislatures to regular patterns observed in physical nature.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Disagreement over definitions.</strong> Honest people can debate how best to define a word; equivocation happens when someone swaps definitions silently inside a single chain of reasoning.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-42-straw-man-versus-steel-man" class="concept-card" data-concept-id="concept-42-straw-man-versus-steel-man" data-concept-title="Concept 4.2: Straw Man Versus Steel Man">
+<div class="concept-header-row"><h3 class="concept-title">Concept 4.2: Straw Man Versus Steel Man</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-42-straw-man-versus-steel-man" data-bookmark-title="Concept 4.2: Straw Man Versus Steel Man" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> A straw man distorts or oversimplifies an opponent's position so it becomes easy to knock down; a steel man reconstructs the opponent's argument in its strongest, clearest form before responding to it.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Rather than fighting the actual knight standing in front of you, you build a wobbly scarecrow stuffed with hay, knock it over with one slap, and declare victory.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Straw-manning is rampant because exaggerating another person's view feels triumphant and saves effort. Suppose someone proposes: "We should add a protected bike lane on Main Street so commuters have a safer option." A straw-man reply says: "So you want to ban cars and ruin every downtown shop!" Notice that nobody proposed banning cars. By contrast, steel-manning asks: <em>What is the best version of what this person is trying to say?</em> Responding to the strongest version of a view is the fastest way to test whether your own position actually holds water.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> A manager says, "Let's pause new feature requests for two weeks to fix urgent customer bugs." A straw-man reaction complains, "Management doesn't care about innovation anymore." A steel-man summary says, "You want to restore product reliability first so future features sit on stable ground, though we should ensure critical client deadlines aren't missed."</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Summarizing briefly.</strong> Summarizing compresses an argument while keeping its real core intact; a straw man twists the core into a caricature.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-43-base-rate-neglect" class="concept-card" data-concept-id="concept-43-base-rate-neglect" data-concept-title="Concept 4.3: Base-Rate Neglect">
+<div class="concept-header-row"><h3 class="concept-title">Concept 4.3: Base-Rate Neglect</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-43-base-rate-neglect" data-bookmark-title="Concept 4.3: Base-Rate Neglect" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Base-rate neglect occurs when we judge how likely something is using only a vivid story or test result, while ignoring how rare or common the condition is in the overall population.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Suppose you hear hoofbeats in a suburban park in Ohio and immediately conclude a zebra escaped from a circus, simply because zebras have hooves and look memorable—forgetting that horses outnumber wild zebras in Ohio by thousands to one.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Our brains love vivid clues and dislike background statistics. Suppose a screening test for a very rare disease is ninety-nine percent accurate: it catches nearly everyone who is sick and only falsely flags one healthy person out of a hundred. If only one person in ten thousand actually has the disease, and your test comes back positive, how likely is it that you are truly sick? Most people guess ninety-nine percent! Yet in ten thousand people, only one person is truly sick, while about one hundred healthy people will trigger false alarms. Out of roughly one hundred and one positive tests, only one is genuine—under one percent! Ignoring the starting rarity (the base rate) turns a helpful caution sign into needless panic.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> A startup investor reads that three world-famous founders wore black turtlenecks and concludes that founders wearing black turtlenecks are unusually likely to succeed—ignoring the vast base rate of ordinary founders in every outfit who fail.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Ignoring new evidence altogether.</strong> Good reasoning combines <em>both</em> the starting base rate and the strength of the new clue together.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="chapter-5-testing-claims-and-updating-your-mind" class="chapter-heading">Chapter 5: Testing Claims and Updating Your Mind</h2>
+<p>Knowledge is not a static trophy cabinet of permanent facts; it is an ongoing process of filtering weak ideas out and adjusting confidence as better evidence arrives.</p>
+<article id="concept-51-falsifiability" class="concept-card" data-concept-id="concept-51-falsifiability" data-concept-title="Concept 5.1: Falsifiability">
+<div class="concept-header-row"><h3 class="concept-title">Concept 5.1: Falsifiability</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-51-falsifiability" data-bookmark-title="Concept 5.1: Falsifiability" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> A claim is falsifiable if there is some clear, conceivable observation or test that could show it to be false if it really were wrong.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Think of a guard dog that barks at every stranger <em>and</em> every leaf <em>and</em> empty air. Because it barks no matter what happens, its barking tells you nothing about whether anyone is actually at the gate.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> At first glance, an unbreakable claim that explains every possible outcome sounds impressive. In reality, a claim that cannot fail any test has zero predictive power. If an astrologer predicts, "You will meet an opportunity or face a challenge today," nothing that happens between sunrise and midnight can prove the prediction wrong—meaning it told you nothing specific. By contrast, saying "Water boils at one hundred degrees Celsius at sea level" sticks its neck out: put a thermometer in boiling water at sea level, and if it reads fifty degrees, the claim falls. Vulnerability to disproof is what separates real knowledge from elastic storytelling.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> A mechanic says, "Replacing this part will stop the squealing noise when you brake." That claim is falsifiable: if you drive out of the garage, hit the brakes, and hear the exact same squeal, the claim has failed its test.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Being false.</strong> "Falsifiable" does <em>not</em> mean untrue; it means <em>testable in principle</em> so reality has a chance to vote yes or no.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-52-occams-razor-parsimony" class="concept-card" data-concept-id="concept-52-occams-razor-parsimony" data-concept-title="Concept 5.2: Occam&#x27;s Razor (Parsimony)">
+<div class="concept-header-row"><h3 class="concept-title">Concept 5.2: Occam's Razor (Parsimony)</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-52-occams-razor-parsimony" data-bookmark-title="Concept 5.2: Occam&#x27;s Razor (Parsimony)" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> When two explanations account equally well for all known facts, Occam's Razor advises preferring the explanation that introduces fewer unproven assumptions or extra moving parts.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> If one key opens the front door cleanly and a second theory insists three invisible elves unlocked it from inside and then erased their footprints, keep the simpler key explanation unless clues force you elsewhere.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> People frequently misquote Occam's Razor as "the simplest answer is always right." That is false—nature can be intricate. The real principle says: <em>do not multiply assumptions beyond necessity</em>. Every extra unsupported guess you staple onto an explanation introduces another way for the whole story to be wrong. If an explanation with two proven ingredients explains the evidence just as completely as an explanation with two proven ingredients plus four imaginary conspiracies, pick the lighter explanation as your working baseline until new evidence demands more complexity.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> You find your garden tomato plants chewed down to stems overnight. Deer tracks run along the fence. Both "deer ate the plants" and "an underground collector secretly swapped your plants with chewed replicas after planting decoy deer tracks" explain the damage—yet parsimony cleanly favors the deer.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Oversimplification.</strong> If a simpler explanation leaves half the facts unexplained, Occam's Razor does <em>not</em> protect it; adequacy to the evidence comes first, simplicity second.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-53-updating-beliefs-proportionally-to-evidence" class="concept-card" data-concept-id="concept-53-updating-beliefs-proportionally-to-evidence" data-concept-title="Concept 5.3: Updating Beliefs Proportionally to Evidence">
+<div class="concept-header-row"><h3 class="concept-title">Concept 5.3: Updating Beliefs Proportionally to Evidence</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-53-updating-beliefs-proportionally-to-evidence" data-bookmark-title="Concept 5.3: Updating Beliefs Proportionally to Evidence" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Rational updating means adjusting your level of confidence upward or downward gradually based on how strong and unexpected new evidence is, rather than clinging stubbornly or flipping instantly from zero to total certainty.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Think of confidence not as an on-off light switch, but as a dimmer dial. Weak clues nudge the dial a fraction of a turn; decisive, repeatable tests swing it strongly; conflicting evidence slides it back toward the middle.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Humans love all-or-nothing labels: either a claim is "proven fact" or "total nonsense." In real life—from weather forecasts to medical diagnoses to personal trust—most knowledge sits somewhere between doubt and near-certainty. The skill of calibrated thinking lies in matching how sure you feel to how strong your evidence actually is, and asking ahead of time: <em>What evidence would change my mind?</em> If no conceivable evidence could ever shift your view, your belief is no longer anchored to reality at all.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> You hear a rumor that a neighborhood bakery closed permanently. You lower your expectation of getting bread there, yet don't cross it off forever. When you walk past and see a "Closed for Renovations Until Monday" sign in the window, you update cleanly without drama.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Waffling or indecisiveness.</strong> Updating proportionally still lets you act decisively when odds strongly favor one path, while remaining honest enough to course-correct if facts change.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="key-distinctions-at-a-glance" class="chapter-heading">Key Distinctions at a Glance</h2>
+<div class="table-wrap"><table class="distinctions-table"><thead><tr><th>Concept Pair</th><th>First Concept in Plain English</th><th>Second Concept in Plain English</th><th>Why Isolating Them Matters</th></tr></thead><tbody><tr><td><strong>Valid vs. Sound</strong></td><td>The conclusion follows logically <em>if</em> the premises are true.</td><td>The structure is valid <em>and</em> every premise is actually true in reality.</td><td>A neat logical chain built on a false starting fact still produces garbage.</td></tr><tr><td><strong>Deduction vs. Induction</strong></td><td>Moves from general rules to a guaranteed specific case.</td><td>Moves from repeated specific cases to a probable general pattern.</td><td>Confusing them makes people demand absolute certainty where only high probability exists.</td></tr><tr><td><strong>Correlation vs. Causation</strong></td><td>Two things tend to change together.</td><td>One thing actively makes the other change.</td><td>Treating mere overlap as cause leads to futile fixes that ignore the real driver.</td></tr><tr><td><strong>Straw Man vs. Steel Man</strong></td><td>Attacking a weakened caricature of another view.</td><td>Addressing the strongest, clearest version of another view.</td><td>Only defeating the strongest version proves your own idea is sturdy.</td></tr><tr><td><strong>Falsifiable vs. False</strong></td><td>A claim could be disproven if reality disagrees.</td><td>A claim has already been shown to disagree with reality.</td><td>Untestable claims feel invincible only because they make no real contact with the world.</td></tr></tbody></table></div>
+<hr class="section-divider" />
+<h2 id="plain-english-concept-index" class="chapter-heading">Plain-English Concept Index</h2>
+<ul class="concept-index-list"><li><strong>Abductive Reasoning:</strong> Working backward from observed clues to select the most plausible explanation.</li><li><strong>Argument:</strong> One or more supporting premises offered as reasons to accept a conclusion.</li><li><strong>Base-Rate Neglect:</strong> Ignoring how common or rare something is overall while judging a specific clue.</li><li><strong>Causation:</strong> One factor actively producing or altering another factor.</li><li><strong>Conclusion:</strong> The target claim an argument is trying to establish.</li><li><strong>Confounding Variable:</strong> A hidden factor linked to both an apparent cause and an effect, mimicking causation.</li><li><strong>Correlation:</strong> Two trends moving together without necessarily causing one another.</li><li><strong>Deductive Reasoning:</strong> Deriving a guaranteed conclusion strictly contained within general starting rules.</li><li><strong>Equivocation:</strong> Silently switching the meaning of a key word partway through an argument.</li><li><strong>Falsifiability:</strong> Having a clear test or observation that could disprove a claim if it were wrong.</li><li><strong>Hidden Assumption:</strong> An unstated background premise required for an argument's logic to hold.</li><li><strong>Inductive Reasoning:</strong> Generalizing a pattern from specific observations with probability rather than certainty.</li><li><strong>Occam's Razor:</strong> Preferring the explanation with fewer unproven assumptions when two theories fit the facts equally well.</li><li><strong>Premise:</strong> A supporting statement offered as evidence or reason for a conclusion.</li><li><strong>Soundness:</strong> Logical validity combined with actually true premises.</li><li><strong>Steel Man:</strong> Restating an opposing argument at its strongest before answering it.</li><li><strong>Straw Man:</strong> Distorting an opposing view into a weak version that is easy to dismiss.</li><li><strong>Survivorship Bias:</strong> Judging a whole group from visible winners while ignoring unseen failures.</li><li><strong>Updating proportionally:</strong> Adjusting confidence gradually according to the strength of new evidence.</li><li><strong>Validity:</strong> The structural quality of an argument whose conclusion strictly follows if its premises hold.</li></ul>
+<hr class="section-divider" />
+<h2 id="self-check-questions" class="chapter-heading">Self-Check Questions</h2>
+<ol class="self-check-list"><li class="self-check-item"><div class="question-text"><strong>Can an argument be completely valid yet lead to a false conclusion?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> Yes. If the logical structure holds together cleanly, the argument is valid, yet a single false starting premise will make the conclusion unsound and potentially false.</div></details></li><li class="self-check-item"><div class="question-text"><strong>Why is "Everyone I know who grew up on a farm is healthy, so farm air prevents all illness" weak reasoning?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> First, it relies on a small sample (inductive leap). Second, it invites confounding variables (active outdoor work, fresh food, age differences) and survivorship bias (people too unwell to farm may have moved near city hospitals).</div></details></li><li class="self-check-item"><div class="question-text"><strong>If a friend says, "Nothing is impossible if you try hard enough," how can you check whether that statement is falsifiable?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> Ask what could count as disproving it. If every failure is dismissed afterward with "you just didn't try hard enough," no observation can ever test the claim—making it unfalsifiable.</div></details></li><li class="self-check-item"><div class="question-text"><strong>A screening test rarely gives false alarms, yet almost every positive result for an ultra-rare issue turns out wrong. What concept explains why?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> Base-rate neglect. Even a tiny error rate applied across a huge healthy population creates more false alarms than true positives from a tiny affected group.</div></details></li><li class="self-check-item"><div class="question-text"><strong>What is the fastest way to expose a hidden assumption in an everyday claim like "Electric scooters are safe because I rode one twice without falling"?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> Ask what missing link is needed to connect "I rode twice without falling" to "scooters are safe overall"—namely, the unstated assumption that two personal rides are enough to represent thousands of riders across varied streets and weather.</div></details></li></ol>
+
+      <nav class="book-footer-nav">
+        <div></div>
+        <div><a class="pill-link" href="index.html">All Volumes</a></div>
+        <div><a class="pill-link" href="02_number_proportion_and_space.html">Book II: Number &amp; Space &rarr;</a></div>
+      </nav>
+    </main>
+  </div>
+  <script>
+(function () {
+  const root = document.documentElement;
+  const THEME_COLORS = { paper: '#faf8f4', sepia: '#f4ecd8', night: '#111318' };
+  const BOOKMARKS_KEY = 'plain-books-bookmarks';
+  const LAST_READ_KEY = 'plain-books-last-read';
+  const savedTheme = localStorage.getItem('plain-books-theme') || 'paper';
+  const savedSize = localStorage.getItem('plain-books-size') || 'md';
+  root.setAttribute('data-theme', savedTheme);
+  root.setAttribute('data-size', savedSize);
+
+  function syncThemeMeta(theme) {
+    const meta = document.getElementById('meta-theme-color');
+    if (meta) meta.setAttribute('content', THEME_COLORS[theme] || '#faf8f4');
+  }
+
+  function syncButtons() {
+    const theme = root.getAttribute('data-theme');
+    const size = root.getAttribute('data-size');
+    syncThemeMeta(theme);
+    document.querySelectorAll('[data-set-theme]').forEach((btn) => {
+      btn.classList.toggle('active', btn.getAttribute('data-set-theme') === theme);
+    });
+    document.querySelectorAll('[data-set-size]').forEach((btn) => {
+      btn.classList.toggle('active', btn.getAttribute('data-set-size') === size);
+    });
+  }
+
+  function readBookmarks() {
+    try {
+      return JSON.parse(localStorage.getItem(BOOKMARKS_KEY) || '[]');
+    } catch {
+      return [];
+    }
+  }
+
+  function writeBookmarks(list) {
+    localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(list));
+    window.dispatchEvent(new CustomEvent('plain-books-bookmarks-changed'));
+  }
+
+  function currentPageFile() {
+    const parts = location.pathname.split('/');
+    const last = parts[parts.length - 1] || 'index.html';
+    return last.endsWith('.html') ? last : last + '.html';
+  }
+
+  function syncBookmarksUI() {
+    const page = currentPageFile();
+    const saved = readBookmarks();
+    const savedSet = new Set(saved.map((b) => b.href));
+    document.querySelectorAll('.bookmark-btn').forEach((btn) => {
+      const id = btn.getAttribute('data-bookmark-id');
+      const href = page + '#' + id;
+      const isSaved = savedSet.has(href);
+      btn.classList.toggle('saved', isSaved);
+      btn.setAttribute('aria-pressed', isSaved ? 'true' : 'false');
+      btn.textContent = isSaved ? 'Saved' : 'Bookmark';
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    const tBtn = e.target.closest('[data-set-theme]');
+    if (tBtn) {
+      const val = tBtn.getAttribute('data-set-theme');
+      root.setAttribute('data-theme', val);
+      localStorage.setItem('plain-books-theme', val);
+      syncButtons();
+    }
+    const sBtn = e.target.closest('[data-set-size]');
+    if (sBtn) {
+      const val = sBtn.getAttribute('data-set-size');
+      root.setAttribute('data-size', val);
+      localStorage.setItem('plain-books-size', val);
+      syncButtons();
+    }
+    const bBtn = e.target.closest('.bookmark-btn');
+    if (bBtn) {
+      const page = currentPageFile();
+      const id = bBtn.getAttribute('data-bookmark-id');
+      const title = bBtn.getAttribute('data-bookmark-title');
+      const bookTitle = document.body.getAttribute('data-book-label') || document.title;
+      const accent = getComputedStyle(root).getPropertyValue('--accent').trim() || '#2563eb';
+      const href = page + '#' + id;
+      const list = readBookmarks();
+      const idx = list.findIndex((item) => item.href === href);
+      if (idx >= 0) {
+        list.splice(idx, 1);
+      } else {
+        list.unshift({ href, title, book: bookTitle, accent });
+      }
+      writeBookmarks(list);
+      syncBookmarksUI();
+    }
+  });
+
+  // Track reading progress & last-read concept on book pages
+  const conceptCards = Array.from(document.querySelectorAll('.concept-card[data-concept-id]'));
+  function updateReadingState() {
+    const bar = document.getElementById('reading-progress');
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = total > 0 ? Math.min(100, Math.max(0, (window.scrollY / total) * 100)) : 0;
+    if (bar) bar.style.width = pct.toFixed(1) + '%';
+
+    if (conceptCards.length) {
+      let activeCard = conceptCards[0];
+      for (const card of conceptCards) {
+        if (card.getBoundingClientRect().top <= 160) {
+          activeCard = card;
+        }
+      }
+      const page = currentPageFile();
+      const id = activeCard.getAttribute('data-concept-id');
+      const title = activeCard.getAttribute('data-concept-title');
+      const bookLabel = document.body.getAttribute('data-book-label') || document.title;
+      localStorage.setItem(LAST_READ_KEY, JSON.stringify({
+        href: page + '#' + id,
+        bookHref: page,
+        book: bookLabel,
+        title: title,
+        pct: Math.round(pct),
+      }));
+    }
+  }
+
+  window.addEventListener('scroll', updateReadingState, { passive: true });
+  if (conceptCards.length) {
+    updateReadingState();
+  }
+
+  // PWA Service Worker registration & Install button
+  const statusPill = document.getElementById('pwa-status-pill');
+  const installBtn = document.getElementById('pwa-install-btn');
+  let deferredInstallPrompt = null;
+
+  function refreshConnectionStatus(cachedReady) {
+    if (!statusPill) return;
+    if (!navigator.onLine) {
+      statusPill.hidden = false;
+      statusPill.classList.add('is-offline');
+      statusPill.textContent = 'Offline Mode';
+    } else if (cachedReady) {
+      statusPill.hidden = false;
+      statusPill.classList.remove('is-offline');
+      statusPill.textContent = 'Offline Ready';
+    }
+  }
+
+  if ('serviceWorker' in navigator && (location.protocol === 'http:' || location.protocol === 'https:')) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').then((reg) => {
+        if (reg.active) {
+          refreshConnectionStatus(true);
+        }
+      }).catch(() => {});
+    });
+    navigator.serviceWorker.addEventListener('message', (event) => {
+      if (event.data && event.data.type === 'OFFLINE_READY') {
+        refreshConnectionStatus(true);
+      }
+    });
+    window.addEventListener('online', () => refreshConnectionStatus(true));
+    window.addEventListener('offline', () => refreshConnectionStatus(true));
+  }
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    if (installBtn) installBtn.hidden = false;
+  });
+
+  if (installBtn) {
+    installBtn.addEventListener('click', async () => {
+      if (!deferredInstallPrompt) return;
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      installBtn.hidden = true;
+    });
+  }
+
+  window.addEventListener('appinstalled', () => {
+    deferredInstallPrompt = null;
+    if (installBtn) installBtn.hidden = true;
+  });
+
+  syncButtons();
+  syncBookmarksUI();
+})();
+</script>
+</body>
+</html>

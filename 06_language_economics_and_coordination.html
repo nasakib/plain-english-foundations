@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="paper" data-size="md" style="--accent: #be123c; --accent-soft: rgba(190, 18, 60, 0.12);">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book VI: Language, Economics, and Human Coordination</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#faf8f4" id="meta-theme-color" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Foundations" />
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
+  <style>
+:root {
+  --bg: #faf8f4;
+  --surface: #ffffff;
+  --surface-muted: #f3efe7;
+  --text: #1c1917;
+  --text-muted: #57534e;
+  --border: #e5dfd3;
+  --quote-bg: #f6f3ec;
+  --shadow: 0 8px 30px rgba(28, 25, 23, 0.06);
+  --font-serif: "Charter", "Georgia", "Cambria", "Times New Roman", serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --base-size: 18px;
+}
+
+html[data-theme="sepia"] {
+  --bg: #f4ecd8;
+  --surface: #fbf6ea;
+  --surface-muted: #ede2ca;
+  --text: #2c2219;
+  --text-muted: #695847;
+  --border: #dfd1b5;
+  --quote-bg: #f0e6d0;
+}
+
+html[data-theme="night"] {
+  --bg: #111318;
+  --surface: #181b22;
+  --surface-muted: #20242e;
+  --text: #e7e5e4;
+  --text-muted: #a8a29e;
+  --border: #2b303d;
+  --quote-bg: #1e232e;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+html[data-size="sm"] { --base-size: 16px; }
+html[data-size="md"] { --base-size: 18px; }
+html[data-size="lg"] { --base-size: 20px; }
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.7;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+a {
+  color: var(--accent, #2563eb);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+#reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--accent, #2563eb);
+  z-index: 1000;
+  transition: width 0.08s linear;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 1.5rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+}
+
+.topbar-left, .topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.pill-btn, .pill-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.38rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+.pill-btn:hover, .pill-link:hover {
+  border-color: var(--accent, #2563eb);
+  text-decoration: none;
+}
+.pill-btn.active {
+  background: var(--accent, #2563eb);
+  color: #ffffff;
+  border-color: var(--accent, #2563eb);
+}
+
+.book-shell {
+  display: grid;
+  grid-template-columns: 290px minmax(0, 1fr);
+  max-width: 1320px;
+  margin: 0 auto;
+  gap: 2rem;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.sidebar {
+  position: sticky;
+  top: 4.5rem;
+  align-self: start;
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.15rem;
+  box-shadow: var(--shadow);
+}
+
+.sidebar-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 0.75rem;
+}
+
+.sidebar-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.sidebar-chapter > a {
+  display: block;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--text);
+  padding: 0.35rem 0.45rem;
+  border-radius: 8px;
+}
+.sidebar-chapter > a:hover {
+  background: var(--surface-muted);
+  text-decoration: none;
+}
+
+.sidebar-concepts {
+  list-style: none;
+  padding: 0.15rem 0 0.45rem 0.85rem;
+  margin: 0;
+  border-left: 2px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.sidebar-concepts a {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 0.18rem 0.35rem;
+  border-radius: 6px;
+}
+.sidebar-concepts a:hover {
+  color: var(--accent, #2563eb);
+  background: var(--surface-muted);
+  text-decoration: none;
+}
+
+.reader-column {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2.75rem clamp(1.35rem, 4vw, 3.75rem);
+  box-shadow: var(--shadow);
+  font-family: var(--font-serif);
+  font-size: var(--base-size);
+}
+
+.book-hero {
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 1.75rem;
+  margin-bottom: 2rem;
+}
+
+.volume-badge {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  margin-bottom: 0.9rem;
+}
+
+.book-hero h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.85rem, 3.2vw, 2.55rem);
+  line-height: 1.2;
+  margin: 0 0 0.85rem;
+}
+
+.book-meta-lines {
+  font-family: var(--font-sans);
+  font-size: 0.94rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.book-stats {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.book-stats span {
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.65rem;
+  border-radius: 8px;
+}
+
+.chapter-heading {
+  font-family: var(--font-sans);
+  font-size: 1.48rem;
+  line-height: 1.3;
+  margin: 2.4rem 0 0.9rem;
+  padding-top: 0.5rem;
+  color: var(--text);
+}
+
+.section-divider {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 2.25rem 0;
+}
+
+.concept-card {
+  margin: 1.75rem 0 2.25rem;
+  padding: 1.4rem 1.55rem;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--accent);
+  background: var(--surface);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+}
+
+.concept-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+}
+
+.concept-title {
+  font-family: var(--font-sans);
+  font-size: 1.18rem;
+  margin: 0;
+  color: var(--accent);
+}
+
+.bookmark-btn {
+  flex-shrink: 0;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.bookmark-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.bookmark-btn.saved {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  border: 1px solid rgba(22, 163, 74, 0.35);
+  background: rgba(22, 163, 74, 0.12);
+  color: #15803d;
+}
+html[data-theme="night"] .status-pill {
+  color: #4ade80;
+  border-color: rgba(74, 222, 128, 0.35);
+}
+.status-pill.is-offline {
+  border-color: rgba(217, 119, 6, 0.45);
+  background: rgba(217, 119, 6, 0.14);
+  color: #b45309;
+}
+html[data-theme="night"] .status-pill.is-offline {
+  color: #fbbf24;
+}
+.install-btn {
+  background: var(--accent, #2563eb);
+  color: #ffffff;
+  border-color: var(--accent, #2563eb);
+}
+.install-btn:hover { opacity: 0.92; }
+
+.isolated-definition {
+  margin: 0 0 1rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: 10px;
+  background: var(--quote-bg);
+  border-left: 3px solid var(--accent);
+  font-size: 1.02em;
+}
+
+.concept-part {
+  margin: 0.85rem 0;
+}
+
+.role-distinction {
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  background: var(--surface-muted);
+  font-size: 0.95em;
+}
+
+.toc-list, .concept-index-list {
+  padding-left: 1.25rem;
+}
+.toc-list li, .concept-index-list li {
+  margin: 0.4rem 0;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  margin: 1.25rem 0;
+}
+.distinctions-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+.distinctions-table th, .distinctions-table td {
+  border: 1px solid var(--border);
+  padding: 0.7rem 0.85rem;
+  text-align: left;
+  vertical-align: top;
+}
+.distinctions-table th {
+  background: var(--surface-muted);
+  font-weight: 700;
+}
+
+.self-check-list {
+  padding-left: 1.25rem;
+}
+.self-check-item {
+  margin: 1.1rem 0;
+}
+.question-text {
+  font-weight: 600;
+  margin-bottom: 0.45rem;
+}
+.answer-reveal {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.45rem 0.85rem;
+}
+.answer-reveal summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--accent);
+}
+.answer-body {
+  margin-top: 0.5rem;
+  color: var(--text);
+}
+
+.book-footer-nav {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-family: var(--font-sans);
+}
+
+@media (max-width: 960px) {
+  .book-shell {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    position: static;
+    max-height: none;
+  }
+}
+
+@media print {
+  .topbar, .sidebar, #reading-progress, .book-footer-nav, .bookmark-btn { display: none !important; }
+  .book-shell { display: block; padding: 0; }
+  .reader-column { border: 0; box-shadow: none; padding: 0; }
+  .concept-card { break-inside: avoid; }
+  .answer-reveal[open] summary { display: none; }
+}
+</style>
+</head>
+<body data-book-label="Book VI: Language &amp; Coordination">
+  <div id="reading-progress"></div>
+  <header class="topbar">
+    <div class="topbar-left">
+      <a class="pill-link" href="index.html">&larr; Library Index</a>
+      <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">
+        Volume VI &middot; Meaning &amp; Society
+      </span>
+      <span id="pwa-status-pill" class="status-pill" hidden>Offline Ready</span>
+    </div>
+    <div class="topbar-right">
+      <button type="button" id="pwa-install-btn" class="pill-btn install-btn" hidden>Install App</button>
+      <button type="button" class="pill-btn" data-set-size="sm">A-</button>
+      <button type="button" class="pill-btn" data-set-size="md">A</button>
+      <button type="button" class="pill-btn" data-set-size="lg">A+</button>
+      <button type="button" class="pill-btn" data-set-theme="paper">Paper</button>
+      <button type="button" class="pill-btn" data-set-theme="sepia">Sepia</button>
+      <button type="button" class="pill-btn" data-set-theme="night">Night</button>
+      <a class="pill-link" href="06_language_economics_and_coordination.md">Markdown</a>
+    </div>
+  </header>
+
+  <div class="book-shell">
+    <aside class="sidebar">
+      <div class="sidebar-label">Isolated Concepts &amp; Chapters</div>
+      <ul class="sidebar-nav">
+<li class="sidebar-chapter">
+<a href="#core-thesis">Core Thesis</a>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-1-how-language-isolates-and-connects-thought">Chapter 1: How Language Isolates and Connects Thought</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-11-concept-isolation-through-naming">1.1: Concept Isolation Through Naming</a></li>
+<li><a href="#concept-12-connotation-versus-denotation">1.2: Connotation Versus Denotation</a></li>
+<li><a href="#concept-13-context-and-shared-background">1.3: Context and Shared Background</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-2-scarcity-trade-offs-and-marginal-choice">Chapter 2: Scarcity, Trade-Offs, and Marginal Choice</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-21-scarcity-and-trade-offs">2.1: Scarcity and Trade-Offs</a></li>
+<li><a href="#concept-22-opportunity-cost-the-invisible-price-tag">2.2: Opportunity Cost (The Invisible Price Tag)</a></li>
+<li><a href="#concept-23-marginal-thinking-the-next-single-step">2.3: Marginal Thinking (The Next Single Step)</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-3-value-price-and-incentives">Chapter 3: Value, Price, and Incentives</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-31-subjective-value-and-voluntary-trade">3.1: Subjective Value and Voluntary Trade</a></li>
+<li><a href="#concept-32-prices-as-compact-signals">3.2: Prices as Compact Signals</a></li>
+<li><a href="#concept-33-incentives-and-unintended-consequences">3.3: Incentives and Unintended Consequences</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-4-trust-dilemmas-and-shared-rules">Chapter 4: Trust, Dilemmas, and Shared Rules</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-41-coordination-traps-the-prisoners-dilemma">4.1: Coordination Traps (The Prisoner&#x27;s Dilemma)</a></li>
+<li><a href="#concept-42-the-tragedy-of-shared-commons">4.2: The Tragedy of Shared Commons</a></li>
+<li><a href="#concept-43-repeated-games-reputation-and-institutions">4.3: Repeated Games, Reputation, and Institutions</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-5-specialization-and-compounding-knowledge">Chapter 5: Specialization and Compounding Knowledge</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-51-division-of-labor-and-comparative-advantage">5.1: Division of Labor and Comparative Advantage</a></li>
+<li><a href="#concept-52-external-memory-writing-and-shared-tools">5.2: External Memory (Writing and Shared Tools)</a></li>
+<li><a href="#concept-53-error-correcting-cultures">5.3: Error-Correcting Cultures</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#key-distinctions-at-a-glance">Key Distinctions at a Glance</a>
+</li>
+<li class="sidebar-chapter">
+<a href="#plain-english-concept-index">Plain-English Concept Index</a>
+</li>
+<li class="sidebar-chapter">
+<a href="#self-check-questions">Self-Check Questions</a>
+</li>
+</ul>
+    </aside>
+
+    <main class="reader-column">
+      <section class="book-hero">
+        <div class="volume-badge">Plain-English Foundations &middot; Book VI</div>
+        <h1>Book VI: Language, Economics, and Human Coordination</h1>
+        <div class="book-meta-lines"><div><strong>Series:</strong> The Plain-English Foundations Library — Volume VI</div>
+<div><strong>Focus:</strong> Clear English meaning, scarcity, opportunity cost, incentives, trust, institutions, and compounding cultural knowledge — isolated cleanly in plain English.</div></div>
+        <div class="book-stats">
+          <span>15 Isolated Concepts</span>
+          <span>~4,871 Words</span>
+          <span>~23 Min Read</span>
+          <span>Zero Code &middot; Plain English</span>
+        </div>
+      </section>
+
+      <hr class="section-divider" />
+<h2 id="core-thesis" class="chapter-heading">Core Thesis</h2>
+<p>Human beings are physically modest creatures—slower than cheetahs, weaker than bears, lacking claws or fur—yet we reshape continents, build cities, cure diseases, and map galaxies. Our real superpower is large-scale cooperation across strangers. That cooperation runs on three subtle invisible systems: shared language that lets minds align cleanly; everyday economic realities of scarcity, trade-offs, and incentives; and institutions that turn fragile promises into reliable trust. Isolating those concepts in plain English sharpens how we read, choose, negotiate, and build together.</p>
+<hr class="section-divider" />
+<h2 id="table-of-contents" class="chapter-heading">Table of Contents</h2>
+<ul class="toc-list"><li><a href="#chapter-1-how-language-isolates-and-connects-thought">Chapter 1: How Language Isolates and Connects Thought</a></li><li><a href="#chapter-2-scarcity-trade-offs-and-marginal-choice">Chapter 2: Scarcity, Trade-Offs, and Marginal Choice</a></li><li><a href="#chapter-3-value-price-and-incentives">Chapter 3: Value, Price, and Incentives</a></li><li><a href="#chapter-4-trust-dilemmas-and-shared-rules">Chapter 4: Trust, Dilemmas, and Shared Rules</a></li><li><a href="#chapter-5-specialization-and-compounding-knowledge">Chapter 5: Specialization and Compounding Knowledge</a></li><li><a href="#key-distinctions-at-a-glance">Key Distinctions at a Glance</a></li><li><a href="#plain-english-concept-index">Plain-English Concept Index</a></li><li><a href="#self-check-questions">Self-Check Questions</a></li></ul>
+<hr class="section-divider" />
+<h2 id="chapter-1-how-language-isolates-and-connects-thought" class="chapter-heading">Chapter 1: How Language Isolates and Connects Thought</h2>
+<p>A word is not an ornament pasted onto thought after thinking finishes; words are the handles by which human minds isolate fuzzy experiences, inspect them clearly, and hand them across to another mind.</p>
+<article id="concept-11-concept-isolation-through-naming" class="concept-card" data-concept-id="concept-11-concept-isolation-through-naming" data-concept-title="Concept 1.1: Concept Isolation Through Naming">
+<div class="concept-header-row"><h3 class="concept-title">Concept 1.1: Concept Isolation Through Naming</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-11-concept-isolation-through-naming" data-bookmark-title="Concept 1.1: Concept Isolation Through Naming" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Naming isolates a recurring pattern out of messy experience so you can point at it cleanly, remember it distinctly, and combine it with other ideas without re-explaining it every time.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Think of lifting a clear glass bottle out of a swirling river. Before scooping, river water flows past seamlessly as one undifferentiated stream; putting a neat label on the bottle lets you inspect, compare, and hand that exact sample across the table.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Watch how quickly a messy problem simplifies once a real concept receives a sharp plain-English name. Before someone names "sunk cost" or "opportunity cost," people just feel vaguely stressed about wasted movie tickets or missed weekends. Once you isolate that exact pattern with a clean phrase, you spot it immediately next month in a completely different setting—a career choice, a renovation project, or a friendship. At the same time, poor fuzzy labels blur distinct ideas together into one muddy bucket, causing endless confusion until someone separates them back out.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Bakers isolate distinct dough steps with exact words—"kneading," "proofing," "folding," "scoring"—so two bakers across the world can talk through subtle bread failures in thirty seconds instead of waving hands over "doing things to flour."</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Inventing empty jargon.</strong> Real concept isolation clarifies everyday reality using crisp shared language; hollow jargon merely replaces ordinary clear words ("start" becomes "operationalize inception") to sound impressive while obscuring meaning.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-12-connotation-versus-denotation" class="concept-card" data-concept-id="concept-12-connotation-versus-denotation" data-concept-title="Concept 1.2: Connotation Versus Denotation">
+<div class="concept-header-row"><h3 class="concept-title">Concept 1.2: Connotation Versus Denotation</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-12-connotation-versus-denotation" data-bookmark-title="Concept 1.2: Connotation Versus Denotation" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Denotation is a word's literal factual core—what it points to in the dictionary; connotation is the emotional attitude, warmth, or judgment wrapped quietly around that word in real conversation.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Imagine two identical meals served on two trays: one wrapped in crinkled gold foil with linen napkins, the other slapped onto bare cardboard. The food inside (denotation) is identical; your stomach's first reaction (connotation) changes entirely.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Many heated arguments are not fights over facts at all—they are fights over hidden emotional framing tucked inside word choice. Saying someone is "careful with money," "thrifty," "frugal," "penny-pinching," or "stingy" points to roughly the <em>identical physical behavior</em> (spending rarely), yet each word whispers praise or scorn into the listener's ear before any argument begins. Reading carefully in plain English means stripping off shiny or barbed emotional wrapping so you can inspect the bare literal claim underneath.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Calling an unexpected budget shift an "investment in future capacity" versus "unplanned spending overrun" may describe the exact same invoice—yet steers boardroom reactions in opposite directions purely through connotation.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Tone of voice.</strong> Tone sits in how someone speaks; connotation lives inside the chosen English word itself even when printed silently in black ink on white paper.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-13-context-and-shared-background" class="concept-card" data-concept-id="concept-13-context-and-shared-background" data-concept-title="Concept 1.3: Context and Shared Background">
+<div class="concept-header-row"><h3 class="concept-title">Concept 1.3: Context and Shared Background</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-13-context-and-shared-background" data-bookmark-title="Concept 1.3: Context and Shared Background" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Words rarely carry full meaning locked completely inside themselves; listeners assemble true meaning by combining spoken words with surrounding context and unspoken shared background knowledge.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Think of a key turning inside a lock. The key's metal teeth matter enormously, yet without the matching pins hidden inside the door lock, turning the key opens nothing. Sentences work only when speaker words engage listener context.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Read a plain four-word English sentence: <em>"Time flies like an arrow."</em> Notice how easily an unfamiliar machine misreads it—"flies" could be tiny insects, "like" could mean "enjoy," meaning <em>"Certain insects named time-flies are fond of eating arrows!"</em> You laughed instead of getting confused solely because you instantly brought real-world context about clocks, arrows, and poetry to bear. Good English writing never dumps half-formed hints onto readers expecting telepathy; it supplies just enough context upfront so words lock into place on the very first read.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Texting a friend simply "Nine o'clock?" makes perfect crystal sense right after discussing dinner plans, yet becomes total gibberish if sent cold three weeks later without context.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Vagueness.</strong> Context makes short natural phrases efficient among people sharing a situation; vagueness leaves listeners guessing even when they know the full situation.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="chapter-2-scarcity-trade-offs-and-marginal-choice" class="chapter-heading">Chapter 2: Scarcity, Trade-Offs, and Marginal Choice</h2>
+<p>Economics is not primarily about stock tickers or bank vaults; it is the study of how finite beings allocate scarce time, energy, attention, and materials across competing desires that always exceed what fits in one afternoon.</p>
+<article id="concept-21-scarcity-and-trade-offs" class="concept-card" data-concept-id="concept-21-scarcity-and-trade-offs" data-concept-title="Concept 2.1: Scarcity and Trade-Offs">
+<div class="concept-header-row"><h3 class="concept-title">Concept 2.1: Scarcity and Trade-Offs</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-21-scarcity-and-trade-offs" data-bookmark-title="Concept 2.1: Scarcity and Trade-Offs" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Scarcity means useful resources—including hours in a day, materials, attention, and clean land—exist in limited amounts compared to human wants, forcing unavoidable trade-offs between competing goods.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Think of a carry-on suitcase with fixed zippers before a trip. You can pack two extra pairs of boots only by leaving sweaters or books sitting on the bedroom floor. No amount of wishing stretches the rigid frame forever.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Even billionaires face rigid scarcity: twenty-four hours per day, one physical body that cannot stand in Tokyo and Toronto simultaneously, and finite waking focus. Because resources are finite, saying "yes" to almost any worthwhile goal automatically says "no" to something else. Thinking clearly means asking <em>compared to what?</em> Whenever someone promises pure gain with zero trade-offs—faster delivery at zero extra cost, effortless wealth with zero risk, total freedom with zero limits—they are almost always hiding who is paying the hidden bill.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Spending Saturday afternoon repairing your porch steps uses up three sunny hours and some lumber—meaning those exact three hours cannot simultaneously go toward taking your niece to the park or catching up on sleep.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Poverty or crisis.</strong> Even inside a prosperous household with overflowing pantries, clean weekend hours, shelf space, and personal attention remain scarce and force constant choices.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-22-opportunity-cost-the-invisible-price-tag" class="concept-card" data-concept-id="concept-22-opportunity-cost-the-invisible-price-tag" data-concept-title="Concept 2.2: Opportunity Cost (The Invisible Price Tag)">
+<div class="concept-header-row"><h3 class="concept-title">Concept 2.2: Opportunity Cost (The Invisible Price Tag)</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-22-opportunity-cost-the-invisible-price-tag" data-bookmark-title="Concept 2.2: Opportunity Cost (The Invisible Price Tag)" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Opportunity cost is the true value of the <em>next best alternative</em> you had to give up the instant you made a choice.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Look at a movie ticket costing fifteen dollars. Most people think the ticket cost fifteen dollars. In plain reality, the true cost of watching that movie was fifteen dollars <em>plus</em> the two hours you could have spent practicing guitar, working overtime, or having unhurried dinner with an old friend—whichever single best alternative you gave up.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Price tags printed on receipts show only cash leaving your wallet; they hide time, lost interest, and forgone options. Suppose your family owns an empty corner storefront and runs a tiny bakery inside without charging themselves rent, bragging that "overhead is free." In reality, if another café offered two thousand dollars a month to lease that exact corner storefront, using it yourself carries a silent two-thousand-dollar monthly opportunity cost! Isolating opportunity cost prevents us from treating "free" inherited time or owned space as worthless.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Going to university for four years costs far more than tuition and textbooks; the biggest hidden line item for most adults is four years of full-time wages given up while sitting in lecture halls instead of working.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Sunk cost.</strong> Opportunity cost looks <em>forward</em> at alternatives you still control before choosing; a sunk cost is money or time <em>already spent and unrecoverable</em>—like enduring a miserable movie solely because you already paid fifteen dollars at the door.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-23-marginal-thinking-the-next-single-step" class="concept-card" data-concept-id="concept-23-marginal-thinking-the-next-single-step" data-concept-title="Concept 2.3: Marginal Thinking (The Next Single Step)">
+<div class="concept-header-row"><h3 class="concept-title">Concept 2.3: Marginal Thinking (The Next Single Step)</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-23-marginal-thinking-the-next-single-step" data-bookmark-title="Concept 2.3: Marginal Thinking (The Next Single Step)" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Marginal thinking evaluates the extra benefit versus the extra cost of adding or subtracting just <em>one more unit</em> right now, rather than judging entire averages overall.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Ask a thirsty runner crossing a hot park how valuable water is: the <em>first</em> cool bottle is priceless; the second bottle is deeply refreshing; the third feels pleasant; the tenth bottle sits untouched as heavy dead weight in her backpack. Water stayed identical, yet the value of <em>one additional unit</em> dropped sharply.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Big bad decisions frequently happen when people ask total all-or-nothing questions ("Is diamond worth more than water?") instead of marginal questions ("Given I already have running tap water at home, how much do I value one extra gallon versus one rare diamond?"). Airlines use marginal thinking when selling an empty seat an hour before takeoff for a modest bargain: the plane is already fueled and staffed (fixed sunk cost), so the <em>marginal cost</em> of carrying one extra passenger is tiny—just extra fuel and peanuts—meaning almost any fare above that tiny margin beats flying an empty seat.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Studying one extra hour tonight when you already slept poorly for three nights might lower tomorrow's test score rather than raise it—the marginal cost in tired mistakes outweighs the marginal gain of cramming two more pages.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Total worth.</strong> A hospital emergency room stays immensely valuable overall while still weighing the marginal benefit of keeping a seventh backup bed staffed overnight against funding daytime preventive care.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="chapter-3-value-price-and-incentives" class="chapter-heading">Chapter 3: Value, Price, and Incentives</h2>
+<p>Why do people work hard on some problems and neglect others? Rarely because speeches told them to—far more often because everyday structures quietly reward certain behaviors and punish others.</p>
+<article id="concept-31-subjective-value-and-voluntary-trade" class="concept-card" data-concept-id="concept-31-subjective-value-and-voluntary-trade" data-concept-title="Concept 3.1: Subjective Value and Voluntary Trade">
+<div class="concept-header-row"><h3 class="concept-title">Concept 3.1: Subjective Value and Voluntary Trade</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-31-subjective-value-and-voluntary-trade" data-bookmark-title="Concept 3.1: Subjective Value and Voluntary Trade" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Value is not stamped permanently inside physical objects; two people can swap goods voluntarily and <em>both</em> walk away genuinely richer simply because each values what they receive more than what they gave up.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> You have two warm winter coats and bare feet; your neighbor has two pairs of sturdy boots and is shivering in a t-shirt. Swap one coat for one pair of boots. Not a single extra thread was sewn in the town, yet total human comfort jumped overnight for <em>both</em> households.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Many people mistakenly view trade as a boxing match where one winner pockets what the loser lost. In honest voluntary exchange, trade happens <em>only</em> because both sides expect to gain—the coffee grower values three dollars more than a bag of beans she already grows by the ton, while the sleepy commuter values morning coffee far more than three dollars sitting in her pocket. Recognizing subjective value explains why gifts can miss wildly while straightforward exchanges build vast mutual prosperity without anyone robbing anyone.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Trading baseball cards on a schoolyard playground: one kid prizes her favorite pitcher, another collects local team logos; trading duplicates makes both backpacks more valuable to their owners immediately.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Coercion or fraud.</strong> Real mutual gain vanishes if someone hides broken parts (fraud) or holds a threat over the table (force), turning trade into theft.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-32-prices-as-compact-signals" class="concept-card" data-concept-id="concept-32-prices-as-compact-signals" data-concept-title="Concept 3.2: Prices as Compact Signals">
+<div class="concept-header-row"><h3 class="concept-title">Concept 3.2: Prices as Compact Signals</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-32-prices-as-compact-signals" data-bookmark-title="Concept 3.2: Prices as Compact Signals" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> In open markets, prices act like changing summary signals communicating how scarce something is and how urgently distant strangers want it—coordinating millions of strangers without needing anyone to run a master plan.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Imagine a massive snowstorm tears power lines down across a county. Nobody calls all lumber mills in neighboring states to deliver generator fuel and plywood sheets; instead, rising local prices whisper instantly to truckers three hundred miles away: <em>drive plywood and generators south right now, they are urgently needed there</em>, while whispering to local buyers: <em>buy only what you truly need and save the rest for neighbors worse off</em>.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Price is often confused with moral worth—a nurse saves lives while a sports entertainer earns ten times more, sparking understandable frustration. Yet price measures <em>marginal scarcity relative to demand</em>, not moral nobility. Clean drinking water sits nearly priceless to life, yet carries a tiny price where rivers run full; rare gemstones contribute zero survival value yet command huge prices because so few sit out of the ground. Trying to silence price signals artificially by freezing tags below real cost rarely makes goods plentiful—it usually empties shelves quickly while hiding true shortages.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> When a severe frost wipes out half an orange crop, higher orange juice prices naturally nudge casual buyers toward apple juice for a few months, stretching the remaining oranges silently for families who want them most—without any rationing board writing permits.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Intrinsic value or fairness.</strong> Prices are sensitive messenger thermometers showing supply-and-demand pressure, not awards handed out for moral virtue.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-33-incentives-and-unintended-consequences" class="concept-card" data-concept-id="concept-33-incentives-and-unintended-consequences" data-concept-title="Concept 3.3: Incentives and Unintended Consequences">
+<div class="concept-header-row"><h3 class="concept-title">Concept 3.3: Incentives and Unintended Consequences</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-33-incentives-and-unintended-consequences" data-bookmark-title="Concept 3.3: Incentives and Unintended Consequences" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> An incentive is any reward or penalty shaping how people naturally act; poorly designed incentives reliably trigger clever workarounds that backfire against the designer's original wish.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Pay rat-catchers a reward for every dead rat tail they hand in, and before long clever entrepreneurs quietly start <em>breeding rats in basements</em> to harvest tails—multiplying the city's rat population higher than when the bounty began!</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Whenever rules fail despite noble intentions, check the real incentives facing people on the ground. Reward factory managers strictly on total pounds of nails produced, and they crank out giant useless railroad spikes; switch the target strictly to <em>count</em> of nails produced, and they stamp out millions of tiny brittle pins too thin to hammer. Good policy asks not only <em>"What good outcome do we hope for?"</em> but <em>"If a clever person wanted to game this rule strictly for personal gain, what bizarre thing would they do tomorrow?"</em></p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Paying firefighters strictly per fire put out invites suspicious fires; paying computer programmers strictly by lines of code typed invites bloated, tangled code instead of crisp short solutions.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Greed alone.</strong> Even caring, honest teachers and doctors subtly adjust focus toward whatever gets measured, inspected, and rewarded—ignoring real incentives assumes humans don't react to their environment.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="chapter-4-trust-dilemmas-and-shared-rules" class="chapter-heading">Chapter 4: Trust, Dilemmas, and Shared Rules</h2>
+<p>If everyone simply grabbed whatever benefited themselves right this minute, bridges would go unbuilt, fisheries would collapse empty, and locks would cover every cupboard. How do self-interested strangers build enduring mutual trust?</p>
+<article id="concept-41-coordination-traps-the-prisoners-dilemma" class="concept-card" data-concept-id="concept-41-coordination-traps-the-prisoners-dilemma" data-concept-title="Concept 4.1: Coordination Traps (The Prisoner&#x27;s Dilemma)">
+<div class="concept-header-row"><h3 class="concept-title">Concept 4.1: Coordination Traps (The Prisoner's Dilemma)</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-41-coordination-traps-the-prisoners-dilemma" data-bookmark-title="Concept 4.1: Coordination Traps (The Prisoner&#x27;s Dilemma)" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> A coordination trap happens when every participant acting purely in their own isolated short-term interest produces an outcome that leaves <em>every single participant</em> worse off than if they had cooperated together.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Imagine a crowded theater where one person stands up in the front row to get a slightly better view. Suddenly everyone behind them has to stand up just to see the screen at all—leaving every single person standing tired on sore feet while seeing <em>no better</em> than when everyone stayed comfortably seated.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Sometimes selfish wisdom scales into group foolishness. Two competing corner cafes would both earn healthier margins if neither wasted money keeping bright neon billboards flashing until three in the morning—yet each fears turning signs off first while the rival stays lit. Without shared norms, clear contracts, or repeated future meetings, individual caution locks neighbors into exhausting arms races, whether over loud billboards, overfished bays, or reckless shortcuts.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Drivers honking and blocking an intersection trying to sneak through on a fading yellow light freeze the cross-street lane solid, trapping everyone in gridlock twenty minutes longer than if everyone waited one quiet light cycle.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Pure ill will.</strong> People fall into coordination traps even when nobody hates anybody—the trap sits inside the <em>rules of the situation</em> until shared trust or rules change the payoffs.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-42-the-tragedy-of-shared-commons" class="concept-card" data-concept-id="concept-42-the-tragedy-of-shared-commons" data-concept-title="Concept 4.2: The Tragedy of Shared Commons">
+<div class="concept-header-row"><h3 class="concept-title">Concept 4.2: The Tragedy of Shared Commons</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-42-the-tragedy-of-shared-commons" data-bookmark-title="Concept 4.2: The Tragedy of Shared Commons" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> When a valuable shared resource belongs to everyone without clear boundaries or shared stewardship rules, every individual gets the full private reward of taking one more unit while the damage gets split across the whole neighborhood—steadily ruining the resource for all.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Imagine a public village pasture open to every herder. Adding one extra cow feeds that farmer's family one hundred percent of the extra milk while spreading the tiny extra grass trampling across fifty neighbors. Every rational herder keeps adding "just one more cow" until the meadow turns to barren dust and every herd starves.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Open oceans, crowded city parking, shared office break-room fridges, and clean river air all face commons pressure. Two classic cures exist, plus a powerful third: dividing parcels into clear private ownership so each owner reaps both future rewards and future damage; enforcing clear public rules and limits from an authority; or—as communities worldwide proved for centuries across Swiss mountain pastures and Japanese village forests—building tight local self-governance with clear membership, monitored limits, and gradual neighbor penalties for over-takers.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> When a town announces "free unlimited firewood cutting in the central grove" without limits, families haul extra loads home early before neighbors strip every branch—emptying the woods far faster than when small annual permits keep growth balanced.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Impossibility of shared living.</strong> Humans govern shared parks, libraries, and community gardens wonderfully whenever clear expectations, mutual monitoring, and gentle accountability keep freeloaders in check.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-43-repeated-games-reputation-and-institutions" class="concept-card" data-concept-id="concept-43-repeated-games-reputation-and-institutions" data-concept-title="Concept 4.3: Repeated Games, Reputation, and Institutions">
+<div class="concept-header-row"><h3 class="concept-title">Concept 4.3: Repeated Games, Reputation, and Institutions</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-43-repeated-games-reputation-and-institutions" data-bookmark-title="Concept 4.3: Repeated Games, Reputation, and Institutions" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Strangers cooperate reliably when rules, courts, and repeated community visibility ensure that cheating today ruins tomorrow's trust and future gains.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Compare a one-night souvenir stall outside a cruise dock with a neighborhood shoe repair shop run on Main Street for forty years. The one-night tourist trap can sell cardboard soles and vanish before dawn; the Main Street cobbler repairs your boots honestly because his whole next decade depends on what you tell your cousins tomorrow.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Trust isn't naive wishful thinking—it is engineered infrastructure. Repeated relationships transform one-shot temptations to cheat into obvious self-interest to deal fairly, because reputation compounds across years. When neighborhoods grow from fifty villagers to fifty million strangers in modern nations, formal institutions—honest courts, clear property deeds, uniform weights and measures, transparent audits, and enforceable contracts—carry trust across vast distances so two people who will never meet again can still exchange life savings safely for a house or cargo ship.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Leaving a glowing review or honest complaint on a local plumber's neighborhood page lets tomorrow's homeowners see forty years of track record before letting a stranger into their basement.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Blind faith.</strong> Healthy institutions are literally built to <em>verify</em> promises systematically so cooperation remains rewarding even when people aren't saints.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="chapter-5-specialization-and-compounding-knowledge" class="chapter-heading">Chapter 5: Specialization and Compounding Knowledge</h2>
+<p>No single human alive knows how to mine iron ore, refine steel, draw copper wires, vulcanize rubber, program microchips, and manufacture glass just to build one humble kitchen toaster. Civilization lives in the space <em>between</em> specialized minds.</p>
+<article id="concept-51-division-of-labor-and-comparative-advantage" class="concept-card" data-concept-id="concept-51-division-of-labor-and-comparative-advantage" data-concept-title="Concept 5.1: Division of Labor and Comparative Advantage">
+<div class="concept-header-row"><h3 class="concept-title">Concept 5.1: Division of Labor and Comparative Advantage</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-51-division-of-labor-and-comparative-advantage" data-bookmark-title="Concept 5.1: Division of Labor and Comparative Advantage" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Division of labor multiplies total output by letting people specialize deeply in specific skills and trade freely; comparative advantage shows that even if one person is faster at everything, <em>both</em> still produce more when each focuses where their relative edge is greatest.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Suppose a top heart surgeon also happens to type faster than anyone in town. Should the surgeon spend mornings typing clinic bills while an assistant sits idle? Of course not! While the surgeon types bills for an hour, she gives up performing a life-saving heart operation. Having the surgeon focus strictly on surgery and the assistant handle typing lets the hospital save far more lives <em>and</em> finish all bills faster.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> One of the most counterintuitive gems in economics is that you don't need to be the fastest in the world at a task for specializing to benefit everyone. As long as people differ in what they give up to switch tasks (different opportunity costs), splitting roles allows the strong specialist to focus on their highest-impact craft while others fill valuable supporting roles—creating vastly more total food, shelter, art, and medicine than isolated jack-of-all-trades homesteads could ever muster alone.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> At a small family restaurant, one sibling cooks rapidly on the grill while the other greets tables, takes orders, and mixes drinks. Even if the cook could run tables slightly faster too, dividing roles doubles nightly dinners served smoothly.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Monotonous isolation.</strong> Healthy specialization pairs deep focused mastery with cross-domain understanding of how your piece fits neighbors' work, avoiding fragile narrow tunnels.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-52-external-memory-writing-and-shared-tools" class="concept-card" data-concept-id="concept-52-external-memory-writing-and-shared-tools" data-concept-title="Concept 5.2: External Memory (Writing and Shared Tools)">
+<div class="concept-header-row"><h3 class="concept-title">Concept 5.2: External Memory (Writing and Shared Tools)</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-52-external-memory-writing-and-shared-tools" data-bookmark-title="Concept 5.2: External Memory (Writing and Shared Tools)" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Writing, books, tools, and shared standards store hard-won discoveries outside fragile individual brains so every generation begins standing atop what previous generations tested and refined.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Without writing, every bright tribe must rediscover iron forging, crop rotation, and herbal doses nearly from scratch whenever wise elders pass away. Writing acts like a non-spoiling communal memory bank stretching seamlessly across centuries and continents.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Why did human knowledge accelerate explosively after printing presses and clean shared standards spread? Because ideas no longer died in solitary heads or wandered away through faulty spoken memory! Once a baker wrote down exact weights, once a sailor mapped coastal reefs onto shared charts, once scientists published failed and successful tests clearly in plain language for skeptics everywhere to re-check, progress turned cumulative. Every new generation could spend youth learning verified foundations in ten years instead of spending sixty years guessing from bare dirt.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> A modern teenager cooking dinner from a trusted cookbook avoids ten ruined pans of burnt sauce by benefiting instantly from centuries of kitchen testing condensed cleanly onto one printed page.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Passive storage.</strong> Unread dusty books sitting locked in basements change nothing; external memory multiplies power only when communities actively read, question, test, and refine what was handed down.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-53-error-correcting-cultures" class="concept-card" data-concept-id="concept-53-error-correcting-cultures" data-concept-title="Concept 5.3: Error-Correcting Cultures">
+<div class="concept-header-row"><h3 class="concept-title">Concept 5.3: Error-Correcting Cultures</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-53-error-correcting-cultures" data-bookmark-title="Concept 5.3: Error-Correcting Cultures" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> The strongest societies, teams, and sciences succeed not by preventing every mistake upfront, but by building open, non-defensive habits that spot errors quickly, expose false assumptions safely, and keep improvements compounding.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Think of commercial aviation safety. Early planes crashed frequently until aviation adopted blameless black-box flight reviews and open near-miss incident reports: pilots who confess an honest close call openly help redesign cockpit checklists for ten thousand other planes instead of hiding mistakes out of fear of punishment.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Closed empires and rigid teams prize looking flawless today—punishing messengers who bring bad news, hiding broken bridges, and banning critical questions. Over years, hidden small errors pile silently into catastrophic collapses. Open error-correcting cultures separate <em>the quality of an idea</em> from <em>the ego of its author</em>. Criticism of a faulty plan becomes a gift rather than an insult; small controlled experiments catch weak notions early while cheap to fix; and steady cumulative pruning leaves the whole community wiser every season.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> A kitchen team holding a cheerful five-minute debrief after a chaotic Friday dinner rush—"tickets piled up at the cold salad station because dressings sat across the aisle"—fixes the shelf before Saturday without blaming the salad cook's character.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Cynical nitpicking.</strong> Real error-correction loves discovering what actually works better next time—never tearing ideas down just to feel clever without offering tests or workable fixes.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="key-distinctions-at-a-glance" class="chapter-heading">Key Distinctions at a Glance</h2>
+<div class="table-wrap"><table class="distinctions-table"><thead><tr><th>Concept Pair</th><th>First Concept in Plain English</th><th>Second Concept in Plain English</th><th>Why Isolating Them Matters</th></tr></thead><tbody><tr><td><strong>Denotation vs. Connotation</strong></td><td>Literal dictionary core of what a word names.</td><td>Emotional warmth, praise, or scorn attached to the word.</td><td>Prevents emotional word wrapping from smuggling silent judgments into factual claims.</td></tr><tr><td><strong>Opportunity Cost vs. Sunk Cost</strong></td><td>Best future option given up <em>by choosing</em> a path now.</td><td>Past money or effort <em>already gone</em> and impossible to recover.</td><td>Smart decisions look forward at opportunity costs while ignoring unrecoverable sunk costs.</td></tr><tr><td><strong>Price vs. Moral Value</strong></td><td>Current market signal reflecting scarcity and urgency.</td><td>Deep human importance, dignity, or ethical worth.</td><td>Explains why vital water is cheap in wet cities while rare diamonds stay expensive, without confusing usefulness with worth.</td></tr><tr><td><strong>Absolute vs. Comparative Edge</strong></td><td>Being faster or cheaper than someone else overall.</td><td>Giving up less of another valuable task to specialize in one role.</td><td>Shows why cooperation pays off even between partners of wildly uneven overall speed.</td></tr><tr><td><strong>Blame Culture vs. Error Correction</strong></td><td>Hiding mistakes to protect status until big failures hit.</td><td>Surfacing small flaws openly without ego to fix systems steadily.</td><td>Drives long-term reliability in hospitals, aviation, engineering, and everyday teams.</td></tr></tbody></table></div>
+<hr class="section-divider" />
+<h2 id="plain-english-concept-index" class="chapter-heading">Plain-English Concept Index</h2>
+<ul class="concept-index-list"><li><strong>Comparative Advantage:</strong> Focusing where your relative trade-off cost is lowest so everyone produces more together.</li><li><strong>Concept Isolation:</strong> Separating one clear recurring pattern out of noisy reality with a distinct plain name.</li><li><strong>Connotation:</strong> The emotional associations, praise, or stigma wrapped around a word beyond its literal meaning.</li><li><strong>Coordination Trap:</strong> A situation where isolated rational self-interest leaves every participant worse off than joint cooperation.</li><li><strong>Denotation:</strong> The direct factual core meaning of a word.</li><li><strong>Division of Labor:</strong> Splitting complex work into specialized tasks shared across cooperating people.</li><li><strong>Error-Correcting Culture:</strong> Norms that surface flaws early without ego so shared knowledge improves continuously.</li><li><strong>External Memory:</strong> Books, tools, maps, and records preserving discoveries across generations outside single brains.</li><li><strong>Incentive:</strong> Any reward, cost, or penalty steering real human behavior.</li><li><strong>Institution:</strong> Shared rules, courts, customs, and verification structures making trust durable among strangers.</li><li><strong>Marginal Thinking:</strong> Weighing the added benefit against the added cost of just one next unit or step.</li><li><strong>Opportunity Cost:</strong> The value of the best alternative surrendered whenever you choose one option over another.</li><li><strong>Price Signal:</strong> A compact indicator transmitting changing scarcity and urgency across distant communities.</li><li><strong>Repeated Interaction:</strong> Ongoing relationship where future trust and reputation make present honesty pay off.</li><li><strong>Scarcity:</strong> The universal condition of having limited resources relative to competing human uses.</li><li><strong>Subjective Value:</strong> Worth determined by a specific person's needs and situation rather than locked inside an object.</li><li><strong>Sunk Cost:</strong> Past time or expense already gone that cannot be retrieved regardless of today's choice.</li><li><strong>Tragedy of the Commons:</strong> Overuse of an unmanaged shared resource when private rewards accrue individually and damage spreads to all.</li></ul>
+<hr class="section-divider" />
+<h2 id="self-check-questions" class="chapter-heading">Self-Check Questions</h2>
+<ol class="self-check-list"><li class="self-check-item"><div class="question-text"><strong>You buy a non-refundable thirty-dollar concert ticket, wake up with a bad flu, and realize attending will make you miserable. What concept tells you to ignore the thirty dollars when deciding whether to go?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> Sunk cost. The thirty dollars are gone either way; the forward choice is purely between resting comfortably at home or shivering unhappily in a loud crowd.</div></details></li><li class="self-check-item"><div class="question-text"><strong>Why can two people swap a jacket for a pair of boots with zero cash changing hands and both end up genuinely better off?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> Subjective value: each person values what they receive <em>more</em> than the spare item they gave away, creating net comfort without needing extra factories.</div></details></li><li class="self-check-item"><div class="question-text"><strong>Why did a famous colonial bounty offering cash per dead cobra tail accidentally increase the number of cobras in the city?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> Poorly checked incentives: people started breeding cobras quietly to collect cash bounties—and when officials canceled the reward, breeders released their worthless snakes outdoors.</div></details></li><li class="self-check-item"><div class="question-text"><strong>Why do highway rush-hour drivers keep blocking intersections even though everyone hates gridlock?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> It is a classic coordination trap: each lone driver sneaks forward fearing another lane will steal the space, trapping everyone in worse delay until traffic rules or polite shared norms hold the box clear.</div></details></li><li class="self-check-item"><div class="question-text"><strong>Why can a tiny flaw in how we name concepts silently corrupt hours of debate?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> Without isolating concepts cleanly, two speakers lean on connotative words or pack conflicting ideas under one blurry label—talking past each other while assuming they disagree about facts.</div></details></li></ol>
+
+      <nav class="book-footer-nav">
+        <div><a class="pill-link" href="05_computation_information_and_systems.html">&larr; Book V: Information &amp; Systems</a></div>
+        <div><a class="pill-link" href="index.html">All Volumes</a></div>
+        <div></div>
+      </nav>
+    </main>
+  </div>
+  <script>
+(function () {
+  const root = document.documentElement;
+  const THEME_COLORS = { paper: '#faf8f4', sepia: '#f4ecd8', night: '#111318' };
+  const BOOKMARKS_KEY = 'plain-books-bookmarks';
+  const LAST_READ_KEY = 'plain-books-last-read';
+  const savedTheme = localStorage.getItem('plain-books-theme') || 'paper';
+  const savedSize = localStorage.getItem('plain-books-size') || 'md';
+  root.setAttribute('data-theme', savedTheme);
+  root.setAttribute('data-size', savedSize);
+
+  function syncThemeMeta(theme) {
+    const meta = document.getElementById('meta-theme-color');
+    if (meta) meta.setAttribute('content', THEME_COLORS[theme] || '#faf8f4');
+  }
+
+  function syncButtons() {
+    const theme = root.getAttribute('data-theme');
+    const size = root.getAttribute('data-size');
+    syncThemeMeta(theme);
+    document.querySelectorAll('[data-set-theme]').forEach((btn) => {
+      btn.classList.toggle('active', btn.getAttribute('data-set-theme') === theme);
+    });
+    document.querySelectorAll('[data-set-size]').forEach((btn) => {
+      btn.classList.toggle('active', btn.getAttribute('data-set-size') === size);
+    });
+  }
+
+  function readBookmarks() {
+    try {
+      return JSON.parse(localStorage.getItem(BOOKMARKS_KEY) || '[]');
+    } catch {
+      return [];
+    }
+  }
+
+  function writeBookmarks(list) {
+    localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(list));
+    window.dispatchEvent(new CustomEvent('plain-books-bookmarks-changed'));
+  }
+
+  function currentPageFile() {
+    const parts = location.pathname.split('/');
+    const last = parts[parts.length - 1] || 'index.html';
+    return last.endsWith('.html') ? last : last + '.html';
+  }
+
+  function syncBookmarksUI() {
+    const page = currentPageFile();
+    const saved = readBookmarks();
+    const savedSet = new Set(saved.map((b) => b.href));
+    document.querySelectorAll('.bookmark-btn').forEach((btn) => {
+      const id = btn.getAttribute('data-bookmark-id');
+      const href = page + '#' + id;
+      const isSaved = savedSet.has(href);
+      btn.classList.toggle('saved', isSaved);
+      btn.setAttribute('aria-pressed', isSaved ? 'true' : 'false');
+      btn.textContent = isSaved ? 'Saved' : 'Bookmark';
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    const tBtn = e.target.closest('[data-set-theme]');
+    if (tBtn) {
+      const val = tBtn.getAttribute('data-set-theme');
+      root.setAttribute('data-theme', val);
+      localStorage.setItem('plain-books-theme', val);
+      syncButtons();
+    }
+    const sBtn = e.target.closest('[data-set-size]');
+    if (sBtn) {
+      const val = sBtn.getAttribute('data-set-size');
+      root.setAttribute('data-size', val);
+      localStorage.setItem('plain-books-size', val);
+      syncButtons();
+    }
+    const bBtn = e.target.closest('.bookmark-btn');
+    if (bBtn) {
+      const page = currentPageFile();
+      const id = bBtn.getAttribute('data-bookmark-id');
+      const title = bBtn.getAttribute('data-bookmark-title');
+      const bookTitle = document.body.getAttribute('data-book-label') || document.title;
+      const accent = getComputedStyle(root).getPropertyValue('--accent').trim() || '#2563eb';
+      const href = page + '#' + id;
+      const list = readBookmarks();
+      const idx = list.findIndex((item) => item.href === href);
+      if (idx >= 0) {
+        list.splice(idx, 1);
+      } else {
+        list.unshift({ href, title, book: bookTitle, accent });
+      }
+      writeBookmarks(list);
+      syncBookmarksUI();
+    }
+  });
+
+  // Track reading progress & last-read concept on book pages
+  const conceptCards = Array.from(document.querySelectorAll('.concept-card[data-concept-id]'));
+  function updateReadingState() {
+    const bar = document.getElementById('reading-progress');
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = total > 0 ? Math.min(100, Math.max(0, (window.scrollY / total) * 100)) : 0;
+    if (bar) bar.style.width = pct.toFixed(1) + '%';
+
+    if (conceptCards.length) {
+      let activeCard = conceptCards[0];
+      for (const card of conceptCards) {
+        if (card.getBoundingClientRect().top <= 160) {
+          activeCard = card;
+        }
+      }
+      const page = currentPageFile();
+      const id = activeCard.getAttribute('data-concept-id');
+      const title = activeCard.getAttribute('data-concept-title');
+      const bookLabel = document.body.getAttribute('data-book-label') || document.title;
+      localStorage.setItem(LAST_READ_KEY, JSON.stringify({
+        href: page + '#' + id,
+        bookHref: page,
+        book: bookLabel,
+        title: title,
+        pct: Math.round(pct),
+      }));
+    }
+  }
+
+  window.addEventListener('scroll', updateReadingState, { passive: true });
+  if (conceptCards.length) {
+    updateReadingState();
+  }
+
+  // PWA Service Worker registration & Install button
+  const statusPill = document.getElementById('pwa-status-pill');
+  const installBtn = document.getElementById('pwa-install-btn');
+  let deferredInstallPrompt = null;
+
+  function refreshConnectionStatus(cachedReady) {
+    if (!statusPill) return;
+    if (!navigator.onLine) {
+      statusPill.hidden = false;
+      statusPill.classList.add('is-offline');
+      statusPill.textContent = 'Offline Mode';
+    } else if (cachedReady) {
+      statusPill.hidden = false;
+      statusPill.classList.remove('is-offline');
+      statusPill.textContent = 'Offline Ready';
+    }
+  }
+
+  if ('serviceWorker' in navigator && (location.protocol === 'http:' || location.protocol === 'https:')) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').then((reg) => {
+        if (reg.active) {
+          refreshConnectionStatus(true);
+        }
+      }).catch(() => {});
+    });
+    navigator.serviceWorker.addEventListener('message', (event) => {
+      if (event.data && event.data.type === 'OFFLINE_READY') {
+        refreshConnectionStatus(true);
+      }
+    });
+    window.addEventListener('online', () => refreshConnectionStatus(true));
+    window.addEventListener('offline', () => refreshConnectionStatus(true));
+  }
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    if (installBtn) installBtn.hidden = false;
+  });
+
+  if (installBtn) {
+    installBtn.addEventListener('click', async () => {
+      if (!deferredInstallPrompt) return;
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      installBtn.hidden = true;
+    });
+  }
+
+  window.addEventListener('appinstalled', () => {
+    deferredInstallPrompt = null;
+    if (installBtn) installBtn.hidden = true;
+  });
+
+  syncButtons();
+  syncBookmarksUI();
+})();
+</script>
+</body>
+</html>

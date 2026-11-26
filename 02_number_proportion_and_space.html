@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="paper" data-size="md" style="--accent: #0d9488; --accent-soft: rgba(13, 148, 136, 0.12);">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book II: Number, Proportion, and Spatial Thinking</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#faf8f4" id="meta-theme-color" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Foundations" />
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
+  <style>
+:root {
+  --bg: #faf8f4;
+  --surface: #ffffff;
+  --surface-muted: #f3efe7;
+  --text: #1c1917;
+  --text-muted: #57534e;
+  --border: #e5dfd3;
+  --quote-bg: #f6f3ec;
+  --shadow: 0 8px 30px rgba(28, 25, 23, 0.06);
+  --font-serif: "Charter", "Georgia", "Cambria", "Times New Roman", serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --base-size: 18px;
+}
+
+html[data-theme="sepia"] {
+  --bg: #f4ecd8;
+  --surface: #fbf6ea;
+  --surface-muted: #ede2ca;
+  --text: #2c2219;
+  --text-muted: #695847;
+  --border: #dfd1b5;
+  --quote-bg: #f0e6d0;
+}
+
+html[data-theme="night"] {
+  --bg: #111318;
+  --surface: #181b22;
+  --surface-muted: #20242e;
+  --text: #e7e5e4;
+  --text-muted: #a8a29e;
+  --border: #2b303d;
+  --quote-bg: #1e232e;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+html[data-size="sm"] { --base-size: 16px; }
+html[data-size="md"] { --base-size: 18px; }
+html[data-size="lg"] { --base-size: 20px; }
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.7;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+a {
+  color: var(--accent, #2563eb);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+#reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--accent, #2563eb);
+  z-index: 1000;
+  transition: width 0.08s linear;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 1.5rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+}
+
+.topbar-left, .topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.pill-btn, .pill-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.38rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+.pill-btn:hover, .pill-link:hover {
+  border-color: var(--accent, #2563eb);
+  text-decoration: none;
+}
+.pill-btn.active {
+  background: var(--accent, #2563eb);
+  color: #ffffff;
+  border-color: var(--accent, #2563eb);
+}
+
+.book-shell {
+  display: grid;
+  grid-template-columns: 290px minmax(0, 1fr);
+  max-width: 1320px;
+  margin: 0 auto;
+  gap: 2rem;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.sidebar {
+  position: sticky;
+  top: 4.5rem;
+  align-self: start;
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.15rem;
+  box-shadow: var(--shadow);
+}
+
+.sidebar-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 0.75rem;
+}
+
+.sidebar-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.sidebar-chapter > a {
+  display: block;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--text);
+  padding: 0.35rem 0.45rem;
+  border-radius: 8px;
+}
+.sidebar-chapter > a:hover {
+  background: var(--surface-muted);
+  text-decoration: none;
+}
+
+.sidebar-concepts {
+  list-style: none;
+  padding: 0.15rem 0 0.45rem 0.85rem;
+  margin: 0;
+  border-left: 2px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.sidebar-concepts a {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 0.18rem 0.35rem;
+  border-radius: 6px;
+}
+.sidebar-concepts a:hover {
+  color: var(--accent, #2563eb);
+  background: var(--surface-muted);
+  text-decoration: none;
+}
+
+.reader-column {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2.75rem clamp(1.35rem, 4vw, 3.75rem);
+  box-shadow: var(--shadow);
+  font-family: var(--font-serif);
+  font-size: var(--base-size);
+}
+
+.book-hero {
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 1.75rem;
+  margin-bottom: 2rem;
+}
+
+.volume-badge {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  margin-bottom: 0.9rem;
+}
+
+.book-hero h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.85rem, 3.2vw, 2.55rem);
+  line-height: 1.2;
+  margin: 0 0 0.85rem;
+}
+
+.book-meta-lines {
+  font-family: var(--font-sans);
+  font-size: 0.94rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.book-stats {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.book-stats span {
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.65rem;
+  border-radius: 8px;
+}
+
+.chapter-heading {
+  font-family: var(--font-sans);
+  font-size: 1.48rem;
+  line-height: 1.3;
+  margin: 2.4rem 0 0.9rem;
+  padding-top: 0.5rem;
+  color: var(--text);
+}
+
+.section-divider {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 2.25rem 0;
+}
+
+.concept-card {
+  margin: 1.75rem 0 2.25rem;
+  padding: 1.4rem 1.55rem;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--accent);
+  background: var(--surface);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+}
+
+.concept-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+}
+
+.concept-title {
+  font-family: var(--font-sans);
+  font-size: 1.18rem;
+  margin: 0;
+  color: var(--accent);
+}
+
+.bookmark-btn {
+  flex-shrink: 0;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.bookmark-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.bookmark-btn.saved {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  border: 1px solid rgba(22, 163, 74, 0.35);
+  background: rgba(22, 163, 74, 0.12);
+  color: #15803d;
+}
+html[data-theme="night"] .status-pill {
+  color: #4ade80;
+  border-color: rgba(74, 222, 128, 0.35);
+}
+.status-pill.is-offline {
+  border-color: rgba(217, 119, 6, 0.45);
+  background: rgba(217, 119, 6, 0.14);
+  color: #b45309;
+}
+html[data-theme="night"] .status-pill.is-offline {
+  color: #fbbf24;
+}
+.install-btn {
+  background: var(--accent, #2563eb);
+  color: #ffffff;
+  border-color: var(--accent, #2563eb);
+}
+.install-btn:hover { opacity: 0.92; }
+
+.isolated-definition {
+  margin: 0 0 1rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: 10px;
+  background: var(--quote-bg);
+  border-left: 3px solid var(--accent);
+  font-size: 1.02em;
+}
+
+.concept-part {
+  margin: 0.85rem 0;
+}
+
+.role-distinction {
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  background: var(--surface-muted);
+  font-size: 0.95em;
+}
+
+.toc-list, .concept-index-list {
+  padding-left: 1.25rem;
+}
+.toc-list li, .concept-index-list li {
+  margin: 0.4rem 0;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  margin: 1.25rem 0;
+}
+.distinctions-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+.distinctions-table th, .distinctions-table td {
+  border: 1px solid var(--border);
+  padding: 0.7rem 0.85rem;
+  text-align: left;
+  vertical-align: top;
+}
+.distinctions-table th {
+  background: var(--surface-muted);
+  font-weight: 700;
+}
+
+.self-check-list {
+  padding-left: 1.25rem;
+}
+.self-check-item {
+  margin: 1.1rem 0;
+}
+.question-text {
+  font-weight: 600;
+  margin-bottom: 0.45rem;
+}
+.answer-reveal {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.45rem 0.85rem;
+}
+.answer-reveal summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--accent);
+}
+.answer-body {
+  margin-top: 0.5rem;
+  color: var(--text);
+}
+
+.book-footer-nav {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-family: var(--font-sans);
+}
+
+@media (max-width: 960px) {
+  .book-shell {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    position: static;
+    max-height: none;
+  }
+}
+
+@media print {
+  .topbar, .sidebar, #reading-progress, .book-footer-nav, .bookmark-btn { display: none !important; }
+  .book-shell { display: block; padding: 0; }
+  .reader-column { border: 0; box-shadow: none; padding: 0; }
+  .concept-card { break-inside: avoid; }
+  .answer-reveal[open] summary { display: none; }
+}
+</style>
+</head>
+<body data-book-label="Book II: Number &amp; Space">
+  <div id="reading-progress"></div>
+  <header class="topbar">
+    <div class="topbar-left">
+      <a class="pill-link" href="index.html">&larr; Library Index</a>
+      <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">
+        Volume II &middot; Quantity &amp; Form
+      </span>
+      <span id="pwa-status-pill" class="status-pill" hidden>Offline Ready</span>
+    </div>
+    <div class="topbar-right">
+      <button type="button" id="pwa-install-btn" class="pill-btn install-btn" hidden>Install App</button>
+      <button type="button" class="pill-btn" data-set-size="sm">A-</button>
+      <button type="button" class="pill-btn" data-set-size="md">A</button>
+      <button type="button" class="pill-btn" data-set-size="lg">A+</button>
+      <button type="button" class="pill-btn" data-set-theme="paper">Paper</button>
+      <button type="button" class="pill-btn" data-set-theme="sepia">Sepia</button>
+      <button type="button" class="pill-btn" data-set-theme="night">Night</button>
+      <a class="pill-link" href="02_number_proportion_and_space.md">Markdown</a>
+    </div>
+  </header>
+
+  <div class="book-shell">
+    <aside class="sidebar">
+      <div class="sidebar-label">Isolated Concepts &amp; Chapters</div>
+      <ul class="sidebar-nav">
+<li class="sidebar-chapter">
+<a href="#core-thesis">Core Thesis</a>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-1-quantity-counting-and-place-value">Chapter 1: Quantity, Counting, and Place Value</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-11-cardinality-versus-ordinal-position">1.1: Cardinality Versus Ordinal Position</a></li>
+<li><a href="#concept-12-place-value-and-bundling-bases">1.2: Place Value and Bundling Bases</a></li>
+<li><a href="#concept-13-zero-as-quantity-and-placeholder">1.3: Zero as Quantity and Placeholder</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-2-ratios-rates-and-percentages">Chapter 2: Ratios, Rates, and Percentages</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-21-ratios-as-relative-balance">2.1: Ratios as Relative Balance</a></li>
+<li><a href="#concept-22-rates-change-per-unit">2.2: Rates (Change Per Unit)</a></li>
+<li><a href="#concept-23-percentages-and-shifting-baselines">2.3: Percentages and Shifting Baselines</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-3-linear-growth-versus-compound-growth">Chapter 3: Linear Growth Versus Compound Growth</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-31-linear-additive-growth">3.1: Linear (Additive) Growth</a></li>
+<li><a href="#concept-32-compound-multiplicative-growth">3.2: Compound (Multiplicative) Growth</a></li>
+<li><a href="#concept-33-scaling-laws-length-surface-and-volume">3.3: Scaling Laws (Length, Surface, and Volume)</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-4-dimension-shape-and-spatial-invariance">Chapter 4: Dimension, Shape, and Spatial Invariance</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-41-spatial-dimensions-zero-to-three-and-beyond">4.1: Spatial Dimensions (Zero to Three and Beyond)</a></li>
+<li><a href="#concept-42-symmetry-and-conservation-under-motion">4.2: Symmetry and Conservation Under Motion</a></li>
+<li><a href="#concept-43-topological-invariance-stretching-without-tearing">4.3: Topological Invariance (Stretching Without Tearing)</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-5-averages-spread-and-everyday-uncertainty">Chapter 5: Averages, Spread, and Everyday Uncertainty</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-51-mean-versus-median">5.1: Mean Versus Median</a></li>
+<li><a href="#concept-52-spread-and-variability">5.2: Spread and Variability</a></li>
+<li><a href="#concept-53-regression-to-the-typical">5.3: Regression to the Typical</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#key-distinctions-at-a-glance">Key Distinctions at a Glance</a>
+</li>
+<li class="sidebar-chapter">
+<a href="#plain-english-concept-index">Plain-English Concept Index</a>
+</li>
+<li class="sidebar-chapter">
+<a href="#self-check-questions">Self-Check Questions</a>
+</li>
+</ul>
+    </aside>
+
+    <main class="reader-column">
+      <section class="book-hero">
+        <div class="volume-badge">Plain-English Foundations &middot; Book II</div>
+        <h1>Book II: Number, Proportion, and Spatial Thinking</h1>
+        <div class="book-meta-lines"><div><strong>Series:</strong> The Plain-English Foundations Library — Volume II</div>
+<div><strong>Focus:</strong> Quantitative intuition, place value, rates, growth, spatial dimensions, and uncertainty — isolated entirely in clear English prose without equations or symbolic shorthand.</div></div>
+        <div class="book-stats">
+          <span>15 Isolated Concepts</span>
+          <span>~5,086 Words</span>
+          <span>~24 Min Read</span>
+          <span>Zero Code &middot; Plain English</span>
+        </div>
+      </section>
+
+      <hr class="section-divider" />
+<h2 id="core-thesis" class="chapter-heading">Core Thesis</h2>
+<p>Mathematics is often taught as a foreign script of symbols to memorize and push around a page. Behind those symbols, however, sits a surprisingly intuitive set of everyday ideas about quantity, balance, comparison, shape, and chance. When we strip away compressed shorthand and explain each quantitative concept directly in plain English, numbers stop looking like magic tricks and start acting like clear tools for seeing the world accurately.</p>
+<hr class="section-divider" />
+<h2 id="table-of-contents" class="chapter-heading">Table of Contents</h2>
+<ul class="toc-list"><li><a href="#chapter-1-quantity-counting-and-place-value">Chapter 1: Quantity, Counting, and Place Value</a></li><li><a href="#chapter-2-ratios-rates-and-percentages">Chapter 2: Ratios, Rates, and Percentages</a></li><li><a href="#chapter-3-linear-growth-versus-compound-growth">Chapter 3: Linear Growth Versus Compound Growth</a></li><li><a href="#chapter-4-dimension-shape-and-spatial-invariance">Chapter 4: Dimension, Shape, and Spatial Invariance</a></li><li><a href="#chapter-5-averages-spread-and-everyday-uncertainty">Chapter 5: Averages, Spread, and Everyday Uncertainty</a></li><li><a href="#key-distinctions-at-a-glance">Key Distinctions at a Glance</a></li><li><a href="#plain-english-concept-index">Plain-English Concept Index</a></li><li><a href="#self-check-questions">Self-Check Questions</a></li></ul>
+<hr class="section-divider" />
+<h2 id="chapter-1-quantity-counting-and-place-value" class="chapter-heading">Chapter 1: Quantity, Counting, and Place Value</h2>
+<p>Before humans ever wrote down numbers, they matched pebbles to sheep—one stone per animal. Moving from tally marks to modern counting required two brilliant breakthroughs: grouping quantities into tidy bundles, and inventing a symbol to mark an empty bundle.</p>
+<article id="concept-11-cardinality-versus-ordinal-position" class="concept-card" data-concept-id="concept-11-cardinality-versus-ordinal-position" data-concept-title="Concept 1.1: Cardinality Versus Ordinal Position">
+<div class="concept-header-row"><h3 class="concept-title">Concept 1.1: Cardinality Versus Ordinal Position</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-11-cardinality-versus-ordinal-position" data-bookmark-title="Concept 1.1: Cardinality Versus Ordinal Position" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Cardinality tells you how many items are in a group altogether; ordinality tells you a specific item's rank or position along an ordered line.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Think of a row of numbered lockers. "Twelve lockers" describes the size of the whole group (cardinality). "Locker number twelve" points to one particular door standing at the end of the row (ordinality).</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> We use number words for two completely different jobs in everyday English. When you say, "Three runners finished the race," you are measuring a total count—that is cardinality. When you say, "She finished in third place," you are pointing to an ordered spot—that is ordinality. Separating total amount from position prevents silly misunderstandings, such as forgetting that between the third floor and the first floor there are only two flights of stairs, not three, because counting intervals is different from naming floor numbers.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> A hotel hallway has rooms numbered one through ten. Room ten is an ordinal label identifying a door, whereas saying the wing holds ten rooms states a cardinal total. Notice that a calendar date like "November twenty-fifth" is ordinal—it marks the twenty-fifth slot in the month, not twenty-five separate Novembers.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Arbitrary labels.</strong> A player wearing jersey number twenty-four is neither twenty-four players nor necessarily twenty-fourth in line; the number is simply a name tag.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-12-place-value-and-bundling-bases" class="concept-card" data-concept-id="concept-12-place-value-and-bundling-bases" data-concept-title="Concept 1.2: Place Value and Bundling Bases">
+<div class="concept-header-row"><h3 class="concept-title">Concept 1.2: Place Value and Bundling Bases</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-12-place-value-and-bundling-bases" data-bookmark-title="Concept 1.2: Place Value and Bundling Bases" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Place value is the idea that the exact same digit changes its worth depending on which column it sits in, because each column to the left represents one larger bundle size.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Picture a cashier's drawer with trays for single dollar bills, bundles of ten bills, bundles of one hundred bills, and bundles of one thousand. Writing a digit in the middle slot tells you how many ten-dollar bundles you hold, not how many loose singles.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Roman numerals required brand-new symbols whenever numbers got huge—one mark for one, another for ten, another for fifty, another for a hundred. Place value solved that forever with a small handful of digits. In our usual base-ten system—inspired by having ten fingers—each step left multiplies a bundle by ten: singles, tens, hundreds, thousands. Yet ten is merely a historical habit, not a law of nature. Computers group everything in pairs (base two), clocks group seconds and minutes in sixties, and bakeries pack eggs in dozens (base twelve). What stays constant across every base is the bundling rule: once a tray fills up, you trade the whole tray for one token in the next tray to the left.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Think of time on a digital stopwatch. Sixty seconds fill up and carry over as one minute; sixty minutes fill up and carry over as one hour. You have used mixed place-value bundling your entire life without calling it math.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>The digit itself.</strong> The character "five" does not always mean five single apples; inside "five hundred and two," that same digit represents five giant crates of one hundred apples each.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-13-zero-as-quantity-and-placeholder" class="concept-card" data-concept-id="concept-13-zero-as-quantity-and-placeholder" data-concept-title="Concept 1.3: Zero as Quantity and Placeholder">
+<div class="concept-header-row"><h3 class="concept-title">Concept 1.3: Zero as Quantity and Placeholder</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-13-zero-as-quantity-and-placeholder" data-bookmark-title="Concept 1.3: Zero as Quantity and Placeholder" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Zero serves both as a quantity meaning complete absence and as a positional placeholder that keeps higher columns from collapsing into lower ones.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Picture an empty chair kept in the middle of a theater row so everyone sitting to the left knows they are still in seats four and five rather than sliding down into seats two and three.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Ancient civilizations easily understood "nothing left in the basket," yet took centuries to realize zero needed its own written mark. Why? Because without a placeholder mark, "two hundred and five" looks identical to "twenty-five"—both have a two and a five! Writing a zero in the middle slot says clearly: <em>there are zero tens here, so keep the two firmly in the hundreds place</em>. Once zero became a full-fledged citizen among numbers, arithmetic became uniform, subtraction could cross below nothing into debt, and clear measurement scales gained a clean origin point.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Look at a car's mileage counter reading "three zero four." The zero in the middle announces there are no full ten-mile bundles beyond three hundred, holding the three in the hundreds wheel so it isn't misread as thirty-four.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Missing information.</strong> Recording "zero dollars spent today" means you actually checked and spent nothing; leaving the ledger blank means nobody recorded what happened at all.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="chapter-2-ratios-rates-and-percentages" class="chapter-heading">Chapter 2: Ratios, Rates, and Percentages</h2>
+<p>Raw counts often lie by omission. Hearing that one town had fifty traffic accidents and another had five hundred sounds alarming until you learn whether the second town has twenty times as many drivers. Comparison requires ratios and rates.</p>
+<article id="concept-21-ratios-as-relative-balance" class="concept-card" data-concept-id="concept-21-ratios-as-relative-balance" data-concept-title="Concept 2.1: Ratios as Relative Balance">
+<div class="concept-header-row"><h3 class="concept-title">Concept 2.1: Ratios as Relative Balance</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-21-ratios-as-relative-balance" data-bookmark-title="Concept 2.1: Ratios as Relative Balance" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> A ratio expresses how big one quantity is relative to another quantity, preserving the balance between them even when both grow or shrink together.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Think of mixing orange juice from concentrate: one can of frozen juice paired with three cans of cold water. Whether you make one pitcher or ten giant party vats, the flavor stays identical as long as you keep that one-to-three balance.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> People constantly confuse <em>absolute difference</em> with <em>relative ratio</em>. Adding ten dollars to a twenty-dollar bill grows your money by half again; adding ten dollars to ten thousand dollars barely makes a ripple. Ratios capture scale-free proportion—how things compare side by side regardless of total size. Architects shrink a skyscraper onto a blueprint while keeping every hallway and window in the exact same ratio so the shape doesn't distort.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> A recipe calls for two cups of flour for every one cup of milk. If your family doubles the batch, you need four cups of flour and two cups of milk. The totals changed, yet the ratio of two to one remained untouched.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Subtraction differences.</strong> Knowing that Team A scored two more points than Team B means one thing in soccer (three to one) and quite another in basketball (one hundred and two to one hundred).</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-22-rates-change-per-unit" class="concept-card" data-concept-id="concept-22-rates-change-per-unit" data-concept-title="Concept 2.2: Rates (Change Per Unit)">
+<div class="concept-header-row"><h3 class="concept-title">Concept 2.2: Rates (Change Per Unit)</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-22-rates-change-per-unit" data-bookmark-title="Concept 2.2: Rates (Change Per Unit)" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> A rate is a ratio comparing two measurements of completely different kinds—most often tracking how much of something happens per unit of time, distance, or cost.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Think of a car's speedometer: it does not tell you how far you have driven overall, nor how long you have been on the road. It tells you how many miles you would cover <em>for each single hour</em> at your current pace.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Whenever you hear the word "per"—miles per gallon, dollars per hour, heartbeats per minute, rainfall per day—you are looking at a rate. Rates allow fair comparisons across unequal spans. If one worker finishes twelve shirts in two hours and another finishes fifteen shirts in three hours, raw totals make the second worker look faster until you compute the hourly rate: six shirts per hour beats five shirts per hour.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> At the grocery store, a small box of cereal costs three dollars for ten ounces, while a family box costs five dollars for twenty ounces. Converting both to a unit rate—thirty cents per ounce versus twenty-five cents per ounce—reveals which box actually gives you more food per dollar.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Accumulated total.</strong> A bathtub faucet pouring rapidly (high rate) can still contain very little water if you only turned it on two seconds ago (small total).</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-23-percentages-and-shifting-baselines" class="concept-card" data-concept-id="concept-23-percentages-and-shifting-baselines" data-concept-title="Concept 2.3: Percentages and Shifting Baselines">
+<div class="concept-header-row"><h3 class="concept-title">Concept 2.3: Percentages and Shifting Baselines</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-23-percentages-and-shifting-baselines" data-bookmark-title="Concept 2.3: Percentages and Shifting Baselines" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> A percentage turns any ratio into parts out of one hundred, making unequal totals easy to compare—provided you never lose track of what the starting "one hundred percent" baseline refers to.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Imagine slicing every pizza in town—whether tiny personal pies or giant party wheels—into one hundred equal slivers so you can compare "thirty percent eaten" cleanly across different sizes.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Because percentages standardize everything out of a hundred, they are wonderfully readable—and dangerously easy to misuse when the baseline changes mid-sentence. Watch carefully: if a hundred-dollar jacket goes up by fifty percent, it now costs one hundred and fifty dollars. If the store later marks it "fifty percent off," the discount applies to the <em>new</em> hundred-and-fifty-dollar price, dropping it to seventy-five dollars—not back to a hundred! Going up by half and down by half do not cancel out, because the starting baseline grew in between. Similarly, a jump from two percent to four percent is a two-percentage-point rise, yet a full hundred-percent doubling of the rate.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> An investor loses fifty percent of her savings during a downturn, dropping from a thousand dollars to five hundred. To climb back to a thousand dollars, she now needs a one-hundred-percent gain—doubling her remaining five hundred—not another fifty-percent gain.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Percentage points.</strong> Moving an interest rate from five percent to six percent is a gain of <em>one percentage point</em>, which represents a <em>twenty percent</em> relative jump in your interest charge.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="chapter-3-linear-growth-versus-compound-growth" class="chapter-heading">Chapter 3: Linear Growth Versus Compound Growth</h2>
+<p>Human intuition expects the world to grow at a steady pace—step by step, adding the same amount each day. Yet nature, finance, disease, and knowledge frequently grow by multiplying themselves, producing results that feel impossibly slow at first and overwhelming soon after.</p>
+<article id="concept-31-linear-additive-growth" class="concept-card" data-concept-id="concept-31-linear-additive-growth" data-concept-title="Concept 3.1: Linear (Additive) Growth">
+<div class="concept-header-row"><h3 class="concept-title">Concept 3.1: Linear (Additive) Growth</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-31-linear-additive-growth" data-bookmark-title="Concept 3.1: Linear (Additive) Growth" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Linear growth adds the exact same fixed amount during every equal stretch of time, forming a steady, predictable climb.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Picture climbing a straight staircase where every single step rises the exact same eight inches higher than the step below it. Whether you are on step three or step three hundred, the next step lifts you by eight inches.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Linear processes are straightforward because today's size never speeds up tomorrow's addition. If you drop twenty dollars into a glass jar every Friday, after one year you have fifty-two twenties; after two years, double that. Nothing sitting inside the jar helps earn more coins. Many everyday tasks behave linearly: walking at a steady speed, painting a fence at a fixed pace, or draining a pool through a constant pipe.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> A salaried worker earns three hundred dollars per shift. Five shifts bring fifteen hundred dollars; ten shifts bring three thousand. Each extra shift adds the same flat slice.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Rapid absolute size.</strong> Even a steep linear climb—adding ten thousand dollars a day—eventually falls behind even a tiny compounding rate if given enough time.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-32-compound-multiplicative-growth" class="concept-card" data-concept-id="concept-32-compound-multiplicative-growth" data-concept-title="Concept 3.2: Compound (Multiplicative) Growth">
+<div class="concept-header-row"><h3 class="concept-title">Concept 3.2: Compound (Multiplicative) Growth</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-32-compound-multiplicative-growth" data-bookmark-title="Concept 3.2: Compound (Multiplicative) Growth" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Compound growth happens when the growth itself generates further growth, multiplying the existing total by a steady percentage in every cycle.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Imagine a single lily pad on a quiet pond that doubles its area every day. On day one there is one pad, then two, then four, then eight. By the twenty-ninth day the pond is only half covered—and on the very next day, the thirtieth, it fills completely to the shore.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Compounding feels invisible at the start because multiplying small numbers yields small increases. Over long stretches, however, the curve bends sharply upward. Compound interest turns modest savings into substantial wealth over decades—and turns unpaid high-interest credit card debt into a runaway avalanche just as ruthlessly. The same force drives contagious outbreaks, viral rumors, and biological cell division: every newly created copy immediately becomes a fresh engine making more copies of its own.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> A savings account earning roughly seven percent a year doubles every ten years without adding another dime. Put in a thousand dollars at age twenty: by thirty it becomes two thousand; by forty, four thousand; by fifty, eight thousand; by sixty, sixteen thousand. Most of the final growth happens in the last decade.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Boundless growth in the real world.</strong> On paper, doubling continues forever; in physical reality, bacteria run out of sugar, rumors run out of ears, and lily pads hit the edge of the pond.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-33-scaling-laws-length-surface-and-volume" class="concept-card" data-concept-id="concept-33-scaling-laws-length-surface-and-volume" data-concept-title="Concept 3.3: Scaling Laws (Length, Surface, and Volume)">
+<div class="concept-header-row"><h3 class="concept-title">Concept 3.3: Scaling Laws (Length, Surface, and Volume)</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-33-scaling-laws-length-surface-and-volume" data-bookmark-title="Concept 3.3: Scaling Laws (Length, Surface, and Volume)" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> When an object grows proportionally in all directions, its outer surface grows much faster than its length, and its inside volume and weight grow far faster still.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Think of a plain wooden sugar cube. If you build a giant sugar cube twice as wide, twice as tall, and twice as deep, it takes four times as much paint to coat the outside—yet requires eight times as much sugar to pack the inside.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> One of the biggest reasons tiny gadgets cannot simply be scaled up to house size—or why ants cannot grow to the size of elephants—is mismatched geometric scaling. Strength of bones and cables depends on their cross-sectional area, while body weight depends on total volume. Double an animal's height and keep its shape identical, and its weight multiplies eightfold while its bone area only multiplies fourfold, snapping its legs under its own mass. That is why elephants have thick, pillar-like legs compared to the thread-thin legs of a spider, and why giant skyscrapers need entirely different framing strategies than backyard sheds.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Bake a tiny cupcake and a giant wedding cake in the same oven. The big cake takes far longer to cook through and burns outside if you aren't careful, because its interior volume grew dramatically while its outer crust surface grew more modestly, leaving heat with fewer square inches of skin per pound of batter.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Proportional scaling of weight.</strong> Doubling every side of a shipping box does <em>not</em> double how much packing peanuts fit inside—it multiplies the volume by eight.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="chapter-4-dimension-shape-and-spatial-invariance" class="chapter-heading">Chapter 4: Dimension, Shape, and Spatial Invariance</h2>
+<p>Geometry begins long before protractors and rulers. At heart, spatial thinking asks two clear questions: <em>How many independent directions can I move in?</em> and <em>What properties of a shape refuse to change even when I twist, stretch, or view it differently?</em></p>
+<article id="concept-41-spatial-dimensions-zero-to-three-and-beyond" class="concept-card" data-concept-id="concept-41-spatial-dimensions-zero-to-three-and-beyond" data-concept-title="Concept 4.1: Spatial Dimensions (Zero to Three and Beyond)">
+<div class="concept-header-row"><h3 class="concept-title">Concept 4.1: Spatial Dimensions (Zero to Three and Beyond)</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-41-spatial-dimensions-zero-to-three-and-beyond" data-bookmark-title="Concept 4.1: Spatial Dimensions (Zero to Three and Beyond)" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Dimension counts the minimum number of independent directions you need to specify an exact location inside a space.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> A dot sits frozen with zero directions to roam. An ant walking along a tightrope can only step forward or backward (one dimension). An ant roaming a tabletop can go forward-back and left-right (two dimensions). A bee flying inside a room adds up-down (three dimensions).</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Each added dimension opens an entirely new direction at right angles to all previous ones. Points have zero extent; line segments bridge two points to form length; triangles and squares enclose flat surface area; pyramids and cubes trap three-dimensional volume. Even when mathematicians speak of a fourth or higher dimension, they are rarely picturing ghosts—they are simply adding another independent measurement axis, such as tracking height, width, depth, <em>and</em> time or temperature together to describe a system completely.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> To meet a friend at a coffee shop inside a tall skyscraper, you need three coordinates: street (east-west), avenue (north-south), and floor number (up-down). Missing any one of those three leaves your friend wandering in the wrong spot.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Size.</strong> A razor-thin sheet of aluminum foil spanning a football field is still effectively a two-dimensional surface, whereas a tiny pebble smaller than your fingernail occupies full three-dimensional space.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-42-symmetry-and-conservation-under-motion" class="concept-card" data-concept-id="concept-42-symmetry-and-conservation-under-motion" data-concept-title="Concept 4.2: Symmetry and Conservation Under Motion">
+<div class="concept-header-row"><h3 class="concept-title">Concept 4.2: Symmetry and Conservation Under Motion</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-42-symmetry-and-conservation-under-motion" data-bookmark-title="Concept 4.2: Symmetry and Conservation Under Motion" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Symmetry means a shape or pattern looks identical after you perform a specific motion—such as flipping it in a mirror, sliding it along a rail, or rotating it by a turn.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Take a square coaster on a table and close your eyes while a friend turns it a quarter-turn clockwise. When you open your eyes, you cannot tell anything moved. That unchanged appearance under rotation is symmetry.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Symmetry is much deeper than decorative wallpaper. Whenever something stays unchanged while you move, rotate, or reflect it, that stubborn sameness reveals an underlying structure. A smooth round ball looks identical from every viewing angle; a starfish looks identical across five rotated positions; your left hand and right hand share mirror symmetry—identical shapes in reverse orientation, like a shoe and its twin that cannot swap feet. In physics and engineering, symmetrical designs distribute stress evenly and make complex predictions drastically simpler.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Try putting a symmetrical rectangle key or a modern reversible charging plug into a slot: flipping it upside down leaves the shape unchanged, so it fits either way without thinking. An asymmetrical house key fits only right-side up.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Identical copies.</strong> A left glove and a right glove are symmetric mirror images of each other, yet no amount of turning a left glove on a table will ever turn it into a right glove.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-43-topological-invariance-stretching-without-tearing" class="concept-card" data-concept-id="concept-43-topological-invariance-stretching-without-tearing" data-concept-title="Concept 4.3: Topological Invariance (Stretching Without Tearing)">
+<div class="concept-header-row"><h3 class="concept-title">Concept 4.3: Topological Invariance (Stretching Without Tearing)</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-43-topological-invariance-stretching-without-tearing" data-bookmark-title="Concept 4.3: Topological Invariance (Stretching Without Tearing)" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Topological invariance looks for properties of a shape—especially connectedness and the number of holes—that survive any smooth stretching, bending, or squishing as long as nothing is torn or glued together.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Imagine sculpting out of endlessly stretchy rubber clay. You can squish a round ball into a banana, a cube, or a lumpy potato without cutting or poking holes—so to topology, all of them are the exact same object. Yet you can never squish a solid ball into a doughnut without punching a hole right through the middle.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Everyday geometry cares deeply about rigid lengths and sharp corners: is this triangle equal on all sides? Is that wall strictly perpendicular? Topology deliberately ignores ruler lengths and corner angles to isolate something tougher: <em>how pieces connect</em>. A coffee mug with one handle and a ring-shaped doughnut both contain exactly one through-hole, so a stretchy clay doughnut can be smoothly molded into a coffee mug without cutting. Meanwhile, a London subway map distorts true street miles wildly, yet stays completely accurate for riders because it preserves the <em>connections</em> between stations—which is pure topological invariance at work.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Put on a pair of jeans or a button-down shirt. Your torso and legs bend into countless angles every hour, shifting every length and curve—yet the openings (waist, ankles, cuffs, collar) stay connected the same way unless you rip a seam.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Rigid shape.</strong> Two coffee mugs of different sizes are different in rigid geometry, yet identical in topology; meanwhile, a straw and a solid pencil have similar cylinder shapes outside, yet differ topologically because the straw has a tunnel all the way through.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="chapter-5-averages-spread-and-everyday-uncertainty" class="chapter-heading">Chapter 5: Averages, Spread, and Everyday Uncertainty</h2>
+<p>Life rarely gives us single, identical measurements. People's heights differ, train arrival times wobble, and coin flips cluster unexpectedly. Thinking clearly about variation protects us from being fooled by misleading summaries.</p>
+<article id="concept-51-mean-versus-median" class="concept-card" data-concept-id="concept-51-mean-versus-median" data-concept-title="Concept 5.1: Mean Versus Median">
+<div class="concept-header-row"><h3 class="concept-title">Concept 5.1: Mean Versus Median</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-51-mean-versus-median" data-bookmark-title="Concept 5.1: Mean Versus Median" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> The mean adds every value together and divides evenly across all items; the median lines every value up from smallest to largest and picks the middle item sitting right in the center.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Picture ten ordinary shoppers sitting inside a quiet cafe, each earning a modest wage. Suddenly a billionaire walks in for coffee. The <em>mean</em> income inside the cafe shoots up into hundreds of millions of dollars per person, even though nobody at the original tables got richer. The <em>median</em> person's income barely budges at all.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Both mean and median try to answer "What is typical here?", yet they behave very differently when a few extreme outliers exist. When values cluster fairly symmetrically—like adult shoe sizes or bottle fills on a reliable factory line—the mean and median sit close together. Whenever wealth, home prices, hospital bills, or social media followers skew wildly toward a handful of towering extremes, the mean gets dragged upward into fantasy, while the median stays grounded with the person in the middle.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Suppose five houses on a street sell for around two hundred thousand dollars each, and a sixth cliffside mansion down the block sells for ten million. Saying "the average house on this street sells for over one point eight million" (the mean) misleads buyers completely, whereas the median reveals what a typical home actually costs.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Guarantee of seeing the average.</strong> A family with the "average" of roughly two children might still have zero, one, or five kids; and the average between zero degrees freezing and a hundred degrees boiling is fifty, yet you rarely get comfortable at both extremes simultaneously.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-52-spread-and-variability" class="concept-card" data-concept-id="concept-52-spread-and-variability" data-concept-title="Concept 5.2: Spread and Variability">
+<div class="concept-header-row"><h3 class="concept-title">Concept 5.2: Spread and Variability</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-52-spread-and-variability" data-bookmark-title="Concept 5.2: Spread and Variability" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Spread measures how tightly individual values huddle around the middle or how wildly they scatter toward high and low extremes.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> You can drown in a river whose <em>average</em> depth is only three feet—if most of the crossing is ankle-deep mud and a narrow center trench plunges twenty feet down. Knowing the average without knowing the spread hides the danger.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Two cities can share the exact same average yearly temperature of sixty degrees: one stays pleasantly mild between fifty-five and sixty-five all year, while the other swings from twenty below zero in January to one hundred and ten in July. Packing a suitcase based solely on the annual average would leave you miserable in the high-spread city. Understanding spread means asking not just <em>Where is the center?</em> but also <em>How wide is the range from typical highs to typical lows?</em></p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Two bus routes both average twenty minutes to work. Route A consistently takes between eighteen and twenty-two minutes; Route B arrives in ten minutes half the time and takes thirty minutes the other half. If you have an unmissable morning meeting, low spread matters far more than shaving off two average minutes.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Inaccuracy of measurement.</strong> High spread often reflects genuine diversity inside a group (tall and short basketball players), not a broken tape measure.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-53-regression-to-the-typical" class="concept-card" data-concept-id="concept-53-regression-to-the-typical" data-concept-title="Concept 5.3: Regression to the Typical">
+<div class="concept-header-row"><h3 class="concept-title">Concept 5.3: Regression to the Typical</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-53-regression-to-the-typical" data-bookmark-title="Concept 5.3: Regression to the Typical" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> When results depend on a mix of steady ability and temporary luck, an unusually extreme performance is very likely to be followed by a more ordinary performance closer to the long-run typical level.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Suppose an archer normally hits near the inner rings, yet thanks to a lucky tailwind hits the dead-center pin twice in a row. On her next shot, the lucky tailwind probably won't line up perfectly again—so her arrow drifts closer back to her normal ring, not because she suddenly got worse, but because extreme luck rarely repeats back-to-back.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> People invent elaborate stories to explain completely natural bounce-backs. A sports rookie has a sensational debut season and lands on a magazine cover; the next year he cools off slightly to his true solid level, and fans blame a "magazine curse." A manager yells furiously at an employee right after the employee has their worst day of the year, the employee bounces back to normal the next day, and the manager falsely credits yelling—while praising an employee after a lucky career-best day appears to backfire when the next day returns to normal. Separating true skill shifts from natural swings around a baseline prevents both false praise and unfair blame.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> A student who normally earns low B grades pulls off a surprise one-hundred score on one quiz because every question happened to match the three chapters she crammed last night. Scoring eighty-six on the next test isn't a sign of laziness—it is simply a return toward her real average preparation.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Everything becoming identical over time.</strong> Overall variety across a group stays wide; what drifts back toward the middle are <em>repeat measurements</em> on whichever individuals happened to land at the extreme edges on round one.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="key-distinctions-at-a-glance" class="chapter-heading">Key Distinctions at a Glance</h2>
+<div class="table-wrap"><table class="distinctions-table"><thead><tr><th>Concept Pair</th><th>First Concept in Plain English</th><th>Second Concept in Plain English</th><th>Why Isolating Them Matters</th></tr></thead><tbody><tr><td><strong>Cardinality vs. Ordinality</strong></td><td>Counts <em>how many</em> items are in a set.</td><td>Names <em>which rank or spot</em> an item holds in line.</td><td>Stops off-by-one counting errors between slots and gaps.</td></tr><tr><td><strong>Absolute Difference vs. Ratio</strong></td><td>Subtracts one raw total from another.</td><td>Compares relative size or balance between two values.</td><td>Adding ten dollars matters vastly more when you have five dollars than five thousand.</td></tr><tr><td><strong>Linear vs. Compound Growth</strong></td><td>Adds a steady fixed slice each period.</td><td>Multiplies the current total by a steady percentage each period.</td><td>Compound growth looks quiet early and explosive late, catching people off guard.</td></tr><tr><td><strong>Mean vs. Median</strong></td><td>Adds all values and shares them equally.</td><td>Picks the middle item after sorting everyone in order.</td><td>A few massive outliers distort the mean while leaving the median faithful to typical cases.</td></tr><tr><td><strong>Rigid Geometry vs. Topology</strong></td><td>Preserves exact ruler lengths, angles, and sizes.</td><td>Preserves connectedness and holes while ignoring stretching.</td><td>Subway maps and network diagrams work precisely because they preserve connection, not miles.</td></tr></tbody></table></div>
+<hr class="section-divider" />
+<h2 id="plain-english-concept-index" class="chapter-heading">Plain-English Concept Index</h2>
+<ul class="concept-index-list"><li><strong>Base-Ten / Bundling Base:</strong> The group size at which loose units trade up into one higher place-value column.</li><li><strong>Cardinality:</strong> The total count of items inside a group.</li><li><strong>Compound Growth:</strong> Multiplication-driven growth in which previous gains themselves produce new gains.</li><li><strong>Dimension:</strong> The number of independent directions needed to locate a point in a space.</li><li><strong>Linear Growth:</strong> Addition-driven growth that rises by the same fixed increment in every equal interval.</li><li><strong>Mean:</strong> The equal-share arithmetic average found by summing all items and dividing by how many there are.</li><li><strong>Median:</strong> The center value separating the upper half of sorted items from the lower half.</li><li><strong>Ordinality:</strong> The rank or numbered position of an item in sequence.</li><li><strong>Percentage:</strong> A standardized ratio expressed as parts per hundred.</li><li><strong>Place Value:</strong> A numbering system where a digit's position multiplies its value by powers of a base bundle.</li><li><strong>Rate:</strong> A comparison linking two different types of quantities, such as distance per hour.</li><li><strong>Ratio:</strong> A relative balance between two amounts that stays intact when both scale together.</li><li><strong>Regression to the Typical:</strong> The tendency for extreme luck-influenced results to be followed by results closer to the baseline average.</li><li><strong>Scaling Law:</strong> The rule that volume grows dramatically faster than surface area or length as objects enlarge proportionally.</li><li><strong>Spread:</strong> How widely measurements scatter away from the center.</li><li><strong>Symmetry:</strong> Remaining unchanged after a structured motion such as rotation, reflection, or shift.</li><li><strong>Topological Invariance:</strong> Properties of connectedness and holes that survive smooth stretching without tearing.</li><li><strong>Zero (Placeholder):</strong> A symbol holding an empty bundle slot open so neighboring digits keep their true value.</li></ul>
+<hr class="section-divider" />
+<h2 id="self-check-questions" class="chapter-heading">Self-Check Questions</h2>
+<ol class="self-check-list"><li class="self-check-item"><div class="question-text"><strong>A store slashes a two-hundred-dollar coat by twenty-five percent, then adds a twenty-five-percent markup the following week. Is the coat back at two hundred dollars?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> No. Twenty-five percent off two hundred drops the price to one hundred and fifty. Adding twenty-five percent of <em>one hundred and fifty</em> only adds thirty-seven dollars and fifty cents, leaving the coat at one hundred eighty-seven dollars and fifty cents because the percentage baseline shrank.</div></details></li><li class="self-check-item"><div class="question-text"><strong>If you double the radius of a round water tank while keeping its proportions, why do you need eight times more water to fill it rather than twice as much?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> Length, width, and height all doubled together, multiplying capacity across three independent directions—resulting in eight times the volume.</div></details></li><li class="self-check-item"><div class="question-text"><strong>Why does a coffee mug match a doughnut in topology, even though their corners and shapes look completely different?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> Both are solid shapes pierced by a single continuous tunnel—the doughnut's center hole and the mug's handle loop—so stretchy clay can smoothly morph one into the other without cutting or gluing.</div></details></li><li class="self-check-item"><div class="question-text"><strong>Why should a homebuyer check median home prices rather than mean home prices in a coastal neighborhood?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> A handful of ultra-expensive beachfront estates pull the mean price sharply upward, whereas the median shows the price of the home right in the middle of the market.</div></details></li><li class="self-check-item"><div class="question-text"><strong>A city installs speed cameras at the five intersections that had record-high crashes last year, and crashes drop at those five spots the next year. Why must we be careful before giving the cameras all the credit?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> Because of regression to the typical: intersections picked solely for a freak spike year often drift partway back toward their normal crash rate the next year even with no intervention at all.</div></details></li></ol>
+
+      <nav class="book-footer-nav">
+        <div><a class="pill-link" href="01_logic_and_reasoning.html">&larr; Book I: Logic &amp; Reasoning</a></div>
+        <div><a class="pill-link" href="index.html">All Volumes</a></div>
+        <div><a class="pill-link" href="03_matter_energy_and_physics.html">Book III: Matter &amp; Energy &rarr;</a></div>
+      </nav>
+    </main>
+  </div>
+  <script>
+(function () {
+  const root = document.documentElement;
+  const THEME_COLORS = { paper: '#faf8f4', sepia: '#f4ecd8', night: '#111318' };
+  const BOOKMARKS_KEY = 'plain-books-bookmarks';
+  const LAST_READ_KEY = 'plain-books-last-read';
+  const savedTheme = localStorage.getItem('plain-books-theme') || 'paper';
+  const savedSize = localStorage.getItem('plain-books-size') || 'md';
+  root.setAttribute('data-theme', savedTheme);
+  root.setAttribute('data-size', savedSize);
+
+  function syncThemeMeta(theme) {
+    const meta = document.getElementById('meta-theme-color');
+    if (meta) meta.setAttribute('content', THEME_COLORS[theme] || '#faf8f4');
+  }
+
+  function syncButtons() {
+    const theme = root.getAttribute('data-theme');
+    const size = root.getAttribute('data-size');
+    syncThemeMeta(theme);
+    document.querySelectorAll('[data-set-theme]').forEach((btn) => {
+      btn.classList.toggle('active', btn.getAttribute('data-set-theme') === theme);
+    });
+    document.querySelectorAll('[data-set-size]').forEach((btn) => {
+      btn.classList.toggle('active', btn.getAttribute('data-set-size') === size);
+    });
+  }
+
+  function readBookmarks() {
+    try {
+      return JSON.parse(localStorage.getItem(BOOKMARKS_KEY) || '[]');
+    } catch {
+      return [];
+    }
+  }
+
+  function writeBookmarks(list) {
+    localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(list));
+    window.dispatchEvent(new CustomEvent('plain-books-bookmarks-changed'));
+  }
+
+  function currentPageFile() {
+    const parts = location.pathname.split('/');
+    const last = parts[parts.length - 1] || 'index.html';
+    return last.endsWith('.html') ? last : last + '.html';
+  }
+
+  function syncBookmarksUI() {
+    const page = currentPageFile();
+    const saved = readBookmarks();
+    const savedSet = new Set(saved.map((b) => b.href));
+    document.querySelectorAll('.bookmark-btn').forEach((btn) => {
+      const id = btn.getAttribute('data-bookmark-id');
+      const href = page + '#' + id;
+      const isSaved = savedSet.has(href);
+      btn.classList.toggle('saved', isSaved);
+      btn.setAttribute('aria-pressed', isSaved ? 'true' : 'false');
+      btn.textContent = isSaved ? 'Saved' : 'Bookmark';
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    const tBtn = e.target.closest('[data-set-theme]');
+    if (tBtn) {
+      const val = tBtn.getAttribute('data-set-theme');
+      root.setAttribute('data-theme', val);
+      localStorage.setItem('plain-books-theme', val);
+      syncButtons();
+    }
+    const sBtn = e.target.closest('[data-set-size]');
+    if (sBtn) {
+      const val = sBtn.getAttribute('data-set-size');
+      root.setAttribute('data-size', val);
+      localStorage.setItem('plain-books-size', val);
+      syncButtons();
+    }
+    const bBtn = e.target.closest('.bookmark-btn');
+    if (bBtn) {
+      const page = currentPageFile();
+      const id = bBtn.getAttribute('data-bookmark-id');
+      const title = bBtn.getAttribute('data-bookmark-title');
+      const bookTitle = document.body.getAttribute('data-book-label') || document.title;
+      const accent = getComputedStyle(root).getPropertyValue('--accent').trim() || '#2563eb';
+      const href = page + '#' + id;
+      const list = readBookmarks();
+      const idx = list.findIndex((item) => item.href === href);
+      if (idx >= 0) {
+        list.splice(idx, 1);
+      } else {
+        list.unshift({ href, title, book: bookTitle, accent });
+      }
+      writeBookmarks(list);
+      syncBookmarksUI();
+    }
+  });
+
+  // Track reading progress & last-read concept on book pages
+  const conceptCards = Array.from(document.querySelectorAll('.concept-card[data-concept-id]'));
+  function updateReadingState() {
+    const bar = document.getElementById('reading-progress');
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = total > 0 ? Math.min(100, Math.max(0, (window.scrollY / total) * 100)) : 0;
+    if (bar) bar.style.width = pct.toFixed(1) + '%';
+
+    if (conceptCards.length) {
+      let activeCard = conceptCards[0];
+      for (const card of conceptCards) {
+        if (card.getBoundingClientRect().top <= 160) {
+          activeCard = card;
+        }
+      }
+      const page = currentPageFile();
+      const id = activeCard.getAttribute('data-concept-id');
+      const title = activeCard.getAttribute('data-concept-title');
+      const bookLabel = document.body.getAttribute('data-book-label') || document.title;
+      localStorage.setItem(LAST_READ_KEY, JSON.stringify({
+        href: page + '#' + id,
+        bookHref: page,
+        book: bookLabel,
+        title: title,
+        pct: Math.round(pct),
+      }));
+    }
+  }
+
+  window.addEventListener('scroll', updateReadingState, { passive: true });
+  if (conceptCards.length) {
+    updateReadingState();
+  }
+
+  // PWA Service Worker registration & Install button
+  const statusPill = document.getElementById('pwa-status-pill');
+  const installBtn = document.getElementById('pwa-install-btn');
+  let deferredInstallPrompt = null;
+
+  function refreshConnectionStatus(cachedReady) {
+    if (!statusPill) return;
+    if (!navigator.onLine) {
+      statusPill.hidden = false;
+      statusPill.classList.add('is-offline');
+      statusPill.textContent = 'Offline Mode';
+    } else if (cachedReady) {
+      statusPill.hidden = false;
+      statusPill.classList.remove('is-offline');
+      statusPill.textContent = 'Offline Ready';
+    }
+  }
+
+  if ('serviceWorker' in navigator && (location.protocol === 'http:' || location.protocol === 'https:')) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').then((reg) => {
+        if (reg.active) {
+          refreshConnectionStatus(true);
+        }
+      }).catch(() => {});
+    });
+    navigator.serviceWorker.addEventListener('message', (event) => {
+      if (event.data && event.data.type === 'OFFLINE_READY') {
+        refreshConnectionStatus(true);
+      }
+    });
+    window.addEventListener('online', () => refreshConnectionStatus(true));
+    window.addEventListener('offline', () => refreshConnectionStatus(true));
+  }
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    if (installBtn) installBtn.hidden = false;
+  });
+
+  if (installBtn) {
+    installBtn.addEventListener('click', async () => {
+      if (!deferredInstallPrompt) return;
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      installBtn.hidden = true;
+    });
+  }
+
+  window.addEventListener('appinstalled', () => {
+    deferredInstallPrompt = null;
+    if (installBtn) installBtn.hidden = true;
+  });
+
+  syncButtons();
+  syncBookmarksUI();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="paper" data-size="md" style="--accent: #7c3aed; --accent-soft: rgba(124, 58, 237, 0.12);">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book V: Computation, Information, and Systems</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#faf8f4" id="meta-theme-color" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Foundations" />
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
+  <style>
+:root {
+  --bg: #faf8f4;
+  --surface: #ffffff;
+  --surface-muted: #f3efe7;
+  --text: #1c1917;
+  --text-muted: #57534e;
+  --border: #e5dfd3;
+  --quote-bg: #f6f3ec;
+  --shadow: 0 8px 30px rgba(28, 25, 23, 0.06);
+  --font-serif: "Charter", "Georgia", "Cambria", "Times New Roman", serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --base-size: 18px;
+}
+
+html[data-theme="sepia"] {
+  --bg: #f4ecd8;
+  --surface: #fbf6ea;
+  --surface-muted: #ede2ca;
+  --text: #2c2219;
+  --text-muted: #695847;
+  --border: #dfd1b5;
+  --quote-bg: #f0e6d0;
+}
+
+html[data-theme="night"] {
+  --bg: #111318;
+  --surface: #181b22;
+  --surface-muted: #20242e;
+  --text: #e7e5e4;
+  --text-muted: #a8a29e;
+  --border: #2b303d;
+  --quote-bg: #1e232e;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+html[data-size="sm"] { --base-size: 16px; }
+html[data-size="md"] { --base-size: 18px; }
+html[data-size="lg"] { --base-size: 20px; }
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.7;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+a {
+  color: var(--accent, #2563eb);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+#reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--accent, #2563eb);
+  z-index: 1000;
+  transition: width 0.08s linear;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 1.5rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(8px);
+}
+
+.topbar-left, .topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.pill-btn, .pill-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.38rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+.pill-btn:hover, .pill-link:hover {
+  border-color: var(--accent, #2563eb);
+  text-decoration: none;
+}
+.pill-btn.active {
+  background: var(--accent, #2563eb);
+  color: #ffffff;
+  border-color: var(--accent, #2563eb);
+}
+
+.book-shell {
+  display: grid;
+  grid-template-columns: 290px minmax(0, 1fr);
+  max-width: 1320px;
+  margin: 0 auto;
+  gap: 2rem;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.sidebar {
+  position: sticky;
+  top: 4.5rem;
+  align-self: start;
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.15rem;
+  box-shadow: var(--shadow);
+}
+
+.sidebar-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0 0 0.75rem;
+}
+
+.sidebar-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.sidebar-chapter > a {
+  display: block;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--text);
+  padding: 0.35rem 0.45rem;
+  border-radius: 8px;
+}
+.sidebar-chapter > a:hover {
+  background: var(--surface-muted);
+  text-decoration: none;
+}
+
+.sidebar-concepts {
+  list-style: none;
+  padding: 0.15rem 0 0.45rem 0.85rem;
+  margin: 0;
+  border-left: 2px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.sidebar-concepts a {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 0.18rem 0.35rem;
+  border-radius: 6px;
+}
+.sidebar-concepts a:hover {
+  color: var(--accent, #2563eb);
+  background: var(--surface-muted);
+  text-decoration: none;
+}
+
+.reader-column {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2.75rem clamp(1.35rem, 4vw, 3.75rem);
+  box-shadow: var(--shadow);
+  font-family: var(--font-serif);
+  font-size: var(--base-size);
+}
+
+.book-hero {
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 1.75rem;
+  margin-bottom: 2rem;
+}
+
+.volume-badge {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  margin-bottom: 0.9rem;
+}
+
+.book-hero h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.85rem, 3.2vw, 2.55rem);
+  line-height: 1.2;
+  margin: 0 0 0.85rem;
+}
+
+.book-meta-lines {
+  font-family: var(--font-sans);
+  font-size: 0.94rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.book-stats {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.book-stats span {
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.65rem;
+  border-radius: 8px;
+}
+
+.chapter-heading {
+  font-family: var(--font-sans);
+  font-size: 1.48rem;
+  line-height: 1.3;
+  margin: 2.4rem 0 0.9rem;
+  padding-top: 0.5rem;
+  color: var(--text);
+}
+
+.section-divider {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 2.25rem 0;
+}
+
+.concept-card {
+  margin: 1.75rem 0 2.25rem;
+  padding: 1.4rem 1.55rem;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--accent);
+  background: var(--surface);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+}
+
+.concept-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+}
+
+.concept-title {
+  font-family: var(--font-sans);
+  font-size: 1.18rem;
+  margin: 0;
+  color: var(--accent);
+}
+
+.bookmark-btn {
+  flex-shrink: 0;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.bookmark-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.bookmark-btn.saved {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  border: 1px solid rgba(22, 163, 74, 0.35);
+  background: rgba(22, 163, 74, 0.12);
+  color: #15803d;
+}
+html[data-theme="night"] .status-pill {
+  color: #4ade80;
+  border-color: rgba(74, 222, 128, 0.35);
+}
+.status-pill.is-offline {
+  border-color: rgba(217, 119, 6, 0.45);
+  background: rgba(217, 119, 6, 0.14);
+  color: #b45309;
+}
+html[data-theme="night"] .status-pill.is-offline {
+  color: #fbbf24;
+}
+.install-btn {
+  background: var(--accent, #2563eb);
+  color: #ffffff;
+  border-color: var(--accent, #2563eb);
+}
+.install-btn:hover { opacity: 0.92; }
+
+.isolated-definition {
+  margin: 0 0 1rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: 10px;
+  background: var(--quote-bg);
+  border-left: 3px solid var(--accent);
+  font-size: 1.02em;
+}
+
+.concept-part {
+  margin: 0.85rem 0;
+}
+
+.role-distinction {
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  background: var(--surface-muted);
+  font-size: 0.95em;
+}
+
+.toc-list, .concept-index-list {
+  padding-left: 1.25rem;
+}
+.toc-list li, .concept-index-list li {
+  margin: 0.4rem 0;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  margin: 1.25rem 0;
+}
+.distinctions-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+.distinctions-table th, .distinctions-table td {
+  border: 1px solid var(--border);
+  padding: 0.7rem 0.85rem;
+  text-align: left;
+  vertical-align: top;
+}
+.distinctions-table th {
+  background: var(--surface-muted);
+  font-weight: 700;
+}
+
+.self-check-list {
+  padding-left: 1.25rem;
+}
+.self-check-item {
+  margin: 1.1rem 0;
+}
+.question-text {
+  font-weight: 600;
+  margin-bottom: 0.45rem;
+}
+.answer-reveal {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.45rem 0.85rem;
+}
+.answer-reveal summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--accent);
+}
+.answer-body {
+  margin-top: 0.5rem;
+  color: var(--text);
+}
+
+.book-footer-nav {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-family: var(--font-sans);
+}
+
+@media (max-width: 960px) {
+  .book-shell {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    position: static;
+    max-height: none;
+  }
+}
+
+@media print {
+  .topbar, .sidebar, #reading-progress, .book-footer-nav, .bookmark-btn { display: none !important; }
+  .book-shell { display: block; padding: 0; }
+  .reader-column { border: 0; box-shadow: none; padding: 0; }
+  .concept-card { break-inside: avoid; }
+  .answer-reveal[open] summary { display: none; }
+}
+</style>
+</head>
+<body data-book-label="Book V: Information &amp; Systems">
+  <div id="reading-progress"></div>
+  <header class="topbar">
+    <div class="topbar-left">
+      <a class="pill-link" href="index.html">&larr; Library Index</a>
+      <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);">
+        Volume V &middot; Computation &amp; Feedback
+      </span>
+      <span id="pwa-status-pill" class="status-pill" hidden>Offline Ready</span>
+    </div>
+    <div class="topbar-right">
+      <button type="button" id="pwa-install-btn" class="pill-btn install-btn" hidden>Install App</button>
+      <button type="button" class="pill-btn" data-set-size="sm">A-</button>
+      <button type="button" class="pill-btn" data-set-size="md">A</button>
+      <button type="button" class="pill-btn" data-set-size="lg">A+</button>
+      <button type="button" class="pill-btn" data-set-theme="paper">Paper</button>
+      <button type="button" class="pill-btn" data-set-theme="sepia">Sepia</button>
+      <button type="button" class="pill-btn" data-set-theme="night">Night</button>
+      <a class="pill-link" href="05_computation_information_and_systems.md">Markdown</a>
+    </div>
+  </header>
+
+  <div class="book-shell">
+    <aside class="sidebar">
+      <div class="sidebar-label">Isolated Concepts &amp; Chapters</div>
+      <ul class="sidebar-nav">
+<li class="sidebar-chapter">
+<a href="#core-thesis">Core Thesis</a>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-1-what-information-really-is">Chapter 1: What Information Really Is</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-11-information-as-eliminated-uncertainty">1.1: Information as Eliminated Uncertainty</a></li>
+<li><a href="#concept-12-signal-versus-noise">1.2: Signal Versus Noise</a></li>
+<li><a href="#concept-13-compression-removing-repetition-without-losing-meaning">1.3: Compression (Removing Repetition Without Losing Meaning)</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-2-recipes-decisions-and-cost-of-effort">Chapter 2: Recipes, Decisions, and Cost of Effort</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-21-algorithms-unambiguous-step-by-step-recipes">2.1: Algorithms (Unambiguous Step-by-Step Recipes)</a></li>
+<li><a href="#concept-22-search-and-scaling-effort">2.2: Search and Scaling Effort</a></li>
+<li><a href="#concept-23-trade-offs-between-speed-and-space">2.3: Trade-Offs Between Speed and Space</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-3-state-names-and-layers-of-abstraction">Chapter 3: State, Names, and Layers of Abstraction</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-31-state-versus-process">3.1: State Versus Process</a></li>
+<li><a href="#concept-32-names-references-and-values">3.2: Names, References, and Values</a></li>
+<li><a href="#concept-33-abstraction-and-clean-interfaces">3.3: Abstraction and Clean Interfaces</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-4-networks-trust-and-unreliable-channels">Chapter 4: Networks, Trust, and Unreliable Channels</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-41-protocols-and-packet-switching">4.1: Protocols and Packet Switching</a></li>
+<li><a href="#concept-42-cryptography-locks-and-signatures">4.2: Cryptography, Locks, and Signatures</a></li>
+<li><a href="#concept-43-consensus-without-a-single-boss">4.3: Consensus Without a Single Boss</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-5-feedback-loops-bottlenecks-and-emergence">Chapter 5: Feedback Loops, Bottlenecks, and Emergence</a>
+<ul class="sidebar-concepts">
+<li><a href="#concept-51-balancing-versus-reinforcing-feedback-loops">5.1: Balancing Versus Reinforcing Feedback Loops</a></li>
+<li><a href="#concept-52-bottlenecks-and-system-throughput">5.2: Bottlenecks and System Throughput</a></li>
+<li><a href="#concept-53-emergence-when-the-crowd-does-something-new">5.3: Emergence (When the Crowd Does Something New)</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#key-distinctions-at-a-glance">Key Distinctions at a Glance</a>
+</li>
+<li class="sidebar-chapter">
+<a href="#plain-english-concept-index">Plain-English Concept Index</a>
+</li>
+<li class="sidebar-chapter">
+<a href="#self-check-questions">Self-Check Questions</a>
+</li>
+</ul>
+    </aside>
+
+    <main class="reader-column">
+      <section class="book-hero">
+        <div class="volume-badge">Plain-English Foundations &middot; Book V</div>
+        <h1>Book V: Computation, Information, and Systems</h1>
+        <div class="book-meta-lines"><div><strong>Series:</strong> The Plain-English Foundations Library — Volume V</div>
+<div><strong>Focus:</strong> Information, distinctions, algorithms, abstraction, memory, networks, and complex feedback systems — isolated completely in plain English without a single line of source code.</div></div>
+        <div class="book-stats">
+          <span>15 Isolated Concepts</span>
+          <span>~4,953 Words</span>
+          <span>~24 Min Read</span>
+          <span>Zero Code &middot; Plain English</span>
+        </div>
+      </section>
+
+      <hr class="section-divider" />
+<h2 id="core-thesis" class="chapter-heading">Core Thesis</h2>
+<p>Long before silicon microchips existed, humans were already running computations on beads, ledgers, recipes, and mail routes. Computation is not magic trapped inside glass screens; it is the craft of representing messy real-world facts as crisp distinctions, transforming them through unambiguous step-by-step rules, hiding messy details behind clean layers, and keeping messages accurate across noisy distances. Isolating these principles in plain English demystifies modern technology and illuminates how every organized system behaves.</p>
+<hr class="section-divider" />
+<h2 id="table-of-contents" class="chapter-heading">Table of Contents</h2>
+<ul class="toc-list"><li><a href="#chapter-1-what-information-really-is">Chapter 1: What Information Really Is</a></li><li><a href="#chapter-2-recipes-decisions-and-cost-of-effort">Chapter 2: Recipes, Decisions, and Cost of Effort</a></li><li><a href="#chapter-3-state-names-and-layers-of-abstraction">Chapter 3: State, Names, and Layers of Abstraction</a></li><li><a href="#chapter-4-networks-trust-and-unreliable-channels">Chapter 4: Networks, Trust, and Unreliable Channels</a></li><li><a href="#chapter-5-feedback-loops-bottlenecks-and-emergence">Chapter 5: Feedback Loops, Bottlenecks, and Emergence</a></li><li><a href="#key-distinctions-at-a-glance">Key Distinctions at a Glance</a></li><li><a href="#plain-english-concept-index">Plain-English Concept Index</a></li><li><a href="#self-check-questions">Self-Check Questions</a></li></ul>
+<hr class="section-divider" />
+<h2 id="chapter-1-what-information-really-is" class="chapter-heading">Chapter 1: What Information Really Is</h2>
+<p>We use the word "information" constantly, yet rarely ask what makes one message informative while another feels empty. At root, information is the resolution of uncertainty through clear choice.</p>
+<article id="concept-11-information-as-eliminated-uncertainty" class="concept-card" data-concept-id="concept-11-information-as-eliminated-uncertainty" data-concept-title="Concept 1.1: Information as Eliminated Uncertainty">
+<div class="concept-header-row"><h3 class="concept-title">Concept 1.1: Information as Eliminated Uncertainty</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-11-information-as-eliminated-uncertainty" data-bookmark-title="Concept 1.1: Information as Eliminated Uncertainty" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Information is a measurable reduction in surprise—telling you which specific possibility happened out of a set of realistic alternatives.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Play the guessing game "Twenty Questions." You think of any number between one and sixteen. Every sharp yes-or-no question—<em>Is it above eight?</em>—cuts the remaining possibilities cleanly in half. Four well-aimed yes-or-no answers isolate <em>any</em> number out of sixteen completely.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Notice that a message only carries genuine information when it could reasonably have said something else! If a weather anchor in Phoenix predicts "Tomorrow will be dry and sunny" in mid-July when almost every day is dry and sunny, that message brings very little surprise. If the anchor predicts "Three inches of hail will fall tomorrow afternoon," that message resolves tremendous uncertainty—carrying huge information. By breaking every choice down into simple yes-or-no forks (often called binary bits: on or off, true or false, light or dark), <em>anything</em>—music, photographs, medical records, books—can be encoded cleanly without guesswork.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Paul Revere's midnight signal used just two options in the church tower: one lantern if troops came by land, two if by sea. One tiny distinction—one versus two—delivered critical military intelligence across miles of dark water instantly.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Raw data volume or wordiness.</strong> A ten-page rambling email repeating yesterday's memo carries giant file size yet almost zero new information; a three-word telegram reading "Train leaves early" carries tiny size and enormous information.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-12-signal-versus-noise" class="concept-card" data-concept-id="concept-12-signal-versus-noise" data-concept-title="Concept 1.2: Signal Versus Noise">
+<div class="concept-header-row"><h3 class="concept-title">Concept 1.2: Signal Versus Noise</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-12-signal-versus-noise" data-bookmark-title="Concept 1.2: Signal Versus Noise" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Signal is the meaningful pattern you actually want to hear or measure; noise is random unwanted static, chatter, or interference crowding the same channel.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Try listening to a friend's quiet story across a loud crowded cafe. Your friend's voice is the signal; clinking dishes, espresso steam, and neighboring laughter are noise. Raising volume helps only slightly—speaking clearly, slowing down, and repeating key numbers helps far more.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Every real communication channel—telephone copper wire, radio waves, human memory, or newspaper gossip—carries unwanted noise alongside true signal. Whenever noise grows loud relative to the signal, mistakes multiply unless you build in clever safeguards. We overcome noise in two ways: by repeating or cross-checking patterns (error correction) and by averaging across multiple independent readings so random jumps cancel each other out while steady truth stands tall.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Pilots and air traffic controllers don't pronounce letters casually over crackly radios because "B," "P," "D," and "T" sound nearly identical over static. Saying "Bravo" and "Tango" spreads words wide apart so small bursts of radio noise never turn "B" into "P."</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Unwelcome news.</strong> Bad news you dislike is still pure signal; comforting chatter that obscures real facts is noise.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-13-compression-removing-repetition-without-losing-meaning" class="concept-card" data-concept-id="concept-13-compression-removing-repetition-without-losing-meaning" data-concept-title="Concept 1.3: Compression (Removing Repetition Without Losing Meaning)">
+<div class="concept-header-row"><h3 class="concept-title">Concept 1.3: Compression (Removing Repetition Without Losing Meaning)</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-13-compression-removing-repetition-without-losing-meaning" data-bookmark-title="Concept 1.3: Compression (Removing Repetition Without Losing Meaning)" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Compression shrinks the length of a message by spotting predictable repetition and describing patterns smartly instead of spelling every piece out raw.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Rather than writing down "blue sky, blue sky, blue sky" across three thousand lines of a painting guide, you simply write "three thousand rows of solid blue sky" in one crisp line.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Compression reveals the hidden structure inside information. Suppose you send someone a list of ten thousand straight zeros—you don't need ten thousand digits; saying "zero repeated ten thousand times" recreates the original perfectly (lossless compression). Photographs and music go one step further (lossy compression): human ears can barely notice ultra-quiet frequencies buried beneath loud drums, and human eyes barely notice tiny color shifts next to sharp edges, so smart compression quietly trims invisible details while keeping what you see and hear crisp. Purely random static, by contrast, holds <em>no</em> repeated pattern and refuses to compress at all!</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Knitting patterns compress sweaters by saying "knit two, purl two across the whole row, repeat twelve times" rather than listing ten thousand individual needle stitches one by one.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Deletion or censorship.</strong> Good lossless compression changes <em>how compactly</em> the message is packed while letting you unpack every single original letter intact.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="chapter-2-recipes-decisions-and-cost-of-effort" class="chapter-heading">Chapter 2: Recipes, Decisions, and Cost of Effort</h2>
+<p>Once information is captured cleanly, we need dependable instructions to work on it—and an honest way to know whether a clever method scales smoothly or grinds to a halt when crowds grow large.</p>
+<article id="concept-21-algorithms-unambiguous-step-by-step-recipes" class="concept-card" data-concept-id="concept-21-algorithms-unambiguous-step-by-step-recipes" data-concept-title="Concept 2.1: Algorithms (Unambiguous Step-by-Step Recipes)">
+<div class="concept-header-row"><h3 class="concept-title">Concept 2.1: Algorithms (Unambiguous Step-by-Step Recipes)</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-21-algorithms-unambiguous-step-by-step-recipes" data-bookmark-title="Concept 2.1: Algorithms (Unambiguous Step-by-Step Recipes)" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> An algorithm is a finite, crystal-clear sequence of step-by-step instructions that leaves zero room for improvisation and reliably turns inputs into a finished result.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Compare a vague cooking tip—"simmer until it smells nice and looks glossy"—with a laboratory recipe: "Heat to eighty degrees, stir gently for four minutes, turn off burner." Anyone following the exact steps reaches the exact same destination without needing intuition.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Computers appear smart not because they understand poetry, but because they obey exact recipes millions of times faster than humans blink. Every algorithm is built out of three astonishingly modest tools: doing steps in clean order (sequence), picking between two paths based on a clear test (branching), and repeating a routine until a finish condition triggers (looping). Surprisingly, <em>every</em> modern software wonder—from speech recognition to flight navigation—is woven out of nothing more than those three building blocks stacked deep.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Giving someone driving directions—"Go straight three lights, turn left at the clocktower; if the bridge is closed, take the first right detour instead; stop at the third brick house"—is a pure everyday algorithm.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Intelligence or judgment.</strong> Following an exact recipe blindly means a machine will happily sort trash or delete important files if the recipe forgot a safety check—which is why precision matters so deeply.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-22-search-and-scaling-effort" class="concept-card" data-concept-id="concept-22-search-and-scaling-effort" data-concept-title="Concept 2.2: Search and Scaling Effort">
+<div class="concept-header-row"><h3 class="concept-title">Concept 2.2: Search and Scaling Effort</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-22-search-and-scaling-effort" data-bookmark-title="Concept 2.2: Search and Scaling Effort" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> How fast a task finishes as the pile grows depends completely on whether your method checks items one by one or cuts the pile dramatically at every step.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Look up "Sakib" in an unsorted heap of ten thousand loose business cards: on average you must flip through thousands of cards (linear effort). Now look up "Sakib" inside an alphabetical phone book of ten thousand names: open straight to the middle, see "M," throw away the entire first half immediately, flip halfway through the back half, and find the exact page in barely fourteen peeks!</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Sorting things in advance unlocks breathtaking speed later. Suppose a library grows from a thousand books to a million books—one thousand times bigger! Walking down every aisle scanning spine by spine takes one thousand times longer. Using an alphabetical catalog index that splits the remaining catalog in half on each check takes only <em>ten extra flips</em> to conquer a thousandfold bigger library! Conversely, a clumsy habit that compares every guest in a room with every other guest explodes painfully as rooms fill up—ten guests require forty-five handshakes, while a hundred guests require nearly five thousand.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Trying every four-digit bike lock combination from zero up to nine thousand nine hundred ninety-nine checks up to ten thousand tries. Getting hot-or-cold hints from a friend ("higher" or "lower") finds <em>any</em> secret number in under fourteen guesses.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Raw hardware speed.</strong> Giving a faster sports car to someone searching unsorted cards still loses horribly to someone walking calmly straight into an alphabetical index.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-23-trade-offs-between-speed-and-space" class="concept-card" data-concept-id="concept-23-trade-offs-between-speed-and-space" data-concept-title="Concept 2.3: Trade-Offs Between Speed and Space">
+<div class="concept-header-row"><h3 class="concept-title">Concept 2.3: Trade-Offs Between Speed and Space</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-23-trade-offs-between-speed-and-space" data-bookmark-title="Concept 2.3: Trade-Offs Between Speed and Space" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Systems constantly trade extra storage space against extra thinking time: keeping pre-made notes or indexes takes shelf room yet saves work later, while computing fresh from scratch saves shelf space yet takes longer.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> A restaurant cook who chops carrots and simmers soup broth ahead of time fills extra refrigerator shelves (more space), yet serves dinner guests in three minutes flat (faster speed). Cooking every carrot from scratch on demand saves fridge space yet leaves guests waiting forty minutes.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Almost nothing in computation or organization comes totally free. If you memorize a full multiplication table or keep frequent phone contacts pinned at the top of your screen, you spend memory space so answers arrive instantly. If memory is tight, you drop old notes and recalculate or search fresh whenever needed. Caching—keeping hot, recently used answers right near your fingertips—makes life fast, provided you remember to update those quick notes whenever underlying facts change.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Writing the answer key for tricky monthly shipping rates on a sticky note taped beside your desk (using space) saves ten minutes of digging through binders every afternoon (buying time)—until shipping prices change and your sticky note turns stale!</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Pure waste.</strong> Keeping well-chosen summaries or caches is smart strategic storage, not clutter, as long as stale copies get refreshed cleanly.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="chapter-3-state-names-and-layers-of-abstraction" class="chapter-heading">Chapter 3: State, Names, and Layers of Abstraction</h2>
+<p>Why can you drive a rental car, send a postcard, or browse a recipe site without understanding engine pistons, sorting conveyor belts, or undersea cables? Because clean boundaries hide internal complexity behind simple surfaces.</p>
+<article id="concept-31-state-versus-process" class="concept-card" data-concept-id="concept-31-state-versus-process" data-concept-title="Concept 3.1: State Versus Process">
+<div class="concept-header-row"><h3 class="concept-title">Concept 3.1: State Versus Process</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-31-state-versus-process" data-bookmark-title="Concept 3.1: State Versus Process" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> A process is the active set of rules running right now; state is the saved snapshot of conditions, balances, and positions remembered from one moment to the next.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Think of a board game halfway through an evening. The printed rulebook is the process—unchanged from game to game. The exact spot where every chess piece currently sits on the sixty-four squares is the <em>state</em>. If a power outage hits and you snap a quick photo of the board, you have saved the state so play can resume tomorrow.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Stateless actions treat every request like meeting a total stranger for the first time—ask a calculator "two plus three," and it answers five without caring what you asked an hour ago. Stateful actions remember history—an open bank account tracks deposits and withdrawals across years, and a thermostat tracks whether it warmed the room five minutes ago. Most puzzling bugs in life and software happen when state changes unexpectedly behind the scenes while nobody notices—such as two family members editing different paper copies of the same grocery list on separate counters.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> A recipe card (process) never spoils or changes while sitting in a binder. Your half-baked cake batter sitting in a mixing bowl (state) changes permanently with every egg cracked and every minute spent in the hot oven.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Permanent rules.</strong> Confusing temporary state ("the oven is currently at three hundred fifty degrees") with permanent design ("the oven heats electrically") leads people to mistake passing situations for fixed laws.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-32-names-references-and-values" class="concept-card" data-concept-id="concept-32-names-references-and-values" data-concept-title="Concept 3.2: Names, References, and Values">
+<div class="concept-header-row"><h3 class="concept-title">Concept 3.2: Names, References, and Values</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-32-names-references-and-values" data-bookmark-title="Concept 3.2: Names, References, and Values" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> A value is the actual thing itself; a name or reference is an address label pointing toward where that thing currently lives.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Holding a fresh baked apple pie in your hands is a value. Writing "Pie on the middle kitchen shelf" on an index card is a reference. You can photocopy that index card and hand copies to five neighbors effortlessly without baking five extra pies—yet if your dog eats the single real pie off the shelf, <em>all five cards</em> suddenly point to an empty plate!</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Half of everyday confusion—from legal contracts to shared spreadsheets—comes from mistaking a pointer for a separate copy. When someone sends you a web link to a shared document, you both hold references to <em>one single living page</em>; editing a line changes what the other person sees. When someone emails you a detached file attachment, you receive an independent <em>copy of the value</em>; editing your attachment leaves their original untouched. Knowing whether two people share one underlying object or hold separate snapshots prevents endless collisions.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Updating your mailing address on one central bank profile changes where every monthly statement goes automatically (reference), whereas mailing twenty paper postcards to friends leaves old addresses stuck in drawers everywhere unless you update each copy separately (values).</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Renaming the thing.</strong> Changing a label from "Spare Key" to "Back Shed Key" changes the sticker, not the brass teeth of the key itself.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-33-abstraction-and-clean-interfaces" class="concept-card" data-concept-id="concept-33-abstraction-and-clean-interfaces" data-concept-title="Concept 3.3: Abstraction and Clean Interfaces">
+<div class="concept-header-row"><h3 class="concept-title">Concept 3.3: Abstraction and Clean Interfaces</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-33-abstraction-and-clean-interfaces" data-bookmark-title="Concept 3.3: Abstraction and Clean Interfaces" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Abstraction hides messy inner machinery behind a simple, dependable front door (the interface), letting you use a complicated system safely without memorizing how every nut and bolt inside works.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Look at a modern car's dashboard: steering wheel, brake pedal, gas pedal, speedometer. Under the metal hood sit explosive fuel injectors, timing belts, cooling pumps, and thousands of parts—yet drivers learn one consistent interface in an afternoon and can switch smoothly between a compact sedan and a delivery van without rebuilding an engine.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Humanity's grandest projects are only possible because we stack clean abstractions like layers of a sandwich. Electrical engineers hide messy physics inside reliable switches; system designers hide millions of switches inside clean named folders and windows; app builders stand cleanly on top of folders without rewiring electricity from scratch. Crucially, good abstractions obey an honest promise: as long as the front buttons keep working identically, mechanics can upgrade the engine inside completely without breaking drivers' habits.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Dropping a stamped letter into a blue street mailbox uses a clean postal interface. You neither know nor care whether your letter rides in a sorting van, a cargo jet, or a local courier's bag—provided it reaches the destination address intact.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Hiding everything blindly.</strong> Abstractions occasionally "leak"—like a car steering wheel shaking when a front tire goes flat—reminding us that underlying realities still constrain the clean surface above.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="chapter-4-networks-trust-and-unreliable-channels" class="chapter-heading">Chapter 4: Networks, Trust, and Unreliable Channels</h2>
+<p>Working alone on one desk is straightforward. Coordinating across cities, noisy lines, delayed deliveries, and strangers who might drop letters or tell half-truths creates the true challenge of distributed systems.</p>
+<article id="concept-41-protocols-and-packet-switching" class="concept-card" data-concept-id="concept-41-protocols-and-packet-switching" data-concept-title="Concept 4.1: Protocols and Packet Switching">
+<div class="concept-header-row"><h3 class="concept-title">Concept 4.1: Protocols and Packet Switching</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-41-protocols-and-packet-switching" data-bookmark-title="Concept 4.1: Protocols and Packet Switching" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> A protocol is a mutually agreed set of rules for greeting, formatting, confirming, and retrying messages; packet switching chops large messages into numbered postcard-sized pieces that travel independently and reassemble cleanly at the far end.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Imagine mailing a five-hundred-page book across a storm-swept country where single heavy boxes get stuck in floods. Instead, you tear out pages, number every envelope clearly—"Page twelve of five hundred, from Maya to Omar"—and mail them on different trucks. At the far house, Omar lines the numbered envelopes back up in sequence and notices immediately if envelope forty-two went missing so he can ask Maya to resend just that one page.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Early phone networks tied up one continuous private wire all the way from caller to listener—wasting the whole wire even during quiet pauses. Packet networks slice every stream into small labeled chunks sharing open highways efficiently. Because paths can delay or reorder chunks, strict protocols govern how machines introduce themselves, acknowledge safe arrival, resend lost pieces, and slow down politely when roads clog up.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Saying "Hello, this is Maya—can you hear me clearly?" waiting for "Yes, loud and clear," reading out a confirmation code digit by digit, and ending with "Got it, goodbye" is a plain-English spoken protocol keeping phone calls reliable.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Single giant pipes.</strong> Even when a video call looks like one smooth uninterrupted river, underneath it is thousands of tiny independent packets racing along varied routes and snapping rapidly back in order.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-42-cryptography-locks-and-signatures" class="concept-card" data-concept-id="concept-42-cryptography-locks-and-signatures" data-concept-title="Concept 4.2: Cryptography, Locks, and Signatures">
+<div class="concept-header-row"><h3 class="concept-title">Concept 4.2: Cryptography, Locks, and Signatures</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-42-cryptography-locks-and-signatures" data-bookmark-title="Concept 4.2: Cryptography, Locks, and Signatures" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Encryption scrambles a readable message with a secret key so eavesdroppers see gibberish; a digital signature proves unmistakably that a specific key holder created or approved a message and nobody altered a comma in transit.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Think of two different tools: a sturdy brass padlock anyone can snap shut on a mailbox for you while <em>only your key</em> opens it (public-key encryption), and a wax signet ring unique to your hand that anyone can inspect to confirm a letter truly came from you untouched (digital signature).</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> For centuries, sending secrets required meeting behind closed doors first to share the same secret codebook—impossible for billions of strangers shopping online! Modern asymmetric cryptography broke that bottleneck with paired math keys: a public lock you broadcast openly to the world, paired with a private key kept strictly in your pocket. Anyone can lock a message using your public padlock that <em>only</em> your private key opens. Flipping the pair around lets you sign messages with your private key so <em>anyone</em> holding your public check can verify both your identity and that nobody tampered with a single word along the road.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> When you seal cash inside an armored deposit bag (privacy) and sign a tamper-proof check receipt (authenticity), you are separating <em>keeping contents hidden</em> from <em>proving who approved them</em>.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Secretiveness about how locks work.</strong> Strong security never relies on hiding how a lock is engineered—every locksmith can inspect the mechanism openly while still failing to open your door without your specific secret key.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-43-consensus-without-a-single-boss" class="concept-card" data-concept-id="concept-43-consensus-without-a-single-boss" data-concept-title="Concept 4.3: Consensus Without a Single Boss">
+<div class="concept-header-row"><h3 class="concept-title">Concept 4.3: Consensus Without a Single Boss</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-43-consensus-without-a-single-boss" data-bookmark-title="Concept 4.3: Consensus Without a Single Boss" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Distributed consensus is the art of getting multiple independent machines or people—who may lose messages, run at different speeds, or even malfunction—to agree on one shared, consistent order of facts without relying on one central dictator.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Imagine two allied generals camped on opposite hills overlooking a valley enemy. They win only if both attack at dawn together; attacking alone fails. They send runners across the dark valley—yet every runner might get captured! Neither general can ever be completely certain the <em>last</em> confirmation runner arrived unless they accept deliberate confirmations, redundancy, and clear tie-break rules.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> When one boss keeps the single master notebook, agreement is easy—until the boss falls asleep or vanishes. When ten branches across ten cities want a shared ledger that survives power cuts and broken cables, agreeing on "who spent the last dollar first" gets surprisingly tricky. Messages arrive out of order; one city gets cut off temporarily and hears nothing. Distributed systems solve this through voting majorities, strict timestamps or sequence numbers, and refusal to commit uncertain changes unless enough independent witnesses agree simultaneously.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> A courtroom jury reaches consensus not when one juror shouts first, nor when everyone guesses silently, but after hearing every juror's vote openly until a required threshold agrees on a single official verdict.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Unanimous perfection.</strong> Many dependable group systems keep running cleanly as long as a clear majority stays healthy, letting isolated disconnected members catch up peacefully once the phone line returns.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="chapter-5-feedback-loops-bottlenecks-and-emergence" class="chapter-heading">Chapter 5: Feedback Loops, Bottlenecks, and Emergence</h2>
+<p>Put simple rules, state, and connections together into a large working system, and surprising behaviors emerge that cannot be spotted by inspecting any single cog under a magnifying glass.</p>
+<article id="concept-51-balancing-versus-reinforcing-feedback-loops" class="concept-card" data-concept-id="concept-51-balancing-versus-reinforcing-feedback-loops" data-concept-title="Concept 5.1: Balancing Versus Reinforcing Feedback Loops">
+<div class="concept-header-row"><h3 class="concept-title">Concept 5.1: Balancing Versus Reinforcing Feedback Loops</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-51-balancing-versus-reinforcing-feedback-loops" data-bookmark-title="Concept 5.1: Balancing Versus Reinforcing Feedback Loops" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Balancing feedback loops resist change and steer a system back toward a stable target; reinforcing feedback loops amplify any nudge, pushing growth or collapse ever faster in the same direction.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Cruise control in a car is a balancing loop: climb a hill and speed dips, so cruise control feeds more gas back to target speed; coast downhill and it eases off. Holding a live microphone right in front of its own loudspeaker is a reinforcing loop: a tiny squeak enters the mic, blasts louder from the speaker, re-enters the mic even louder, and screams in half a second.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Every durable system—from body temperature to fair markets—needs balancing loops to keep from tearing itself apart. At the same time, reinforcing loops power growth, learning, compound interest, viral trends, and catastrophic cascades like bank runs (rumor scares ten depositors into withdrawing cash, making the bank look shaky, scaring a thousand more depositors into line). Understanding which loops are balancing and which are reinforcing reveals whether an organization will naturally steady itself or spiral abruptly.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> When highway traffic slows slightly, drivers tap brakes a touch harder than the car ahead—each trailing driver overreacts slightly more until three miles back cars come to a dead standstill for no physical obstacle at all (a reinforcing brake wave).</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Good versus bad.</strong> Reinforcing loops sound dangerous in feedback squeals, yet they are also how small reading skills make reading more fun, which builds vocabulary, which makes hard books joyful! Balancing loops sound safe, yet stubbornly resist healthy change when entrenched habits hold things down.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-52-bottlenecks-and-system-throughput" class="concept-card" data-concept-id="concept-52-bottlenecks-and-system-throughput" data-concept-title="Concept 5.2: Bottlenecks and System Throughput">
+<div class="concept-header-row"><h3 class="concept-title">Concept 5.2: Bottlenecks and System Throughput</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-52-bottlenecks-and-system-throughput" data-bookmark-title="Concept 5.2: Bottlenecks and System Throughput" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Every multi-step pipeline moves only as fast as its single slowest narrowest stage, called the bottleneck; speeding up any other stage only piles inventory up right behind that bottleneck.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> Think of a four-lane highway narrowing suddenly to one single open tollbooth lane. Widening the other three miles of asphalt ahead of the tollbooth to eight lanes does not move a single extra car per hour through the gate—it merely parks twice as many frustrated drivers in a wider traffic jam.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Organizations waste colossal energy polishing steps that aren't holding anything back. Suppose a bakery has an automated mixer making enough dough for a thousand loaves an hour, a fast slicer bagging a thousand loaves an hour, and one small brick oven that can only bake eighty loaves an hour. Upgrading the mixer to two thousand loaves an hour accomplishes zero extra bread sold! Every real throughput improvement starts by finding the current tightest constraint, elevating it, and then noticing where the bottleneck shifts next.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> Waiting on a slow restaurant kitchen when waiters already stand idle with empty trays—hiring three more friendly servers speeds zero plates onto tables until the grill line moves faster.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Average workload across workers.</strong> Keeping every worker and machine running at one hundred percent capacity all day long actually <em>destroys</em> smoothness, because tiny hiccups anywhere create runaway traffic lines behind bottlenecks with zero breathing slack.</p>
+</article>
+<hr class="section-divider" />
+<article id="concept-53-emergence-when-the-crowd-does-something-new" class="concept-card" data-concept-id="concept-53-emergence-when-the-crowd-does-something-new" data-concept-title="Concept 5.3: Emergence (When the Crowd Does Something New)">
+<div class="concept-header-row"><h3 class="concept-title">Concept 5.3: Emergence (When the Crowd Does Something New)</h3><button type="button" class="bookmark-btn" data-bookmark-id="concept-53-emergence-when-the-crowd-does-something-new" data-bookmark-title="Concept 5.3: Emergence (When the Crowd Does Something New)" aria-pressed="false">Bookmark</button></div>
+<blockquote class="isolated-definition"><strong>Isolated Definition:</strong> Emergence happens when countless simple parts following purely local rules interact together to create sweeping large-scale patterns that no single part planned, knew about, or contains on its own.</blockquote>
+<p class="concept-part role-mental-model"><strong>Mental Model:</strong> A single bird inside a starling flock has no map of the whole sky and no choreographer; each bird simply watches six or seven close neighbors, keeps comfortable spacing, and matches their turn. Together, ten thousand birds swoop across sunset skies in breathtaking rippling ribbons that look guided by a single mind.</p>
+<p class="concept-part role-explanation"><strong>Plain-English Explanation:</strong> Wetness is nowhere inside a lone water molecule, traffic jams can crawl backward even while every car inside them drives forward, and ant colonies cool underground nests, farm fungi, and bridge streams even though no single ant understands architecture. You cannot explain emergent behavior by slicing one lonely component open on a table; you must watch the <em>interactions between components</em> over time. At the same time, knowing emergence exists warns us against rushing to blame secret masterminds whenever messy crowds accidentally organize sweeping patterns together.</p>
+<p class="concept-part role-example"><strong>Everyday Example:</strong> A quiet path wears cleanly across a grassy campus courtyard not because any committee painted signs, nor because one student paved concrete, but because thousands of hurrying students independently shaved off the same muddy corner step by step.</p>
+<p class="concept-part role-distinction"><strong>Do Not Confuse With:</strong> <strong>Mysticism or impossibility of explanation.</strong> Emergent patterns follow directly from real local rules interacting at scale—they simply appear at the level of the <em>whole network</em> rather than inside any single piece.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="key-distinctions-at-a-glance" class="chapter-heading">Key Distinctions at a Glance</h2>
+<div class="table-wrap"><table class="distinctions-table"><thead><tr><th>Concept Pair</th><th>First Concept in Plain English</th><th>Second Concept in Plain English</th><th>Why Isolating Them Matters</th></tr></thead><tbody><tr><td><strong>Data vs. Information</strong></td><td>Raw volume of symbols, words, or bytes stored.</td><td>Actual reduction in uncertainty delivered to a listener.</td><td>Big noisy reports feel impressive while teaching less than one crisp number.</td></tr><tr><td><strong>Signal vs. Noise</strong></td><td>The meaningful message or pattern you seek.</td><td>Unwanted random clutter sharing the same channel.</td><td>Separating them prevents overreacting to flukes or missing faint true clues.</td></tr><tr><td><strong>State vs. Process</strong></td><td>Current saved situation or snapshot in memory.</td><td>Unchanging steps or rules operating on that situation.</td><td>Most stubborn hiccups stem from unexpected shared state, not broken instructions.</td></tr><tr><td><strong>Reference vs. Value</strong></td><td>Address or link pointing to a single shared item.</td><td>Actual independent item or copy held in hand.</td><td>Explains why editing one shared link surprises five coworkers while editing copies does not.</td></tr><tr><td><strong>Balancing vs. Reinforcing Loop</strong></td><td>Dampens swings and pulls back toward stability.</td><td>Amplifies any small nudge into accelerating growth or crash.</td><td>Tells you when a system will self-correct versus when a tiny spark could trigger a runaway avalanche.</td></tr></tbody></table></div>
+<hr class="section-divider" />
+<h2 id="plain-english-concept-index" class="chapter-heading">Plain-English Concept Index</h2>
+<ul class="concept-index-list"><li><strong>Abstraction:</strong> Hiding complicated internal workings behind a simple, predictable outer interface.</li><li><strong>Algorithm:</strong> A finite, unambiguous step-by-step recipe guaranteed to complete a defined task.</li><li><strong>Balancing Loop:</strong> Feedback that counteracts change and steers a system back toward target stability.</li><li><strong>Bottleneck:</strong> The tightest constraint limiting total speed or capacity across an entire pipeline.</li><li><strong>Caching:</strong> Storing frequently needed results close at hand in extra space to save time later.</li><li><strong>Compression:</strong> Packing patterns more compactly by stripping predictable repetition without losing essential content.</li><li><strong>Consensus:</strong> Reaching shared agreement among independent nodes despite delays, drops, or faults.</li><li><strong>Cryptography:</strong> Securing secrecy and proving identity using paired mathematical locks and keys.</li><li><strong>Emergence:</strong> Large-scale organized behavior arising from simple local interactions without central control.</li><li><strong>Information:</strong> A measurable reduction in uncertainty achieved by selecting among real possibilities.</li><li><strong>Noise:</strong> Random unwanted interference obscuring the true signal on a channel.</li><li><strong>Packet Switching:</strong> Splitting messages into numbered small chunks routed independently and reassembled at arrival.</li><li><strong>Process:</strong> The active rulebook or procedure executing step by step.</li><li><strong>Protocol:</strong> Shared rules governing how two parties open, confirm, format, and recover exchanges.</li><li><strong>Reference:</strong> A pointer or address directing you to where an underlying value resides.</li><li><strong>Reinforcing Loop:</strong> Feedback that feeds output back to amplify changes further in the same direction.</li><li><strong>Signal:</strong> The meaningful intended pattern inside a stream of communication.</li><li><strong>State:</strong> The remembered snapshot of current conditions held across time.</li><li><strong>Throughput:</strong> Actual finished output passing through a whole system per unit time.</li></ul>
+<hr class="section-divider" />
+<h2 id="self-check-questions" class="chapter-heading">Self-Check Questions</h2>
+<ol class="self-check-list"><li class="self-check-item"><div class="question-text"><strong>Why does saying "The library has one million digital pages" not tell you how much genuine information the books hold?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> Raw page size measures data storage, not information; if a file repeats one boilerplate paragraph ten thousand times or holds pure gibberish static, it carries vast size with minimal meaningful surprise.</div></details></li><li class="self-check-item"><div class="question-text"><strong>Why is looking up a word in a dictionary vastly faster than finding a phone number scribbled randomly on index cards?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> Alphabetical ordering lets each flip eliminate huge swaths of wrong pages at once, turning millions of items into a handful of fast checks instead of tedious card-by-card searching.</div></details></li><li class="self-check-item"><div class="question-text"><strong>If two teammates both open a shared link to a schedule versus downloading two separate copies onto their laptops, what is the practical difference?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> Opening the shared link uses references pointing to one living state so edits appear for both; downloading copies gives each person an independent value that quickly falls out of sync.</div></details></li><li class="self-check-item"><div class="question-text"><strong>Why does speeding up the fastest department in a company sometimes make congestion worse rather than raising total output?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> Speeding up anything upstream from the true bottleneck merely dumps deeper piles of half-finished work waiting in line right in front of the bottleneck.</div></details></li><li class="self-check-item"><div class="question-text"><strong>How can a traffic jam crawl backward down a highway while every car inside it is only driving forward?</strong></div><details class="answer-reveal"><summary>Show Plain-English Answer</summary><div class="answer-body"><em>Plain-English Answer:</em> It is an emergent wave pattern: cars entering the back edge brake and join the slow zone while cars at the front accelerate away—so the slow <em>zone</em> moves backward even though individual cars move strictly forward.</div></details></li></ol>
+
+      <nav class="book-footer-nav">
+        <div><a class="pill-link" href="04_life_cells_and_evolution.html">&larr; Book IV: Life &amp; Evolution</a></div>
+        <div><a class="pill-link" href="index.html">All Volumes</a></div>
+        <div><a class="pill-link" href="06_language_economics_and_coordination.html">Book VI: Language &amp; Coordination &rarr;</a></div>
+      </nav>
+    </main>
+  </div>
+  <script>
+(function () {
+  const root = document.documentElement;
+  const THEME_COLORS = { paper: '#faf8f4', sepia: '#f4ecd8', night: '#111318' };
+  const BOOKMARKS_KEY = 'plain-books-bookmarks';
+  const LAST_READ_KEY = 'plain-books-last-read';
+  const savedTheme = localStorage.getItem('plain-books-theme') || 'paper';
+  const savedSize = localStorage.getItem('plain-books-size') || 'md';
+  root.setAttribute('data-theme', savedTheme);
+  root.setAttribute('data-size', savedSize);
+
+  function syncThemeMeta(theme) {
+    const meta = document.getElementById('meta-theme-color');
+    if (meta) meta.setAttribute('content', THEME_COLORS[theme] || '#faf8f4');
+  }
+
+  function syncButtons() {
+    const theme = root.getAttribute('data-theme');
+    const size = root.getAttribute('data-size');
+    syncThemeMeta(theme);
+    document.querySelectorAll('[data-set-theme]').forEach((btn) => {
+      btn.classList.toggle('active', btn.getAttribute('data-set-theme') === theme);
+    });
+    document.querySelectorAll('[data-set-size]').forEach((btn) => {
+      btn.classList.toggle('active', btn.getAttribute('data-set-size') === size);
+    });
+  }
+
+  function readBookmarks() {
+    try {
+      return JSON.parse(localStorage.getItem(BOOKMARKS_KEY) || '[]');
+    } catch {
+      return [];
+    }
+  }
+
+  function writeBookmarks(list) {
+    localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(list));
+    window.dispatchEvent(new CustomEvent('plain-books-bookmarks-changed'));
+  }
+
+  function currentPageFile() {
+    const parts = location.pathname.split('/');
+    const last = parts[parts.length - 1] || 'index.html';
+    return last.endsWith('.html') ? last : last + '.html';
+  }
+
+  function syncBookmarksUI() {
+    const page = currentPageFile();
+    const saved = readBookmarks();
+    const savedSet = new Set(saved.map((b) => b.href));
+    document.querySelectorAll('.bookmark-btn').forEach((btn) => {
+      const id = btn.getAttribute('data-bookmark-id');
+      const href = page + '#' + id;
+      const isSaved = savedSet.has(href);
+      btn.classList.toggle('saved', isSaved);
+      btn.setAttribute('aria-pressed', isSaved ? 'true' : 'false');
+      btn.textContent = isSaved ? 'Saved' : 'Bookmark';
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    const tBtn = e.target.closest('[data-set-theme]');
+    if (tBtn) {
+      const val = tBtn.getAttribute('data-set-theme');
+      root.setAttribute('data-theme', val);
+      localStorage.setItem('plain-books-theme', val);
+      syncButtons();
+    }
+    const sBtn = e.target.closest('[data-set-size]');
+    if (sBtn) {
+      const val = sBtn.getAttribute('data-set-size');
+      root.setAttribute('data-size', val);
+      localStorage.setItem('plain-books-size', val);
+      syncButtons();
+    }
+    const bBtn = e.target.closest('.bookmark-btn');
+    if (bBtn) {
+      const page = currentPageFile();
+      const id = bBtn.getAttribute('data-bookmark-id');
+      const title = bBtn.getAttribute('data-bookmark-title');
+      const bookTitle = document.body.getAttribute('data-book-label') || document.title;
+      const accent = getComputedStyle(root).getPropertyValue('--accent').trim() || '#2563eb';
+      const href = page + '#' + id;
+      const list = readBookmarks();
+      const idx = list.findIndex((item) => item.href === href);
+      if (idx >= 0) {
+        list.splice(idx, 1);
+      } else {
+        list.unshift({ href, title, book: bookTitle, accent });
+      }
+      writeBookmarks(list);
+      syncBookmarksUI();
+    }
+  });
+
+  // Track reading progress & last-read concept on book pages
+  const conceptCards = Array.from(document.querySelectorAll('.concept-card[data-concept-id]'));
+  function updateReadingState() {
+    const bar = document.getElementById('reading-progress');
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = total > 0 ? Math.min(100, Math.max(0, (window.scrollY / total) * 100)) : 0;
+    if (bar) bar.style.width = pct.toFixed(1) + '%';
+
+    if (conceptCards.length) {
+      let activeCard = conceptCards[0];
+      for (const card of conceptCards) {
+        if (card.getBoundingClientRect().top <= 160) {
+          activeCard = card;
+        }
+      }
+      const page = currentPageFile();
+      const id = activeCard.getAttribute('data-concept-id');
+      const title = activeCard.getAttribute('data-concept-title');
+      const bookLabel = document.body.getAttribute('data-book-label') || document.title;
+      localStorage.setItem(LAST_READ_KEY, JSON.stringify({
+        href: page + '#' + id,
+        bookHref: page,
+        book: bookLabel,
+        title: title,
+        pct: Math.round(pct),
+      }));
+    }
+  }
+
+  window.addEventListener('scroll', updateReadingState, { passive: true });
+  if (conceptCards.length) {
+    updateReadingState();
+  }
+
+  // PWA Service Worker registration & Install button
+  const statusPill = document.getElementById('pwa-status-pill');
+  const installBtn = document.getElementById('pwa-install-btn');
+  let deferredInstallPrompt = null;
+
+  function refreshConnectionStatus(cachedReady) {
+    if (!statusPill) return;
+    if (!navigator.onLine) {
+      statusPill.hidden = false;
+      statusPill.classList.add('is-offline');
+      statusPill.textContent = 'Offline Mode';
+    } else if (cachedReady) {
+      statusPill.hidden = false;
+      statusPill.classList.remove('is-offline');
+      statusPill.textContent = 'Offline Ready';
+    }
+  }
+
+  if ('serviceWorker' in navigator && (location.protocol === 'http:' || location.protocol === 'https:')) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').then((reg) => {
+        if (reg.active) {
+          refreshConnectionStatus(true);
+        }
+      }).catch(() => {});
+    });
+    navigator.serviceWorker.addEventListener('message', (event) => {
+      if (event.data && event.data.type === 'OFFLINE_READY') {
+        refreshConnectionStatus(true);
+      }
+    });
+    window.addEventListener('online', () => refreshConnectionStatus(true));
+    window.addEventListener('offline', () => refreshConnectionStatus(true));
+  }
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    if (installBtn) installBtn.hidden = false;
+  });
+
+  if (installBtn) {
+    installBtn.addEventListener('click', async () => {
+      if (!deferredInstallPrompt) return;
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      installBtn.hidden = true;
+    });
+  }
+
+  window.addEventListener('appinstalled', () => {
+    deferredInstallPrompt = null;
+    if (installBtn) installBtn.hidden = true;
+  });
+
+  syncButtons();
+  syncBookmarksUI();
+})();
+</script>
+</body>
+</html>
