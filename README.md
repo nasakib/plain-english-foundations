@@ -1,39 +1,42 @@
 # The Plain-English Foundations Library
 
-> **Purpose:** Six standalone books that isolate essential concepts and foundational human knowledge entirely in clear, everyday English — with zero code, zero cryptic shorthand, and zero symbolic math walls.  
+> **Purpose:** Eight gentle, jargon-free books covering life from the inside out—starting with your physical body, emotional calm, and empathy with others, then building cleanly through clear thinking, everyday numbers, the physical world, living nature, and shared community.  
 > **Live PWA (GitHub Pages):** <https://nasakib.github.io/plain-english-foundations/>
 
 ---
 
 ## Why This Library Exists
 
-Complex ideas are frequently tangled up in technical jargon, algebraic symbols, or specialized code—making fundamental knowledge feel locked behind a wall. Each volume in this library separates one foundational domain into crisp, standalone **Concept Modules**. Every concept is isolated individually with:
+Foundational ideas often feel locked behind scary technical words, formulas, or rigid school labels. This library walks cleanly from **everyday human life first** out into the wider world. Every single idea stands neatly on its own in six gentle pieces:
 
-1. **Isolated Definition:** What the idea actually is in one or two plain sentences.
-2. **Mental Model:** A concrete picture you can hold in your head effortlessly.
-3. **Plain-English Explanation:** How it works without equations or jargon.
-4. **Everyday Example:** Where you already see it in ordinary life.
-5. **Do Not Confuse With:** Sharp separation from closely related ideas people mix up.
+1. **The Simple Idea:** What it really means in one or two calm everyday sentences.
+2. **Picture This:** A clear visual picture you can hold effortlessly.
+3. **How It Works:** Short plain explanations with zero jargon.
+4. **In Everyday Life:** A warm, familiar real-life moment.
+5. **Tiny Step to Try:** One small gentle action you can try in under a minute.
+6. **Do Not Mix Up With:** Clean separation from close habits people confuse.
 
 ---
 
-## Volumes in the Library
+## Books in the Library
 
-| Volume | Title | Core Focus | Markdown | Styled HTML |
+| Book | Title | Core Focus | Plain Text | Styled Reader |
 | :---: | :--- | :--- | :--- | :--- |
-| **I** | **Logic, Reasoning, and How We Know** | Arguments, validity vs. soundness, deduction/induction/abduction, confounding variables, fallacies, falsifiability, and updating beliefs | [Markdown](01_logic_and_reasoning.md) | [Read Book I](01_logic_and_reasoning.html) |
-| **II** | **Number, Proportion, and Spatial Thinking** | Cardinality vs. ordinality, place value, ratios, rates, percentages, linear vs. compound growth, scaling, dimension, topology, and spread | [Markdown](02_number_proportion_and_space.md) | [Read Book II](02_number_proportion_and_space.html) |
-| **III** | **Matter, Energy, and the Physical World** | Atoms, states of matter, density, inertia, acceleration, action-reaction, energy conservation, heat vs. temperature, entropy, waves, and fields | [Markdown](03_matter_energy_and_physics.md) | [Read Book III](03_matter_energy_and_physics.html) |
-| **IV** | **Life, Cells, and Evolution** | Selective boundaries, metabolism, homeostasis, cells, proteins, genes, mutation, natural selection, drift, ecosystems, and carrying capacity | [Markdown](04_life_cells_and_evolution.md) | [Read Book IV](04_life_cells_and_evolution.html) |
-| **V** | **Computation, Information, and Systems** | Information as eliminated uncertainty, signal vs. noise, compression, algorithms, search scaling, state vs. process, abstraction, protocols, and feedback loops | [Markdown](05_computation_information_and_systems.md) | [Read Book V](05_computation_information_and_systems.html) |
-| **VI** | **Language, Economics, and Human Coordination** | Concept isolation, connotation vs. denotation, scarcity, opportunity cost, marginal choice, price signals, incentives, commons, and error-correcting cultures | [Markdown](06_language_economics_and_coordination.md) | [Read Book VI](06_language_economics_and_coordination.html) |
+| **I** | **Your Body and Everyday Health** | Calm breathing, water, real food, body clock, sleep, real rest, gentle motion, body signals, and small daily habits | [Markdown](01_body_and_physical_health.md) | [Read Book I](01_body_and_physical_health.html) |
+| **II** | **Feelings, Calm, and Emotional Health** | Feelings as signals, putting words on moods, emotional weather, alarms vs. present reality, grounding, self-kindness, sadness & hope, and bouncing back | [Markdown](02_feelings_and_emotional_health.md) | [Read Book II](02_feelings_and_emotional_health.html) |
+| **III** | **People, Empathy, and Healthy Relationships** | Empathy, curiosity over quick judgment, listening without planning comebacks, warmth before fixing, kind boundaries, owning mistakes, and belonging | [Markdown](03_people_empathy_and_connection.md) | [Read Book III](03_people_empathy_and_connection.html) |
+| **IV** | **Clear Thinking and Everyday Sense** | Point vs. reasons, smooth stories vs. true facts, unspoken assumptions, spotting hidden causes, winners-only blind spots, fair replies, and changing your mind | [Markdown](04_clear_thinking_and_truth.md) | [Read Book IV](04_clear_thinking_and_truth.html) |
+| **V** | **Numbers, Size, and Everyday Patterns** | Counts vs. line spots, grouping by tens, zero, fair ratios, rates, percents, steady vs. snowball growth, scaling up, and honest averages | [Markdown](05_numbers_size_and_patterns.md) | [Read Book V](05_numbers_size_and_patterns.html) |
+| **VI** | **Things, Motion, Energy, and Heat** | Tiny building bits, ice/water/steam, why steel ships float, pushes and balance, energy changing outfits, waiting vs. moving energy, warmth spreading, and ripples | [Markdown](06_things_motion_and_energy.md) | [Read Book VI](06_things_motion_and_energy.html) |
+| **VII** | **Living Things, Growth, and Nature** | Guarded living borders, food into repair, inner balance, cells, folded tools, pocket energy, family recipes meeting surroundings, and shared webs of nature | [Markdown](07_living_things_and_nature.md) | [Read Book VII](07_living_things_and_nature.html) |
+| **VIII** | **Clear Messages, Systems, and Living Together** | Naming feelings cleanly, dictionary vs. emotional word feel, cutting noise, clear steps, calming vs. snowball loops, narrow doorways, trade-offs, and shared spaces | [Markdown](08_messages_systems_and_community.md) | [Read Book VIII](08_messages_systems_and_community.html) |
 
-*Start browsing interactively across all ninety isolated concepts in [index.html](index.html).*
+*Browse all 96 plain-English ideas interactively in [index.html](index.html).*
 
 ---
 
 ## How to Use These Books
 
-- **Read sequentially** from Book I to Book VI to build a connected mental foundation across reasoning, quantity, physics, biology, computation, and society.
-- **Jump by concept** whenever a specific term feels blurry—every concept module stands completely on its own without requiring prior chapters.
-- **Review the Distinctions Tables** at the close of each book whenever two ideas feel suspiciously similar (such as *validity vs. soundness*, *mass vs. weight*, *temperature vs. heat*, *state vs. process*, or *opportunity cost vs. sunk cost*).
+- **Start from the inside out:** Begin with Books I–III (Body, Feelings & Calm, People & Empathy) to steady everyday life, then explore Books IV–VIII at your own pace.
+- **Jump straight to any single idea:** Every card works cleanly on its own in about one minute—save favorites or search any everyday question in seconds.
+- **Keep small steps handy:** Try the gentle *Tiny Step to Try* inside cards whenever you want practical real-life warmth rather than abstract reading alone.

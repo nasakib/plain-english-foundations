@@ -1,0 +1,2278 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="paper" data-size="md" style="--accent: #e11d48; --accent-soft: rgba(225, 29, 72, 0.11);">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Book II: Feelings, Calm, and Emotional Health</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#f7f4ed" id="meta-theme-color" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Foundations" />
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
+  <script>
+    (function () {
+      try {
+        var m = document.cookie.match(/(?:^|; )pef_prefs=([^;]+)/);
+        var p = m ? JSON.parse(decodeURIComponent(m[1])) : null;
+        var t = (p && p.t) || localStorage.getItem('plain-books-theme') || 'paper';
+        var s = (p && p.s) || localStorage.getItem('plain-books-size') || 'md';
+        document.documentElement.setAttribute('data-theme', t);
+        document.documentElement.setAttribute('data-size', s);
+      } catch (e) {}
+      window.__bipPrompt = null;
+      window.addEventListener('beforeinstallprompt', function (e) {
+        e.preventDefault();
+        window.__bipPrompt = e;
+        window.dispatchEvent(new CustomEvent('plain-books-bip-ready'));
+      });
+    })();
+  </script>
+  <style>
+:root {
+  --bg: #f7f4ed;
+  --surface: #ffffff;
+  --surface-elevated: #ffffff;
+  --surface-muted: #efeae0;
+  --text: #1c1917;
+  --text-muted: #524d47;
+  --border: #e2dacb;
+  --quote-bg: #f6f3eb;
+  --example-bg: #f8fafc;
+  --try-bg: #eefbf3;
+  --try-border: #059669;
+  --warn-bg: #fff8eb;
+  --warn-border: #d97706;
+  --shadow-sm: 0 2px 10px rgba(28, 25, 23, 0.04);
+  --shadow: 0 12px 34px rgba(28, 25, 23, 0.07);
+  --font-serif: "Charter", "Georgia", "Cambria", "Times New Roman", serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --base-size: 18px;
+}
+
+html[data-theme="sepia"] {
+  --bg: #efe4cd;
+  --surface: #fbf5e7;
+  --surface-elevated: #fdf9ef;
+  --surface-muted: #e6d7b9;
+  --text: #2c2118;
+  --text-muted: #5f4e3d;
+  --border: #d9c7a3;
+  --quote-bg: #f2e7cf;
+  --example-bg: #f5ecda;
+  --try-bg: #e7f0de;
+  --try-border: #059669;
+  --warn-bg: #f6e7c8;
+  --warn-border: #b45309;
+}
+
+html[data-theme="night"] {
+  --bg: #0d1017;
+  --surface: #151923;
+  --surface-elevated: #1b212e;
+  --surface-muted: #202736;
+  --text: #ece9e4;
+  --text-muted: #aeb6c4;
+  --border: #2a3142;
+  --quote-bg: #1b2232;
+  --example-bg: #171d29;
+  --try-bg: #122620;
+  --try-border: #34d399;
+  --warn-bg: #241d17;
+  --warn-border: #f59e0b;
+  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.25);
+  --shadow: 0 14px 38px rgba(0, 0, 0, 0.45);
+}
+
+html[data-size="sm"] { --base-size: 16px; }
+html[data-size="md"] { --base-size: 18px; }
+html[data-size="lg"] { --base-size: 20px; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.2rem;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+* { box-sizing: border-box; }
+
+[id] { scroll-margin-top: 5.2rem; }
+
+body {
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  transition: background 0.22s ease, color 0.22s ease;
+}
+
+a {
+  color: var(--accent, #2563eb);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+:focus-visible {
+  outline: 3px solid var(--accent, #2563eb);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 2000;
+  padding: 0.75rem 1.1rem;
+  background: var(--accent, #2563eb);
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 0 0 12px 0;
+}
+.skip-link:focus {
+  left: 0.5rem;
+  top: 0.5rem;
+}
+
+.ui-ico {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+#reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--accent, #2563eb);
+  z-index: 1200;
+  transition: width 0.08s linear;
+}
+
+/* Sticky Symmetrical Header */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: max(0.6rem, env(safe-area-inset-top)) max(1.25rem, env(safe-area-inset-right)) 0.6rem max(1.25rem, env(safe-area-inset-left));
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.topbar-left, .topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+}
+.topbar-center {
+  display: none;
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--text);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 800;
+  font-size: 0.92rem;
+  color: var(--text);
+  min-height: 40px;
+}
+.brand-mark img {
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+}
+
+.topbar-subtitle {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.pill-btn, .pill-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: 38px;
+  padding: 0.38rem 0.78rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.pill-btn:hover, .pill-link:hover {
+  border-color: var(--accent, #2563eb);
+  text-decoration: none;
+}
+.pill-btn.active {
+  background: var(--accent, #2563eb);
+  color: #ffffff;
+  border-color: var(--accent, #2563eb);
+}
+
+.segmented-group {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px;
+  border-radius: 999px;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+}
+.seg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  min-height: 32px;
+  padding: 0.25rem 0.62rem;
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.seg-btn:hover { color: var(--text); }
+.seg-btn.active {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+}
+
+.swatch-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(120, 120, 120, 0.45);
+  flex-shrink: 0;
+}
+
+.kbd-hint {
+  font-size: 0.68rem;
+  padding: 0.1rem 0.36rem;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  border: 1px solid rgba(22, 163, 74, 0.35);
+  background: rgba(22, 163, 74, 0.12);
+  color: #15803d;
+  white-space: nowrap;
+}
+.status-pill::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+html[data-theme="night"] .status-pill {
+  color: #4ade80;
+  border-color: rgba(74, 222, 128, 0.35);
+}
+.status-pill.is-offline {
+  border-color: rgba(217, 119, 6, 0.45);
+  background: rgba(217, 119, 6, 0.14);
+  color: #b45309;
+}
+html[data-theme="night"] .status-pill.is-offline { color: #fbbf24; }
+
+.install-btn {
+  background: var(--accent, #2563eb);
+  color: #ffffff;
+  border-color: var(--accent, #2563eb);
+}
+.install-btn:hover { opacity: 0.92; }
+
+.mobile-only-ctrl { display: none; }
+.sidebar-close-btn { display: none; }
+.sidebar-backdrop { display: none; }
+
+/* Dismissible Mobile / Install Smart Banner */
+.install-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.85rem;
+  padding: 0.85rem 1rem;
+  margin-bottom: 1.15rem;
+  border-radius: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent, #2563eb);
+  box-shadow: var(--shadow-sm);
+}
+.install-banner[hidden] { display: none; }
+.install-banner-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+.install-banner-info img {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+.install-banner-title {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--text);
+}
+.install-banner-sub {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+.install-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+/* Book Shell Layout */
+.book-shell {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  width: 100%;
+  max-width: 1340px;
+  margin: 0 auto;
+  gap: 2rem;
+  padding: 1.75rem 1.5rem 4.5rem;
+}
+
+body.focus-mode .book-shell {
+  grid-template-columns: minmax(0, 840px);
+  justify-content: center;
+}
+body.focus-mode .sidebar { display: none; }
+
+.sidebar {
+  position: sticky;
+  top: 4.6rem;
+  align-self: start;
+  max-height: calc(100vh - 5.8rem);
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.15rem;
+  box-shadow: var(--shadow-sm);
+  min-width: 0;
+}
+
+.sidebar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.sidebar-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.sidebar-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.sidebar-chapter > a {
+  display: block;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--text);
+  padding: 0.45rem 0.55rem;
+  border-radius: 8px;
+}
+.sidebar-chapter > a:hover,
+.sidebar-chapter > a.active-nav {
+  background: var(--accent-soft);
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.sidebar-concepts {
+  list-style: none;
+  padding: 0.15rem 0 0.45rem 0.75rem;
+  margin: 0.15rem 0 0 0.35rem;
+  border-left: 2px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.sidebar-concepts a {
+  display: block;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+  padding: 0.32rem 0.5rem;
+  border-radius: 6px;
+}
+.sidebar-concepts a:hover {
+  color: var(--accent);
+  background: var(--surface-muted);
+  text-decoration: none;
+}
+.sidebar-concepts a.active-nav {
+  color: var(--accent);
+  background: var(--accent-soft);
+  font-weight: 700;
+}
+
+/* Main Editorial Reader Column */
+.reader-column {
+  min-width: 0;
+  max-width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 2.5rem clamp(1.15rem, 4vw, 3.75rem);
+  box-shadow: var(--shadow);
+  font-family: var(--font-serif);
+  font-size: var(--base-size);
+  overflow-wrap: break-word;
+}
+
+.book-hero {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1.6rem;
+  margin-bottom: 1.9rem;
+}
+
+.volume-badge {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: 0.73rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.78rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  margin-bottom: 0.85rem;
+}
+
+.book-hero h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(1.7rem, 3.4vw, 2.6rem);
+  line-height: 1.18;
+  margin: 0 0 0.85rem;
+  letter-spacing: -0.015em;
+}
+
+.book-meta-lines {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  line-height: 1.55;
+}
+
+.book-stats {
+  margin-top: 1.15rem;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+.book-stats span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  padding: 0.42rem 0.55rem;
+  border-radius: 10px;
+}
+
+.chapter-heading {
+  font-family: var(--font-sans);
+  font-size: clamp(1.25rem, 2.2vw, 1.48rem);
+  line-height: 1.28;
+  margin: 2.25rem 0 0.85rem;
+  padding-top: 0.35rem;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+.reader-column > p {
+  max-width: 68ch;
+  line-height: 1.78;
+}
+
+.toc-grid {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 0.55rem;
+  font-family: var(--font-sans);
+}
+.toc-grid li a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.55rem 0.85rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  color: var(--text);
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+.toc-grid li a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.section-divider {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+/* Isolated Concept Cards */
+.concept-card {
+  margin: 1.65rem 0 2rem;
+  padding: 1.45rem 1.55rem;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--accent);
+  background: var(--surface-elevated);
+  box-shadow: var(--shadow-sm);
+  min-width: 0;
+}
+.concept-card:target {
+  box-shadow: 0 0 0 3px var(--accent-soft), var(--shadow);
+}
+
+.concept-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.concept-title {
+  font-family: var(--font-sans);
+  font-size: 1.16rem;
+  line-height: 1.32;
+  margin: 0;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex: 1 1 200px;
+  min-width: 0;
+}
+
+.concept-num-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 0.2rem 0.55rem;
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.concept-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.icon-chip-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  min-height: 36px;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.3rem 0.72rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.icon-chip-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.icon-chip-btn.saved {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+.icon-chip-btn.saved svg { fill: currentColor; }
+.icon-chip-btn.copied {
+  border-color: #16a34a;
+  color: #16a34a;
+}
+
+.isolated-definition {
+  margin: 0 0 1rem;
+  padding: 0.92rem 1.1rem;
+  border-radius: 12px;
+  background: var(--quote-bg);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  font-size: 1.01em;
+  line-height: 1.65;
+}
+.isolated-definition strong:first-child {
+  font-family: var(--font-sans);
+  font-size: 0.78em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.22rem;
+}
+
+.concept-part {
+  margin: 0.9rem 0;
+  line-height: 1.74;
+}
+.concept-part > strong:first-child {
+  font-family: var(--font-sans);
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  margin-right: 0.35rem;
+}
+
+.role-mental-model {
+  padding: 0.85rem 1rem;
+  border-radius: 11px;
+  background: var(--accent-soft);
+}
+
+.role-explanation { max-width: 66ch; }
+
+.role-example {
+  padding: 0.85rem 1rem;
+  border-radius: 11px;
+  background: var(--example-bg);
+  border: 1px dashed var(--border);
+}
+
+.role-try-it {
+  margin: 0.95rem 0;
+  padding: 0.85rem 1rem;
+  border-radius: 11px;
+  background: var(--try-bg);
+  border: 1px solid color-mix(in srgb, var(--try-border) 32%, var(--border));
+  border-left: 4px solid var(--try-border);
+  font-size: 0.97em;
+}
+.role-try-it > strong:first-child { color: #047857; }
+html[data-theme="night"] .role-try-it > strong:first-child { color: #6ee7b7; }
+
+.concept-steps-list {
+  margin: 0.65rem 0;
+  padding-left: 1.35rem;
+  line-height: 1.7;
+}
+.concept-steps-list li {
+  margin: 0.35rem 0;
+}
+
+.role-distinction {
+  margin-top: 1rem;
+  padding: 0.88rem 1rem;
+  border-radius: 11px;
+  background: var(--warn-bg);
+  border: 1px solid color-mix(in srgb, var(--warn-border) 35%, var(--border));
+  border-left: 4px solid var(--warn-border);
+  font-size: 0.96em;
+}
+.role-distinction > strong:first-child { color: #b45309; }
+html[data-theme="night"] .role-distinction > strong:first-child { color: #fbbf24; }
+
+.concept-index-list { padding-left: 1.25rem; }
+.concept-index-list li {
+  margin: 0.5rem 0;
+  line-height: 1.62;
+}
+
+.table-wrap {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 1.25rem 0;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+}
+.distinctions-table {
+  width: 100%;
+  min-width: 520px;
+  border-collapse: collapse;
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+}
+.distinctions-table th, .distinctions-table td {
+  border-bottom: 1px solid var(--border);
+  padding: 0.78rem 0.9rem;
+  text-align: left;
+  vertical-align: top;
+}
+.distinctions-table tr:last-child td { border-bottom: 0; }
+.distinctions-table th {
+  background: var(--surface-muted);
+  font-weight: 700;
+}
+
+.self-check-list { padding-left: 1.25rem; }
+.self-check-item { margin: 1.2rem 0; }
+.question-text {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.answer-reveal {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.62rem 0.95rem;
+}
+.answer-reveal summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--accent);
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+}
+.answer-body {
+  margin-top: 0.55rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.book-footer-nav {
+  margin-top: 2.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-sans);
+}
+.footer-left { justify-self: start; }
+.footer-center { justify-self: center; }
+.footer-right { justify-self: end; }
+
+#back-to-top {
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: calc(1rem + env(safe-area-inset-bottom));
+  z-index: 150;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 42px;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+#back-to-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* Modals (Command Search, Display Settings Sheet, OS Install Guide) */
+.cmd-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
+  display: grid;
+  place-items: start center;
+  padding: max(6vh, env(safe-area-inset-top)) 0.85rem calc(1rem + env(safe-area-inset-bottom));
+}
+.cmd-backdrop[hidden] { display: none; }
+.cmd-dialog {
+  width: min(660px, 100%);
+  max-height: 86vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+  font-family: var(--font-sans);
+}
+.cmd-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.cmd-input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 1rem;
+  font-family: var(--font-sans);
+}
+.cmd-list {
+  max-height: 55vh;
+  overflow-y: auto;
+  padding: 0.55rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.cmd-item {
+  display: block;
+  padding: 0.7rem 0.85rem;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  color: var(--text);
+  text-decoration: none;
+}
+.cmd-item:hover, .cmd-item.selected {
+  background: var(--surface-muted);
+  border-color: var(--border);
+  text-decoration: none;
+}
+.cmd-item-book {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+.cmd-item-title {
+  font-weight: 700;
+  font-size: 0.94rem;
+  margin: 0.12rem 0;
+}
+.cmd-item-def {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.sheet-dialog {
+  width: min(520px, 100%);
+  padding: 1.35rem;
+}
+.sheet-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+}
+.sheet-head h3 {
+  margin: 0;
+  font-size: 1.12rem;
+}
+.sheet-section {
+  margin-top: 1rem;
+}
+.sheet-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.45rem;
+}
+.sheet-seg-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+.sheet-seg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.sheet-seg-btn.active {
+  background: var(--accent, #2563eb);
+  border-color: var(--accent, #2563eb);
+  color: #ffffff;
+}
+.sheet-links-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+.sheet-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  padding: 0.5rem 0.85rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+}
+.sheet-action-btn:hover {
+  border-color: var(--accent, #2563eb);
+  text-decoration: none;
+}
+.sheet-action-btn.primary {
+  grid-column: 1 / -1;
+  background: var(--accent, #2563eb);
+  border-color: var(--accent, #2563eb);
+  color: #ffffff;
+}
+
+.install-checks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin: 0.85rem 0;
+}
+.install-check-item {
+  font-size: 0.78rem;
+  padding: 0.52rem 0.72rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+}
+.install-check-item strong {
+  display: block;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+.install-os-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.4rem;
+  margin: 0.75rem 0;
+}
+.install-os-tab {
+  min-height: 40px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.install-os-tab.active {
+  background: var(--accent, #2563eb);
+  border-color: var(--accent, #2563eb);
+  color: #ffffff;
+}
+.install-steps {
+  margin: 0.65rem 0 1rem;
+  padding-left: 1.25rem;
+  font-size: 0.9rem;
+  line-height: 1.62;
+  color: var(--text);
+}
+.install-steps li { margin: 0.4rem 0; }
+.inline-ios-ico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  vertical-align: middle;
+  border-radius: 6px;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  margin: 0 2px;
+}
+
+/* Mobile Responsive Refinements (<= 960px) */
+@media (max-width: 960px) {
+  .desktop-only-ctrl { display: none !important; }
+  .mobile-only-ctrl { display: inline-flex; }
+  .topbar {
+    position: sticky;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.45rem;
+    padding: max(0.5rem, env(safe-area-inset-top)) max(0.85rem, env(safe-area-inset-right)) 0.5rem max(0.85rem, env(safe-area-inset-left));
+  }
+  .topbar-center {
+    display: block;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+  .pill-btn, .pill-link {
+    min-height: 44px;
+    padding: 0.4rem 0.78rem;
+  }
+  .icon-only-mobile {
+    min-width: 44px;
+    padding: 0.4rem 0.65rem;
+  }
+  .icon-only-mobile .btn-label { display: none; }
+
+  .book-shell {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0.9rem 0.75rem 4rem;
+  }
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(320px, 86vw);
+    max-height: 100vh;
+    z-index: 600;
+    border-radius: 0 18px 18px 0;
+    padding-top: max(1.15rem, env(safe-area-inset-top));
+    padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
+    transform: translateX(-105%);
+    transition: transform 0.22s ease;
+  }
+  body.drawer-open .sidebar { transform: translateX(0); }
+  body.drawer-open .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 550;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(2px);
+  }
+  .sidebar-close-btn { display: inline-flex; }
+}
+
+@media (max-width: 600px) {
+  .reader-column {
+    border-radius: 18px;
+    padding: 1.45rem 1.05rem;
+  }
+  .book-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .concept-card {
+    padding: 1.15rem 1rem;
+    border-radius: 16px;
+  }
+  .icon-chip-btn {
+    min-height: 42px;
+    padding: 0.35rem 0.8rem;
+  }
+  .book-footer-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .footer-left { grid-column: 1; justify-self: stretch; }
+  .footer-right { grid-column: 2; justify-self: stretch; }
+  .footer-center { grid-column: 1 / -1; grid-row: 2; justify-self: stretch; }
+  .book-footer-nav .pill-link { width: 100%; }
+  .cmd-backdrop {
+    place-items: end center;
+    padding: 0.75rem 0.65rem calc(0.75rem + env(safe-area-inset-bottom));
+  }
+  .install-banner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  .install-banner-actions {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.5rem;
+    width: 100%;
+  }
+  .install-banner-actions .install-btn { width: 100%; }
+  .table-wrap { border: 0; border-radius: 0; overflow: visible; }
+  .distinctions-table { min-width: 0; display: block; }
+  .distinctions-table thead { display: none; }
+  .distinctions-table tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .distinctions-table tr {
+    display: block;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--surface-muted);
+    padding: 0.75rem 0.9rem;
+  }
+  .distinctions-table td {
+    display: block;
+    border-bottom: 1px solid var(--border);
+    padding: 0.45rem 0;
+  }
+  .distinctions-table td:last-child { border-bottom: 0; padding-bottom: 0; }
+  .distinctions-table td:first-child { padding-top: 0; }
+  .distinctions-table td::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent, #2563eb);
+    margin-bottom: 0.15rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  .topbar, .sidebar, .sidebar-backdrop, #reading-progress, #back-to-top, .book-footer-nav, .concept-actions, .cmd-backdrop, .install-banner, .skip-link { display: none !important; }
+  .book-shell { display: block; padding: 0; }
+  .reader-column { border: 0; box-shadow: none; padding: 0; }
+  .concept-card { break-inside: avoid; }
+  .answer-reveal[open] summary { display: none; }
+}
+</style>
+</head>
+<body data-book-id="02" data-book-label="Book II: Feelings &amp; Calm">
+  <a class="skip-link" href="#main-content">Skip to book content</a>
+  <div id="reading-progress" aria-hidden="true"></div>
+  <header class="topbar">
+    <div class="topbar-left">
+      <button type="button" id="mobile-menu-btn" class="pill-btn mobile-only-ctrl" aria-expanded="false" aria-controls="book-sidebar" aria-label="Open chapters and ideas"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg><span>Contents</span></button>
+      <a class="pill-link desktop-only-ctrl" href="index.html">&larr; Library</a>
+      <span class="topbar-subtitle desktop-only-ctrl">
+        Volume II &middot; Emotional Wellbeing
+      </span>
+      <span id="pwa-status-pill" class="status-pill desktop-only-ctrl" hidden>Offline Ready</span>
+    </div>
+    <div class="topbar-center">Book II</div>
+    <div class="topbar-right">
+      <button type="button" id="open-cmd-btn" class="pill-btn icon-only-mobile" aria-label="Search all ideas"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span class="btn-label">Search</span><span class="kbd-hint desktop-only-ctrl">Ctrl+K</span></button>
+      <button type="button" id="open-settings-btn" class="pill-btn mobile-only-ctrl" aria-label="Display settings and install"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg><span>Aa</span></button>
+      <button type="button" id="focus-mode-btn" class="pill-btn desktop-only-ctrl" title="Toggle distraction-free reading"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Focus</span></button>
+      
+      <div class="segmented-group desktop-only-ctrl" role="group" aria-label="Text size">
+        <button type="button" class="seg-btn" data-set-size="sm">A-</button>
+        <button type="button" class="seg-btn" data-set-size="md">A</button>
+        <button type="button" class="seg-btn" data-set-size="lg">A+</button>
+      </div>
+      <div class="segmented-group desktop-only-ctrl" role="group" aria-label="Reading theme">
+        <button type="button" class="seg-btn" data-set-theme="paper"><span class="swatch-dot" style="background:#f7f4ed"></span>Paper</button>
+        <button type="button" class="seg-btn" data-set-theme="sepia"><span class="swatch-dot" style="background:#efe4cd"></span>Sepia</button>
+        <button type="button" class="seg-btn" data-set-theme="night"><span class="swatch-dot" style="background:#151923"></span>Night</button>
+      </div>
+      <button type="button" id="pwa-install-btn" class="pill-btn install-btn desktop-only-ctrl">Install App</button>
+      <a class="pill-link desktop-only-ctrl" href="02_feelings_and_emotional_health.md">Plain Text</a>
+    </div>
+  </header>
+
+  <div id="sidebar-backdrop" class="sidebar-backdrop"></div>
+  <div class="book-shell">
+    <aside id="book-sidebar" class="sidebar" aria-label="Book chapters and ideas">
+      <div class="sidebar-top">
+        <div class="sidebar-label">Chapters &amp; Ideas</div>
+        <button type="button" id="sidebar-close-btn" class="pill-btn sidebar-close-btn">Close</button>
+      </div>
+      <ul class="sidebar-nav">
+<li class="sidebar-chapter">
+<a href="#core-thesis">Core Thesis</a>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-1-what-feelings-are-telling-you">Chapter 1: What Feelings Are Telling You</a>
+<ul class="sidebar-concepts">
+<li><a href="#idea-11-feelings-are-signals-not-orders">1.1: Feelings Are Signals, Not Orders</a></li>
+<li><a href="#idea-12-putting-simple-words-on-what-you-feel">1.2: Putting Simple Words on What You Feel</a></li>
+<li><a href="#idea-13-feelings-rise-peak-and-pass-like-weather">1.3: Feelings Rise, Peak, and Pass Like Weather</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-2-worry-stress-and-steady-ground">Chapter 2: Worry, Stress, and Steady Ground</a>
+<ul class="sidebar-concepts">
+<li><a href="#idea-21-why-your-inner-alarm-goes-off">2.1: Why Your Inner Alarm Goes Off</a></li>
+<li><a href="#idea-22-present-trouble-versus-imagined-trouble">2.2: Present Trouble Versus Imagined Trouble</a></li>
+<li><a href="#idea-23-grounding-yourself-when-everything-feels-too-loud">2.3: Grounding Yourself When Everything Feels Too Loud</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-3-being-fair-and-kind-to-yourself">Chapter 3: Being Fair and Kind to Yourself</a>
+<ul class="sidebar-concepts">
+<li><a href="#idea-31-spotting-a-harsh-inner-voice">3.1: Spotting a Harsh Inner Voice</a></li>
+<li><a href="#idea-32-thoughts-are-guesses-not-proven-facts">3.2: Thoughts Are Guesses, Not Proven Facts</a></li>
+<li><a href="#idea-33-holding-both-sadness-and-hope">3.3: Holding Both Sadness and Hope</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#chapter-4-warmth-meaning-and-bouncing-back">Chapter 4: Warmth, Meaning, and Bouncing Back</a>
+<ul class="sidebar-concepts">
+<li><a href="#idea-41-notice-what-goes-right">4.1: Notice What Goes Right</a></li>
+<li><a href="#idea-42-calm-comes-from-living-close-to-what-you-value">4.2: Calm Comes From Living Close to What You Value</a></li>
+<li><a href="#idea-43-bouncing-back-one-small-step-at-a-time">4.3: Bouncing Back One Small Step at a Time</a></li>
+</ul>
+</li>
+<li class="sidebar-chapter">
+<a href="#key-differences-at-a-glance">Key Differences at a Glance</a>
+</li>
+<li class="sidebar-chapter">
+<a href="#simple-word-guide">Simple Word Guide</a>
+</li>
+<li class="sidebar-chapter">
+<a href="#check-yourself">Check Yourself</a>
+</li>
+</ul>
+    </aside>
+
+    <main id="main-content" class="reader-column">
+      <section class="book-hero">
+        <div class="volume-badge">Plain Everyday Foundations &middot; Book II</div>
+        <h1>Book II: Feelings, Calm, and Emotional Health</h1>
+        <div class="book-meta-lines"><div><strong>Series:</strong> The Plain-English Foundations Library — Volume II</div>
+<div><strong>Focus:</strong> Understanding feelings, naming emotions gently, calming worry, speaking kindly to yourself, and bouncing back from hard days — written in clear everyday English.</div></div>
+        <div class="book-stats">
+          <span>12 Clear Ideas</span>
+          <span>~3,796 Words</span>
+          <span>~18 Min Read</span>
+          <span>Zero Jargon &middot; Everyday English</span>
+        </div>
+      </section>
+
+      <div id="mobile-install-banner" class="install-banner" hidden>
+        <div class="install-banner-info">
+          <img src="icons/icon.svg" alt="" />
+          <div>
+            <div class="install-banner-title">Install Foundations Reader</div>
+            <div id="install-banner-sub" class="install-banner-sub">Read all 8 books offline with saved cookie progress.</div>
+          </div>
+        </div>
+        <div class="install-banner-actions">
+          <button type="button" id="banner-install-btn" class="pill-btn install-btn">Install</button>
+          <button type="button" id="dismiss-install-banner" class="pill-btn" aria-label="Dismiss install banner">&times;</button>
+        </div>
+      </div>
+
+      <hr class="section-divider" />
+<h2 id="core-thesis" class="chapter-heading">Core Thesis</h2>
+<p>Emotions are not bugs in human design, and painful feelings do not mean something is wrong with you. Feelings work like inner weather and gentle signal lights: they point directly toward what matters to you, what hurts, or what needs care. Learning to read those feelings softly, quiet false alarms, treat yourself like a friend, and take small honest steps even on heavy days builds quiet strength that stays with you for life.</p>
+<hr class="section-divider" />
+<h2 id="table-of-contents" class="chapter-heading">Table of Contents</h2>
+<ul class="toc-grid"><li><a href="#chapter-1-what-feelings-are-telling-you">Chapter 1: What Feelings Are Telling You</a></li><li><a href="#chapter-2-worry-stress-and-steady-ground">Chapter 2: Worry, Stress, and Steady Ground</a></li><li><a href="#chapter-3-being-fair-and-kind-to-yourself">Chapter 3: Being Fair and Kind to Yourself</a></li><li><a href="#chapter-4-warmth-meaning-and-bouncing-back">Chapter 4: Warmth, Meaning, and Bouncing Back</a></li><li><a href="#key-differences-at-a-glance">Key Differences at a Glance</a></li><li><a href="#simple-word-guide">Simple Word Guide</a></li><li><a href="#check-yourself">Check Yourself</a></li></ul>
+<hr class="section-divider" />
+<h2 id="chapter-1-what-feelings-are-telling-you" class="chapter-heading">Chapter 1: What Feelings Are Telling You</h2>
+<p>We spend years trying to push uncomfortable feelings down or argue them away, yet emotions calm down far faster once we understand why they showed up.</p>
+<article id="idea-11-feelings-are-signals-not-orders" class="concept-card" data-concept-index="0" data-concept-id="idea-11-feelings-are-signals-not-orders" data-concept-title="Idea 1.1: Feelings Are Signals, Not Orders">
+<div class="concept-header-row"><h3 class="concept-title"><span class="concept-num-badge">1.1</span><span>Feelings Are Signals, Not Orders</span></h3><div class="concept-actions"><button type="button" class="icon-chip-btn copy-link-btn" data-copy-id="idea-11-feelings-are-signals-not-orders" aria-label="Copy link to Feelings Are Signals, Not Orders"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span>Link</span></button><button type="button" class="icon-chip-btn bookmark-btn" data-bookmark-id="idea-11-feelings-are-signals-not-orders" data-bookmark-title="Idea 1.1: Feelings Are Signals, Not Orders" aria-pressed="false" aria-label="Bookmark Feelings Are Signals, Not Orders"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg><span>Save</span></button></div></div>
+<blockquote class="isolated-definition"><strong>The Simple Idea:</strong> Feelings rise up to warn, protect, or highlight what you care about—you can hear their message respectfully without letting every sudden impulse steer your hands and mouth.</blockquote>
+<p class="concept-part role-mental-model"><strong>Picture This:</strong> Think of a smoke detector in a warm kitchen. It rings loudly to make you look around and check the stove—not to force you to throw the entire oven out the window.</p>
+<p class="concept-part role-explanation"><strong>How It Works:</strong> Anger often whispers that a boundary felt crossed or something felt unfair. Sadness points toward something meaningful you lost or miss. Nervousness tells you an upcoming moment truly matters to you.</p>
+<p class="concept-part role-explanation">When you listen gently to the clue underneath the feeling, you stay free to choose your next action with care instead of shouting, shutting down, or rushing into regret.</p>
+<p class="concept-part role-example"><strong>In Everyday Life:</strong> Feeling a flash of anger when someone cuts in front of you in traffic warns you to stay safe and leave space—you notice the heat cleanly without leaning on the horn for ten blocks.</p>
+<p class="concept-part role-try-it"><strong>Tiny Step to Try:</strong> Next time a strong feeling flares up, pause and ask quietly inside: "Wait—what is this feeling trying to protect or point out to me right now?"</p>
+<p class="concept-part role-distinction"><strong>Do Not Mix Up With:</strong> <strong>Stuffing feelings down.</strong> Hearing a feeling calmly means acknowledging "I am angry right now" without needing to obey anger's loudest snap urge.</p>
+</article>
+<hr class="section-divider" />
+<article id="idea-12-putting-simple-words-on-what-you-feel" class="concept-card" data-concept-index="1" data-concept-id="idea-12-putting-simple-words-on-what-you-feel" data-concept-title="Idea 1.2: Putting Simple Words on What You Feel">
+<div class="concept-header-row"><h3 class="concept-title"><span class="concept-num-badge">1.2</span><span>Putting Simple Words on What You Feel</span></h3><div class="concept-actions"><button type="button" class="icon-chip-btn copy-link-btn" data-copy-id="idea-12-putting-simple-words-on-what-you-feel" aria-label="Copy link to Putting Simple Words on What You Feel"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span>Link</span></button><button type="button" class="icon-chip-btn bookmark-btn" data-bookmark-id="idea-12-putting-simple-words-on-what-you-feel" data-bookmark-title="Idea 1.2: Putting Simple Words on What You Feel" aria-pressed="false" aria-label="Bookmark Putting Simple Words on What You Feel"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg><span>Save</span></button></div></div>
+<blockquote class="isolated-definition"><strong>The Simple Idea:</strong> Naming a vague storm inside with a clear ordinary word—like "tired," "left out," or "nervous"—gently turns down the inner heat right away.</blockquote>
+<p class="concept-part role-mental-model"><strong>Picture This:</strong> Imagine stumbling around a pitch-dark bedroom bumping shins on boxes, then flipping on a soft lamp. The boxes are still on the floor, yet seeing plainly where each sits immediately removes half the panic.</p>
+<p class="concept-part role-explanation"><strong>How It Works:</strong> Huge tangled moods ("everything feels terrible!") feel overwhelming partly because they are blurry. Separating that fog into specific plain words—"honestly, I am half discouraged, half hungry, and worried about Friday"—breaks one monster into small ordinary pieces you actually know how to help.</p>
+<p class="concept-part role-explanation">Talking aloud or writing two honest sentences down works cleanly for children and adults alike because naming gives the thinking part of your mind a handle.</p>
+<p class="concept-part role-example"><strong>In Everyday Life:</strong> Before snapping at a partner after a long week, saying simply, "I'm feeling worn thin and stretched today, not mad at you," clears away confusion before an argument even starts.</p>
+<p class="concept-part role-try-it"><strong>Tiny Step to Try:</strong> Think of your mood right now and pick two honest simple words for it (for instance: "calm and a little sleepy" or "restless and hopeful"). Notice how clarity feels.</p>
+<p class="concept-part role-distinction"><strong>Do Not Mix Up With:</strong> <strong>Fixing everything instantly.</strong> Naming a feeling does not magically pay the bill or heal a loss—it gives you steadier footing while you face it.</p>
+</article>
+<hr class="section-divider" />
+<article id="idea-13-feelings-rise-peak-and-pass-like-weather" class="concept-card" data-concept-index="2" data-concept-id="idea-13-feelings-rise-peak-and-pass-like-weather" data-concept-title="Idea 1.3: Feelings Rise, Peak, and Pass Like Weather">
+<div class="concept-header-row"><h3 class="concept-title"><span class="concept-num-badge">1.3</span><span>Feelings Rise, Peak, and Pass Like Weather</span></h3><div class="concept-actions"><button type="button" class="icon-chip-btn copy-link-btn" data-copy-id="idea-13-feelings-rise-peak-and-pass-like-weather" aria-label="Copy link to Feelings Rise, Peak, and Pass Like Weather"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span>Link</span></button><button type="button" class="icon-chip-btn bookmark-btn" data-bookmark-id="idea-13-feelings-rise-peak-and-pass-like-weather" data-bookmark-title="Idea 1.3: Feelings Rise, Peak, and Pass Like Weather" aria-pressed="false" aria-label="Bookmark Feelings Rise, Peak, and Pass Like Weather"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg><span>Save</span></button></div></div>
+<blockquote class="isolated-definition"><strong>The Simple Idea:</strong> No emotional storm freezes forever; uncomfortable feelings swell up, reach a peak, and naturally shift away if you stop fighting them or pouring extra worry fuel on top.</blockquote>
+<p class="concept-part role-mental-model"><strong>Picture This:</strong> Think of watching rainclouds blow across a wide valley. Trying to yell at the sky stops zero raindrops, yet making a warm mug and letting the shower pass moves afternoon back toward clearer light.</p>
+<p class="concept-part role-explanation"><strong>How It Works:</strong> Many painful surges intensify because we panic <em>about</em> feeling bad ("Why am I still sad? What if I feel like this all year?"). That extra panic hooks your mind onto the feeling and keeps feeding it.</p>
+<p class="concept-part role-explanation">Simply breathing slowly and letting a heavy wave sit beside you for a few minutes lets your nervous system settle on its own, just as waves rise and soften back into open water.</p>
+<p class="concept-part role-example"><strong>In Everyday Life:</strong> Embarrassment after tripping on stairs or flubbing a name in public burns hot for two minutes, yet settles naturally when you chuckle softly and let the moment move on instead of replaying it all night.</p>
+<p class="concept-part role-try-it"><strong>Tiny Step to Try:</strong> When frustration hits today, tell yourself gently: "This feels sharp right now, and like weather, it does not stay stuck at this exact height forever."</p>
+<p class="concept-part role-distinction"><strong>Do Not Mix Up With:</strong> <strong>Faking cheerfulness.</strong> Riding out heavy weather does not mean painting on a fake grin; it means staying kind and patient with yourself while storms blow through.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="chapter-2-worry-stress-and-steady-ground" class="chapter-heading">Chapter 2: Worry, Stress, and Steady Ground</h2>
+<p>Human stress alarms were built to help us dodge charging dangers—yet modern life sets them ringing over bills, awkward texts, and late emails.</p>
+<article id="idea-21-why-your-inner-alarm-goes-off" class="concept-card" data-concept-index="3" data-concept-id="idea-21-why-your-inner-alarm-goes-off" data-concept-title="Idea 2.1: Why Your Inner Alarm Goes Off">
+<div class="concept-header-row"><h3 class="concept-title"><span class="concept-num-badge">2.1</span><span>Why Your Inner Alarm Goes Off</span></h3><div class="concept-actions"><button type="button" class="icon-chip-btn copy-link-btn" data-copy-id="idea-21-why-your-inner-alarm-goes-off" aria-label="Copy link to Why Your Inner Alarm Goes Off"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span>Link</span></button><button type="button" class="icon-chip-btn bookmark-btn" data-bookmark-id="idea-21-why-your-inner-alarm-goes-off" data-bookmark-title="Idea 2.1: Why Your Inner Alarm Goes Off" aria-pressed="false" aria-label="Bookmark Why Your Inner Alarm Goes Off"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg><span>Save</span></button></div></div>
+<blockquote class="isolated-definition"><strong>The Simple Idea:</strong> A racing heartbeat, tight belly, and restless chest are simply your body's ancient emergency helper flooding you with energy to keep you safe—not a sign you are breaking down.</blockquote>
+<p class="concept-part role-mental-model"><strong>Picture This:</strong> Imagine a faithful guard dog barking excitedly at the front window whenever a delivery truck pulls up. The dog is not broken; it is trying earnestly to keep the house safe even though the driver only holds groceries.</p>
+<p class="concept-part role-explanation"><strong>How It Works:</strong> Your body turns up focus, tightens muscles, and speeds your pulse the instant your mind senses trouble—whether it is an icy sidewalk or an unclear message from your boss.</p>
+<p class="concept-part role-explanation">Fighting those body sensations in fear ("Why is my heart beating so fast?!") convinces your guard dog there <em>must</em> be a bear outside, ringing the bell twice as loud. Greeting them calmly—"oh, my alarm system thinks this matters"—lets the bell wind down safely.</p>
+<p class="concept-part role-example"><strong>In Everyday Life:</strong> Feeling butterflies and warm palms right before giving a toast or attending an interview simply shows your body loaded extra readiness so you can care well—not that you are about to fail.</p>
+<p class="concept-part role-try-it"><strong>Tiny Step to Try:</strong> When your chest feels tight or hurried, place one calm palm over your heart and quietly say, "Thanks for looking out for me, body—we are safe in this room right now."</p>
+<p class="concept-part role-distinction"><strong>Do Not Mix Up With:</strong> <strong>Actual danger.</strong> Always check quick real safety first; once you know you are physically safe, soothing your body tells your guard system it can clock out.</p>
+</article>
+<hr class="section-divider" />
+<article id="idea-22-present-trouble-versus-imagined-trouble" class="concept-card" data-concept-index="4" data-concept-id="idea-22-present-trouble-versus-imagined-trouble" data-concept-title="Idea 2.2: Present Trouble Versus Imagined Trouble">
+<div class="concept-header-row"><h3 class="concept-title"><span class="concept-num-badge">2.2</span><span>Present Trouble Versus Imagined Trouble</span></h3><div class="concept-actions"><button type="button" class="icon-chip-btn copy-link-btn" data-copy-id="idea-22-present-trouble-versus-imagined-trouble" aria-label="Copy link to Present Trouble Versus Imagined Trouble"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span>Link</span></button><button type="button" class="icon-chip-btn bookmark-btn" data-bookmark-id="idea-22-present-trouble-versus-imagined-trouble" data-bookmark-title="Idea 2.2: Present Trouble Versus Imagined Trouble" aria-pressed="false" aria-label="Bookmark Present Trouble Versus Imagined Trouble"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg><span>Save</span></button></div></div>
+<blockquote class="isolated-definition"><strong>The Simple Idea:</strong> Much of daily emotional pain comes not from what is hurting in this actual minute, but from time-traveling into regret about yesterday or scary guesses about tomorrow.</blockquote>
+<p class="concept-part role-mental-model"><strong>Picture This:</strong> Imagine walking outside carrying an umbrella and heavy snow boots under a mild spring sun because you keep bracing for next winter's blizzard already. You tire yourself out fighting a storm that is not even here yet.</p>
+<p class="concept-part role-explanation"><strong>How It Works:</strong> Planning gently ahead helps—writing a grocery list, checking savings, packing a bag before a trip. Worrying loops endlessly <em>without</em> picking any helpful next step, rehearsing awful scenes until your body suffers twice over things that mostly never happen.</p>
+<p class="concept-part role-explanation">Whenever worry loops spin fast, coming back to one clear question breaks the spell: "What tiny piece of this is actually mine to handle today, right here?"</p>
+<p class="concept-part role-example"><strong>In Everyday Life:</strong> Lying awake at midnight playing out three ways a meeting next Tuesday might go wrong leaves you exhausted on Wednesday morning—whereas writing one reminder note on your desk for morning frees tonight for real sleep.</p>
+<p class="concept-part role-try-it"><strong>Tiny Step to Try:</strong> When a big "what if..." thought circles around your head, pause and ask cleanly: "Is this happening right this second, or is it a future guess I can set gently on paper for tomorrow?"</p>
+<p class="concept-part role-distinction"><strong>Do Not Mix Up With:</strong> <strong>Ignoring real problems.</strong> Stepping out of worry loops leaves <em>more</em> calm energy to take one practical step toward bills, apologies, or preparations when daylight comes.</p>
+</article>
+<hr class="section-divider" />
+<article id="idea-23-grounding-yourself-when-everything-feels-too-loud" class="concept-card" data-concept-index="5" data-concept-id="idea-23-grounding-yourself-when-everything-feels-too-loud" data-concept-title="Idea 2.3: Grounding Yourself When Everything Feels Too Loud">
+<div class="concept-header-row"><h3 class="concept-title"><span class="concept-num-badge">2.3</span><span>Grounding Yourself When Everything Feels Too Loud</span></h3><div class="concept-actions"><button type="button" class="icon-chip-btn copy-link-btn" data-copy-id="idea-23-grounding-yourself-when-everything-feels-too-loud" aria-label="Copy link to Grounding Yourself When Everything Feels Too Loud"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span>Link</span></button><button type="button" class="icon-chip-btn bookmark-btn" data-bookmark-id="idea-23-grounding-yourself-when-everything-feels-too-loud" data-bookmark-title="Idea 2.3: Grounding Yourself When Everything Feels Too Loud" aria-pressed="false" aria-label="Bookmark Grounding Yourself When Everything Feels Too Loud"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg><span>Save</span></button></div></div>
+<blockquote class="isolated-definition"><strong>The Simple Idea:</strong> When thoughts race too fast to untangle by thinking harder, bringing attention directly into what your hands touch, feet rest on, and ears hear steadies your mind fast.</blockquote>
+<p class="concept-part role-mental-model"><strong>Picture This:</strong> Picture a snow globe shaken violently until white flakes blur everything inside. Shaking harder never clears the glass; setting it calmly onto a solid wooden table lets every flake drift softly down into clear view again.</p>
+<p class="concept-part role-explanation"><strong>How It Works:</strong> Racing minds try to think their way out of overwhelm—which simply adds more words to an already crowded room. Body senses work like anchors tied straight into solid reality right now.</p>
+<p class="concept-part role-explanation">Feeling the flat chair underneath you, pressing feet gently into floor tiles, noticing three calm colors in the room, or holding a cool glass in your hands pulls attention cleanly down out of spinning thoughts.</p>
+<p class="concept-part role-example"><strong>In Everyday Life:</strong> Feeling flooded inside a noisy store or tense meeting, noticing the smooth coolness of your water bottle, feeling both feet planted flat in your shoes, and taking one long slow out-breath quietly brings you back into the room.</p>
+<p class="concept-part role-try-it"><strong>Tiny Step to Try:</strong> Look around gently right now and silently name three ordinary objects you can see, two textures you can feel with your fingers, and one quiet sound nearby.</p>
+<p class="concept-part role-distinction"><strong>Do Not Mix Up With:</strong> <strong>Running away forever.</strong> Grounding gives you solid footing inside the storm so you can handle whatever comes next steadily instead of getting swept away.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="chapter-3-being-fair-and-kind-to-yourself" class="chapter-heading">Chapter 3: Being Fair and Kind to Yourself</h2>
+<p>Most people speak more sharply to themselves after a mistake than they would ever speak to a tired neighbor or child—yet gentle fairness heals far better than harshness.</p>
+<article id="idea-31-spotting-a-harsh-inner-voice" class="concept-card" data-concept-index="6" data-concept-id="idea-31-spotting-a-harsh-inner-voice" data-concept-title="Idea 3.1: Spotting a Harsh Inner Voice">
+<div class="concept-header-row"><h3 class="concept-title"><span class="concept-num-badge">3.1</span><span>Spotting a Harsh Inner Voice</span></h3><div class="concept-actions"><button type="button" class="icon-chip-btn copy-link-btn" data-copy-id="idea-31-spotting-a-harsh-inner-voice" aria-label="Copy link to Spotting a Harsh Inner Voice"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span>Link</span></button><button type="button" class="icon-chip-btn bookmark-btn" data-bookmark-id="idea-31-spotting-a-harsh-inner-voice" data-bookmark-title="Idea 3.1: Spotting a Harsh Inner Voice" aria-pressed="false" aria-label="Bookmark Spotting a Harsh Inner Voice"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg><span>Save</span></button></div></div>
+<blockquote class="isolated-definition"><strong>The Simple Idea:</strong> The strict scolding voice inside your head during hard moments is an old protective habit, not absolute truth—and speaking to yourself with steady kindness builds real courage rather than excuses.</blockquote>
+<p class="concept-part role-mental-model"><strong>Picture This:</strong> Compare two coaches standing on the edge of a running track after a stumble: one screams insults until you want to walk off the field; the other hands you water, helps check your ankle, and says calmly, "Okay, let's see what tripped you and try again when you're ready."</p>
+<p class="concept-part role-explanation"><strong>How It Works:</strong> Many people secretly fear that if they stop being mean to themselves, they will grow lazy. In real life, beating yourself up drains energy, invites hiding, and makes trying hard things feel scary.</p>
+<p class="concept-part role-explanation">True self-kindness has three quiet ingredients: noticing that a moment genuinely hurts, remembering every human stumbles at times, and talking to yourself with the same warm honesty you give a cared-for friend.</p>
+<p class="concept-part role-example"><strong>In Everyday Life:</strong> After burning dinner or forgetting an errand, swapping "I always mess everything up" for "Whew, I was tired and forgot—that stings, let's order soup tonight and put a reminder on my phone" saves a whole evening from misery.</p>
+<p class="concept-part role-try-it"><strong>Tiny Step to Try:</strong> When you catch a harsh thought about yourself today, ask softly: "Would I ever say these exact words to someone I loved on a hard day? What gentler true thing could I say instead?"</p>
+<p class="concept-part role-distinction"><strong>Do Not Mix Up With:</strong> <strong>Avoiding responsibility.</strong> Warm encouragement gives you strength to apologize, repair mistakes, and grow calmly without collapsing into shame.</p>
+</article>
+<hr class="section-divider" />
+<article id="idea-32-thoughts-are-guesses-not-proven-facts" class="concept-card" data-concept-index="7" data-concept-id="idea-32-thoughts-are-guesses-not-proven-facts" data-concept-title="Idea 3.2: Thoughts Are Guesses, Not Proven Facts">
+<div class="concept-header-row"><h3 class="concept-title"><span class="concept-num-badge">3.2</span><span>Thoughts Are Guesses, Not Proven Facts</span></h3><div class="concept-actions"><button type="button" class="icon-chip-btn copy-link-btn" data-copy-id="idea-32-thoughts-are-guesses-not-proven-facts" aria-label="Copy link to Thoughts Are Guesses, Not Proven Facts"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span>Link</span></button><button type="button" class="icon-chip-btn bookmark-btn" data-bookmark-id="idea-32-thoughts-are-guesses-not-proven-facts" data-bookmark-title="Idea 3.2: Thoughts Are Guesses, Not Proven Facts" aria-pressed="false" aria-label="Bookmark Thoughts Are Guesses, Not Proven Facts"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg><span>Save</span></button></div></div>
+<blockquote class="isolated-definition"><strong>The Simple Idea:</strong> Just because an anxious or critical sentence echoes cleanly inside your mind—"they looked annoyed, they must dislike me"—does not make it an honest report on reality.</blockquote>
+<p class="concept-part role-mental-model"><strong>Picture This:</strong> Think of notifications popping onto a phone screen from all kinds of apps—some accurate weather alerts, some outdated spam, some quick guesses. You get to glance at each banner and decide whether to open it rather than believing every popup immediately.</p>
+<p class="concept-part role-explanation"><strong>How It Works:</strong> Tired or hurt minds love tidy black-and-white stories ("nobody appreciates me," "nothing will ever turn around"). Those sweeping thoughts feel 100% solid while you hurt, yet almost always collapse under calm curiosity.</p>
+<p class="concept-part role-explanation">Adding four small words in front—"I am noticing the thought that..."—puts healthy breathing room between <em>you</em> and the scary guess passing through.</p>
+<p class="concept-part role-example"><strong>In Everyday Life:</strong> Your friend leaves a text on "read" all afternoon. One quick thought insists "they are mad at me." Pausing to recall five other ordinary reasons—driving, dead battery, busy meeting, napping baby—lifts unnecessary panic instantly.</p>
+<p class="concept-part role-try-it"><strong>Tiny Step to Try:</strong> Pick one heavy thought bothering you today and rewrite it softly starting with: "Right now my tired mind is telling me the story that..." Watch how the sting loosens.</p>
+<p class="concept-part role-distinction"><strong>Do Not Mix Up With:</strong> <strong>Denying genuine problems.</strong> Checking whether a harsh thought is fully true helps you see <em>real</em> problems clearly without drowning in invented ones.</p>
+</article>
+<hr class="section-divider" />
+<article id="idea-33-holding-both-sadness-and-hope" class="concept-card" data-concept-index="8" data-concept-id="idea-33-holding-both-sadness-and-hope" data-concept-title="Idea 3.3: Holding Both Sadness and Hope">
+<div class="concept-header-row"><h3 class="concept-title"><span class="concept-num-badge">3.3</span><span>Holding Both Sadness and Hope</span></h3><div class="concept-actions"><button type="button" class="icon-chip-btn copy-link-btn" data-copy-id="idea-33-holding-both-sadness-and-hope" aria-label="Copy link to Holding Both Sadness and Hope"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span>Link</span></button><button type="button" class="icon-chip-btn bookmark-btn" data-bookmark-id="idea-33-holding-both-sadness-and-hope" data-bookmark-title="Idea 3.3: Holding Both Sadness and Hope" aria-pressed="false" aria-label="Bookmark Holding Both Sadness and Hope"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg><span>Save</span></button></div></div>
+<blockquote class="isolated-definition"><strong>The Simple Idea:</strong> Healthy emotional life lets grief, disappointment, and quiet gratitude sit at the same table—you never have to force fake sunshine over real loss in order to stay hopeful.</blockquote>
+<p class="concept-part role-mental-model"><strong>Picture This:</strong> Think of a clear glass held beneath warm sunlight while rain still taps softly on the roof. Both rain and light exist cleanly on the very same afternoon without erasing each other.</p>
+<p class="concept-part role-explanation"><strong>How It Works:</strong> When big plans fall through or someone you care about struggles, trying to rush straight to "everything happens for a reason, I'm fine!" actually leaves pain parked unhealed in your throat.</p>
+<p class="concept-part role-explanation">Making room for honest tears, quiet rest, or saying "that really hurt" respects what you care about—while gentle little windows of appreciation (warm sheets, a friend checking in, quiet trees) still remind you life remains bigger than today's ache.</p>
+<p class="concept-part role-example"><strong>In Everyday Life:</strong> Moving to a new town brings a genuine sting of missing old neighbors <em>alongside</em> real excitement for fresh coffee shops—letting both sit peacefully together feels vastly more honest than pretending you miss nobody.</p>
+<p class="concept-part role-try-it"><strong>Tiny Step to Try:</strong> Replace "but" with "and" when describing mixed feelings today—like "Today felt exhausting, AND I handled one difficult chore carefully."</p>
+<p class="concept-part role-distinction"><strong>Do Not Mix Up With:</strong> <strong>Getting stuck in despair forever.</strong> Giving genuine sadness a safe voice lets healing breathe naturally so authentic hope can grow back cleanly from solid roots.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="chapter-4-warmth-meaning-and-bouncing-back" class="chapter-heading">Chapter 4: Warmth, Meaning, and Bouncing Back</h2>
+<p>Wellbeing is not merely the absence of panic. Emotional health deepens when we notice good moments, spend time on what matters, and recover gently from bumps.</p>
+<article id="idea-41-notice-what-goes-right" class="concept-card" data-concept-index="9" data-concept-id="idea-41-notice-what-goes-right" data-concept-title="Idea 4.1: Notice What Goes Right">
+<div class="concept-header-row"><h3 class="concept-title"><span class="concept-num-badge">4.1</span><span>Notice What Goes Right</span></h3><div class="concept-actions"><button type="button" class="icon-chip-btn copy-link-btn" data-copy-id="idea-41-notice-what-goes-right" aria-label="Copy link to Notice What Goes Right"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span>Link</span></button><button type="button" class="icon-chip-btn bookmark-btn" data-bookmark-id="idea-41-notice-what-goes-right" data-bookmark-title="Idea 4.1: Notice What Goes Right" aria-pressed="false" aria-label="Bookmark Notice What Goes Right"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg><span>Save</span></button></div></div>
+<blockquote class="isolated-definition"><strong>The Simple Idea:</strong> Our minds are naturally tuned to catch threats, flaws, and slights fast, so deliberately pausing for ten seconds to let small good moments sink in keeps balance honest.</blockquote>
+<p class="concept-part role-mental-model"><strong>Picture This:</strong> Think of a safety inspector holding a bright flashlight toward crooked tiles while walking right past ninety sturdy beams overhead. Looking closely at dangers keeps us alive—yet forgetting the sturdy roof above tricks us into feeling unsafe everywhere.</p>
+<p class="concept-part role-explanation"><strong>How It Works:</strong> Five kind remarks can wash right past while one sharp criticism sticks until Tuesday. That sticky memory for danger protected early humans from predators, yet today leaves quiet ordinary goodness nearly invisible unless we pause on purpose.</p>
+<p class="concept-part role-explanation">Resting quietly for even ten seconds on a warm morning mug, clean sheets, a puppy wagging its tail, or someone holding the elevator teaches your mind to register safety and warmth too.</p>
+<p class="concept-part role-example"><strong>In Everyday Life:</strong> Ending a chaotic workday by sharing one specific small highlight over dinner ("that cool breeze walking outside" or "helping a lost visitor find their gate") gently resets your usual evening mood before sleep.</p>
+<p class="concept-part role-try-it"><strong>Tiny Step to Try:</strong> Notice one ordinary helpful or comforting moment happening right around you in the next five minutes, and linger with it for ten unhurried seconds before moving on.</p>
+<p class="concept-part role-distinction"><strong>Do Not Mix Up With:</strong> <strong>Ignoring unfairness or harm.</strong> Noticing genuine small warmth strengthens your steadiness so you face hard problems with fuller courage—never sweeping real pain under the rug.</p>
+</article>
+<hr class="section-divider" />
+<article id="idea-42-calm-comes-from-living-close-to-what-you-value" class="concept-card" data-concept-index="10" data-concept-id="idea-42-calm-comes-from-living-close-to-what-you-value" data-concept-title="Idea 4.2: Calm Comes From Living Close to What You Value">
+<div class="concept-header-row"><h3 class="concept-title"><span class="concept-num-badge">4.2</span><span>Calm Comes From Living Close to What You Value</span></h3><div class="concept-actions"><button type="button" class="icon-chip-btn copy-link-btn" data-copy-id="idea-42-calm-comes-from-living-close-to-what-you-value" aria-label="Copy link to Calm Comes From Living Close to What You Value"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span>Link</span></button><button type="button" class="icon-chip-btn bookmark-btn" data-bookmark-id="idea-42-calm-comes-from-living-close-to-what-you-value" data-bookmark-title="Idea 4.2: Calm Comes From Living Close to What You Value" aria-pressed="false" aria-label="Bookmark Calm Comes From Living Close to What You Value"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg><span>Save</span></button></div></div>
+<blockquote class="isolated-definition"><strong>The Simple Idea:</strong> Waiting to feel perfectly happy before doing what matters keeps you stuck—taking tiny honest actions shaped by your deeper values brings steady meaning even on imperfect days.</blockquote>
+<p class="concept-part role-mental-model"><strong>Picture This:</strong> Think of steering a small wooden boat using a distant lighthouse instead of worrying about every choppy little wave splashing the side. Knowing <em>why</em> you care—kindness, craft, honesty, family, learning—steers every ordinary morning cleanly.</p>
+<p class="concept-part role-explanation"><strong>How It Works:</strong> Moods bounce daily with sleep, rain, and tired muscles; personal values stay sturdy like anchors underneath. Asking "what kind of neighbor, parent, maker, or friend do I want to be today?" gives you concrete direction no passing mood can steal.</p>
+<p class="concept-part role-explanation">You do not need giant sweeping gestures. Calling an aging relative for five minutes, tidying a shared table, or patiently explaining something once more brings deep quiet satisfaction no distraction matches.</p>
+<p class="concept-part role-example"><strong>In Everyday Life:</strong> Feeling blue on a rainy Sunday, someone chooses to bake warm bread for an ill friend down the hall—leaving both kitchens noticeably brighter by evening without forcing anything fake.</p>
+<p class="concept-part role-try-it"><strong>Tiny Step to Try:</strong> Name one value you respect deeply (like kindness, patience, curiosity, or steadiness), and pick one two-minute act today that quietly matches it.</p>
+<p class="concept-part role-distinction"><strong>Do Not Mix Up With:</strong> <strong>Pleasing everyone else.</strong> Real values live honestly inside your own conscience—not performing for gold stars from strangers.</p>
+</article>
+<hr class="section-divider" />
+<article id="idea-43-bouncing-back-one-small-step-at-a-time" class="concept-card" data-concept-index="11" data-concept-id="idea-43-bouncing-back-one-small-step-at-a-time" data-concept-title="Idea 4.3: Bouncing Back One Small Step at a Time">
+<div class="concept-header-row"><h3 class="concept-title"><span class="concept-num-badge">4.3</span><span>Bouncing Back One Small Step at a Time</span></h3><div class="concept-actions"><button type="button" class="icon-chip-btn copy-link-btn" data-copy-id="idea-43-bouncing-back-one-small-step-at-a-time" aria-label="Copy link to Bouncing Back One Small Step at a Time"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span>Link</span></button><button type="button" class="icon-chip-btn bookmark-btn" data-bookmark-id="idea-43-bouncing-back-one-small-step-at-a-time" data-bookmark-title="Idea 4.3: Bouncing Back One Small Step at a Time" aria-pressed="false" aria-label="Bookmark Bouncing Back One Small Step at a Time"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg><span>Save</span></button></div></div>
+<blockquote class="isolated-definition"><strong>The Simple Idea:</strong> Resilience is not never falling apart or staying tough like stone; it is falling gently, getting honest rest or support, and taking one tiny steady step again tomorrow.</blockquote>
+<p class="concept-part role-mental-model"><strong>Picture This:</strong> Compare a dry stiff oak branch in winter wind versus green willow shoots waving beside a riverbank. When heavy storms hit, brittle stiffness snaps cleanly; flexible roots bend deep, soak rain, and rise straight back toward morning light.</p>
+<p class="concept-part role-explanation"><strong>How It Works:</strong> Everybody snaps unfairly sometimes, breaks good routines, or feels knocked flat by tough news. What decides long-term peace is never perfection—it is <em>how quickly and kindly you reset</em> afterward.</p>
+<p class="concept-part role-explanation">Looking closely at what happened ("what made today tough, and what tiny guardrail helps next week?"), asking a friend for an ear, and restarting tiny restores trust in yourself every single time.</p>
+<p class="concept-part role-example"><strong>In Everyday Life:</strong> Missing five days of walking after catching a cold doesn't mean the month is ruined; putting shoes on Tuesday morning for an easy six-minute stroll around one block picks your steady thread right back up.</p>
+<p class="concept-part role-try-it"><strong>Tiny Step to Try:</strong> Recall one small area where you slipped recently, forgive yourself in one plain breath right now, and pick the tiniest comfortable restart possible.</p>
+<p class="concept-part role-distinction"><strong>Do Not Mix Up With:</strong> <strong>Never crying or needing help.</strong> True resilience often looks like saying "I am struggling right now—can we talk for ten minutes?" so you do not carry heavy boulders completely alone.</p>
+</article>
+<hr class="section-divider" />
+<h2 id="key-differences-at-a-glance" class="chapter-heading">Key Differences at a Glance</h2>
+<div class="table-wrap" role="region" aria-label="Concept comparison table" tabindex="0"><table class="distinctions-table"><thead><tr><th>Idea Pair</th><th>First Idea</th><th>Second Idea</th><th>Why Telling Them Apart Helps</th></tr></thead><tbody><tr><td data-label="Idea Pair"><strong>Feeling vs. Action</strong></td><td data-label="First Idea">An inner signal telling you what feels bright, hurt, or unsafe.</td><td data-label="Second Idea">What you actually choose to say or do afterward with your hands and voice.</td><td data-label="Why Telling Them Apart Helps">You can honor angry or sad feelings completely without acting impulsively.</td></tr><tr><td data-label="Idea Pair"><strong>Worry vs. Planning</strong></td><td data-label="First Idea">Spinning over scary "what ifs" with zero helpful action step.</td><td data-label="Second Idea">Choosing one calm step on paper today and letting the rest wait for daylight.</td><td data-label="Why Telling Them Apart Helps">Helpful plans give relief; worry loops only burn sleep and peace.</td></tr><tr><td data-label="Idea Pair"><strong>Self-Kindness vs. Excuses</strong></td><td data-label="First Idea">Treating yourself fairly while taking honest steps to repair or learn.</td><td data-label="Second Idea">Pretending a mistake caused zero harm so you never have to change anything.</td><td data-label="Why Telling Them Apart Helps">Warm encouragement creates way more lasting growth than self-scolding ever could.</td></tr><tr><td data-label="Idea Pair"><strong>Positivity vs. Balance</strong></td><td data-label="First Idea">Forcing fake smiles and hiding honest grief underneath.</td><td data-label="Second Idea">Honoring hard truths while also letting small steady good moments register.</td><td data-label="Why Telling Them Apart Helps">Balanced warmth keeps life honest, brave, and deeply grounded.</td></tr></tbody></table></div>
+<hr class="section-divider" />
+<h2 id="simple-word-guide" class="chapter-heading">Simple Word Guide</h2>
+<ul class="concept-index-list"><li><strong>Emotional Signal:</strong> The helpful message tucked inside any feeling showing what you care about, fear, or need.</li><li><strong>Grounding:</strong> Simple ways to pull racing attention safely down into your senses right here in this room.</li><li><strong>Inner Voice:</strong> The quiet running commentary you say to yourself inside your head during mistakes or stress.</li><li><strong>Personal Value:</strong> A guiding quality you truly respect—like fairness, care, curiosity, or steadiness—chosen for its own sake.</li><li><strong>Resilience:</strong> Bouncing back over time through flexible rest, self-kindness, help from others, and tiny fresh steps.</li><li><strong>Worry Loop:</strong> Repeating imagined disaster stories without landing on one helpful practical step right now.</li></ul>
+<hr class="section-divider" />
+<h2 id="check-yourself" class="chapter-heading">Check Yourself</h2>
+<ol class="self-check-list"><li class="self-check-item"><div class="question-text"><strong>If anger flares up instantly when someone cancels plans at the last minute, how does treating that feeling as a "signal, not an order" help?</strong></div><details class="answer-reveal"><summary>Show Plain Answer</summary><div class="answer-body"><em>Plain Answer:</em> Anger shows you valued that time and feel disappointed or unconsidered; hearing that signal lets you say honestly "I felt let down" calmly later instead of firing off a hurtful text right away.</div></details></li><li class="self-check-item"><div class="question-text"><strong>Why does putting simple plain words like "I feel stretched thin and worried" on a messy mood often soften it quickly?</strong></div><details class="answer-reveal"><summary>Show Plain Answer</summary><div class="answer-body"><em>Plain Answer:</em> Vague overwhelm feels huge and helpless; naming exact feelings breaks one heavy fog into clear pieces your mind recognizes and knows how to soothe or share.</div></details></li><li class="self-check-item"><div class="question-text"><strong>What simple shift softens a harsh thought like "I ruined everything and will always fail"?</strong></div><details class="answer-reveal"><summary>Show Plain Answer</summary><div class="answer-body"><em>Plain Answer:</em> Add breathing room by noting "Right now my tired mind is telling me the guess that..." and ask what kind, honest advice you would give a cared-for friend in that same spot.</div></details></li><li class="self-check-item"><div class="question-text"><strong>How does noticing small good moments differ from pretending life has no real pain?</strong></div><details class="answer-reveal"><summary>Show Plain Answer</summary><div class="answer-body"><em>Plain Answer:</em> You still face real grief or trouble honestly; pausing for ten seconds on ordinary warmth simply stops your natural alarm radar from erasing everything else good happening beside the hard part.</div></details></li></ol>
+
+      <nav class="book-footer-nav" aria-label="Book navigation">
+        <div class="footer-left"><a class="pill-link" href="01_body_and_physical_health.html">&larr; Book I: Body &amp; Health</a></div>
+        <div class="footer-center"><a class="pill-link" href="index.html">All 8 Books</a></div>
+        <div class="footer-right"><a class="pill-link" href="03_people_empathy_and_connection.html">Book III: People &amp; Empathy &rarr;</a></div>
+      </nav>
+    </main>
+  </div>
+
+  <button type="button" id="back-to-top" aria-label="Scroll back to top"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg><span>Top</span></button>
+  
+  <div id="cmd-backdrop" class="cmd-backdrop" hidden>
+    <div class="cmd-dialog" role="dialog" aria-modal="true" aria-label="Search all everyday ideas">
+      <div class="cmd-input-row">
+        <svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="cmd-input" class="cmd-input" type="search" placeholder="Jump to any of 96 everyday ideas..." />
+        <button type="button" id="close-cmd-btn" class="pill-btn">Close</button>
+      </div>
+      <div id="cmd-list" class="cmd-list"></div>
+    </div>
+  </div>
+
+  <div id="settings-backdrop" class="cmd-backdrop" hidden>
+    <div class="cmd-dialog sheet-dialog" role="dialog" aria-modal="true" aria-label="Display settings and app controls">
+      <div class="sheet-head">
+        <h3>Display &amp; Reading App</h3>
+        <button type="button" id="close-settings-btn" class="pill-btn">Done</button>
+      </div>
+      <div class="sheet-section">
+        <div class="sheet-label">Text Size</div>
+        <div class="sheet-seg-grid" role="group" aria-label="Text size">
+          <button type="button" class="sheet-seg-btn" data-set-size="sm">A- Small</button>
+          <button type="button" class="sheet-seg-btn" data-set-size="md">A Medium</button>
+          <button type="button" class="sheet-seg-btn" data-set-size="lg">A+ Large</button>
+        </div>
+      </div>
+      <div class="sheet-section">
+        <div class="sheet-label">Reading Paper</div>
+        <div class="sheet-seg-grid" role="group" aria-label="Reading theme">
+          <button type="button" class="sheet-seg-btn" data-set-theme="paper"><span class="swatch-dot" style="background:#f7f4ed"></span>Paper</button>
+          <button type="button" class="sheet-seg-btn" data-set-theme="sepia"><span class="swatch-dot" style="background:#efe4cd"></span>Sepia</button>
+          <button type="button" class="sheet-seg-btn" data-set-theme="night"><span class="swatch-dot" style="background:#151923"></span>Night</button>
+        </div>
+      </div>
+      <div class="sheet-section">
+        <div class="sheet-label">App Status &amp; Persistence</div>
+        <div style="display:flex; flex-wrap:wrap; gap:0.5rem; align-items:center; margin-bottom:0.75rem;">
+          <span id="sheet-offline-pill" class="status-pill" hidden>Offline Ready</span>
+          <span id="cookie-status-label" style="font-size:0.8rem; color:var(--text-muted); font-weight:600;">Cookies Active</span>
+        </div>
+        <div class="sheet-links-grid">
+          <button type="button" id="sheet-install-btn" class="sheet-action-btn primary"><svg class="ui-ico" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Install App for Offline Reading</span></button>
+          <a class="sheet-action-btn" href="index.html">&larr; Library Home</a><a class="sheet-action-btn" href="02_feelings_and_emotional_health.md">Plain Text (.md)</a>
+          <button type="button" id="reset-progress-btn" class="sheet-action-btn">Reset Saved Progress</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="install-backdrop" class="cmd-backdrop" hidden>
+    <div class="cmd-dialog sheet-dialog" role="dialog" aria-modal="true" aria-label="Install Plain-English Foundations Library App">
+      <div class="sheet-head">
+        <h3>Install Offline Reading App</h3>
+        <button type="button" id="close-install-btn" class="pill-btn">Close</button>
+      </div>
+      <div style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">
+        Keep all 8 plain-English books and 96 everyday ideas on your home screen with 365-day cookie progress tracking.
+      </div>
+      <div id="install-checks" class="install-checks"></div>
+      <div class="install-os-tabs" role="tablist" aria-label="Device instructions">
+        <button type="button" class="install-os-tab" data-install-os="ios">iPhone / iPad</button>
+        <button type="button" class="install-os-tab" data-install-os="android">Android</button>
+        <button type="button" class="install-os-tab" data-install-os="desktop">Desktop</button>
+      </div>
+      <ol id="install-instructions" class="install-steps"></ol>
+      <div style="display:flex; flex-wrap:wrap; gap:0.55rem; align-items:center;">
+        <button type="button" id="install-native-btn" class="pill-btn install-btn" hidden>Install App Now</button>
+        <button type="button" id="copy-app-url-btn" class="pill-btn">Copy App URL</button>
+        <button type="button" id="close-install-btn-2" class="pill-btn">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+(function () {
+  const ALL_CONCEPTS = [{"bookId": "01", "id": "idea-11-breathing-to-calm-your-body", "book": "Book I: Body & Health", "title": "Idea 1.1: Breathing to Calm Your Body", "definition": "Slow, steady breathing sends a direct physical signal of safety to your heart and chest, helping a tense body settle down in just a minute or two.", "href": "01_body_and_physical_health.html#idea-11-breathing-to-calm-your-body", "accent": "#059669"}, {"bookId": "01", "id": "idea-12-water-keeps-every-part-working-smoothly", "book": "Book I: Body & Health", "title": "Idea 1.2: Water Keeps Every Part Working Smoothly", "definition": "Your body is mostly water, and even mild dryness makes thinking slower, bodies heavier, and moods shorter long before you feel very thirsty.", "href": "01_body_and_physical_health.html#idea-12-water-keeps-every-part-working-smoothly", "accent": "#059669"}, {"bookId": "01", "id": "idea-13-real-food-builds-and-powers-you", "book": "Book I: Body & Health", "title": "Idea 1.3: Real Food Builds and Powers You", "definition": "Whole, simple food gives your body two gifts at once: steady lasting energy to get through the day and fresh building blocks to repair worn tissues.", "href": "01_body_and_physical_health.html#idea-13-real-food-builds-and-powers-you", "accent": "#059669"}, {"bookId": "01", "id": "idea-21-your-body-follows-sunlight-and-night", "book": "Book I: Body & Health", "title": "Idea 2.1: Your Body Follows Sunlight and Night", "definition": "Your body carries a quiet natural clock tuned to morning daylight and evening darkness, telling every organ when to wake up and when to slow down for repair.", "href": "01_body_and_physical_health.html#idea-21-your-body-follows-sunlight-and-night", "accent": "#059669"}, {"bookId": "01", "id": "idea-22-sleep-quietly-repairs-brain-and-body", "book": "Book I: Body & Health", "title": "Idea 2.2: Sleep Quietly Repairs Brain and Body", "definition": "Deep sleep is active maintenance time when your brain clears out daily clutter, files important memories, and fixes tiny wear across muscles and organs.", "href": "01_body_and_physical_health.html#idea-22-sleep-quietly-repairs-brain-and-body", "accent": "#059669"}, {"bookId": "01", "id": "idea-23-real-rest-versus-just-stopping", "book": "Book I: Body & Health", "title": "Idea 2.3: Real Rest Versus Just Stopping", "definition": "Sitting down on a couch while scrolling upsetting news or rushing through worries stops your legs, yet leaves your mind tired\u2014real rest genuinely lets your attention settle.", "href": "01_body_and_physical_health.html#idea-23-real-rest-versus-just-stopping", "accent": "#059669"}, {"bookId": "01", "id": "idea-31-your-body-was-built-to-move-often", "book": "Book I: Body & Health", "title": "Idea 3.1: Your Body Was Built to Move Often", "definition": "Easy movement throughout the day pumps warm blood cleanly through your body, keeps stiff joints loose, and clears heavy stale feelings out of your head.", "href": "01_body_and_physical_health.html#idea-31-your-body-was-built-to-move-often", "accent": "#059669"}, {"bookId": "01", "id": "idea-32-small-effort-followed-by-rest-builds-strength", "book": "Book I: Body & Health", "title": "Idea 3.2: Small Effort Followed by Rest Builds Strength", "definition": "Your body gets stronger and more steady in two linked steps: first asking a little bit more of yourself safely, then giving your body proper rest and food to rebuild slightly tougher.", "href": "01_body_and_physical_health.html#idea-32-small-effort-followed-by-rest-builds-strength", "accent": "#059669"}, {"bookId": "01", "id": "idea-33-letting-go-of-hidden-body-tension", "book": "Book I: Body & Health", "title": "Idea 3.3: Letting Go of Hidden Body Tension", "definition": "Worry and hurry hide inside muscles without asking permission\u2014lifting shoulders, tightening jaws, and curving backs\u2014until we gently notice and loosen them.", "href": "01_body_and_physical_health.html#idea-33-letting-go-of-hidden-body-tension", "accent": "#059669"}, {"bookId": "01", "id": "idea-41-real-hunger-versus-habit-or-boredom", "book": "Book I: Body & Health", "title": "Idea 4.1: Real Hunger Versus Habit or Boredom", "definition": "True physical hunger builds gently in your body and welcomes plain food, while sudden cravings from boredom, stress, or spotting snacks arrive loudly all at once.", "href": "01_body_and_physical_health.html#idea-41-real-hunger-versus-habit-or-boredom", "accent": "#059669"}, {"bookId": "01", "id": "idea-42-tiredness-and-aches-are-helpful-lights", "book": "Book I: Body & Health", "title": "Idea 4.2: Tiredness and Aches Are Helpful Lights", "definition": "Physical pain, heavy tiredness, and dizziness are caring warning lights asking you to slow down, protect an area, or seek proper care\u2014never personal failures to ignore.", "href": "01_body_and_physical_health.html#idea-42-tiredness-and-aches-are-helpful-lights", "accent": "#059669"}, {"bookId": "01", "id": "idea-43-small-daily-habits-beat-big-promises", "book": "Book I: Body & Health", "title": "Idea 4.3: Small Daily Habits Beat Big Promises", "definition": "Lasting health grows quietly from small easy steps woven comfortably into ordinary days, never from harsh short rules that leave you worn out and ready to quit.", "href": "01_body_and_physical_health.html#idea-43-small-daily-habits-beat-big-promises", "accent": "#059669"}, {"bookId": "02", "id": "idea-11-feelings-are-signals-not-orders", "book": "Book II: Feelings & Calm", "title": "Idea 1.1: Feelings Are Signals, Not Orders", "definition": "Feelings rise up to warn, protect, or highlight what you care about\u2014you can hear their message respectfully without letting every sudden impulse steer your hands and mouth.", "href": "02_feelings_and_emotional_health.html#idea-11-feelings-are-signals-not-orders", "accent": "#e11d48"}, {"bookId": "02", "id": "idea-12-putting-simple-words-on-what-you-feel", "book": "Book II: Feelings & Calm", "title": "Idea 1.2: Putting Simple Words on What You Feel", "definition": "Naming a vague storm inside with a clear ordinary word\u2014like \"tired,\" \"left out,\" or \"nervous\"\u2014gently turns down the inner heat right away.", "href": "02_feelings_and_emotional_health.html#idea-12-putting-simple-words-on-what-you-feel", "accent": "#e11d48"}, {"bookId": "02", "id": "idea-13-feelings-rise-peak-and-pass-like-weather", "book": "Book II: Feelings & Calm", "title": "Idea 1.3: Feelings Rise, Peak, and Pass Like Weather", "definition": "No emotional storm freezes forever; uncomfortable feelings swell up, reach a peak, and naturally shift away if you stop fighting them or pouring extra worry fuel on top.", "href": "02_feelings_and_emotional_health.html#idea-13-feelings-rise-peak-and-pass-like-weather", "accent": "#e11d48"}, {"bookId": "02", "id": "idea-21-why-your-inner-alarm-goes-off", "book": "Book II: Feelings & Calm", "title": "Idea 2.1: Why Your Inner Alarm Goes Off", "definition": "A racing heartbeat, tight belly, and restless chest are simply your body's ancient emergency helper flooding you with energy to keep you safe\u2014not a sign you are breaking down.", "href": "02_feelings_and_emotional_health.html#idea-21-why-your-inner-alarm-goes-off", "accent": "#e11d48"}, {"bookId": "02", "id": "idea-22-present-trouble-versus-imagined-trouble", "book": "Book II: Feelings & Calm", "title": "Idea 2.2: Present Trouble Versus Imagined Trouble", "definition": "Much of daily emotional pain comes not from what is hurting in this actual minute, but from time-traveling into regret about yesterday or scary guesses about tomorrow.", "href": "02_feelings_and_emotional_health.html#idea-22-present-trouble-versus-imagined-trouble", "accent": "#e11d48"}, {"bookId": "02", "id": "idea-23-grounding-yourself-when-everything-feels-too-loud", "book": "Book II: Feelings & Calm", "title": "Idea 2.3: Grounding Yourself When Everything Feels Too Loud", "definition": "When thoughts race too fast to untangle by thinking harder, bringing attention directly into what your hands touch, feet rest on, and ears hear steadies your mind fast.", "href": "02_feelings_and_emotional_health.html#idea-23-grounding-yourself-when-everything-feels-too-loud", "accent": "#e11d48"}, {"bookId": "02", "id": "idea-31-spotting-a-harsh-inner-voice", "book": "Book II: Feelings & Calm", "title": "Idea 3.1: Spotting a Harsh Inner Voice", "definition": "The strict scolding voice inside your head during hard moments is an old protective habit, not absolute truth\u2014and speaking to yourself with steady kindness builds real courage rather than excuses.", "href": "02_feelings_and_emotional_health.html#idea-31-spotting-a-harsh-inner-voice", "accent": "#e11d48"}, {"bookId": "02", "id": "idea-32-thoughts-are-guesses-not-proven-facts", "book": "Book II: Feelings & Calm", "title": "Idea 3.2: Thoughts Are Guesses, Not Proven Facts", "definition": "Just because an anxious or critical sentence echoes cleanly inside your mind\u2014\"they looked annoyed, they must dislike me\"\u2014does not make it an honest report on reality.", "href": "02_feelings_and_emotional_health.html#idea-32-thoughts-are-guesses-not-proven-facts", "accent": "#e11d48"}, {"bookId": "02", "id": "idea-33-holding-both-sadness-and-hope", "book": "Book II: Feelings & Calm", "title": "Idea 3.3: Holding Both Sadness and Hope", "definition": "Healthy emotional life lets grief, disappointment, and quiet gratitude sit at the same table\u2014you never have to force fake sunshine over real loss in order to stay hopeful.", "href": "02_feelings_and_emotional_health.html#idea-33-holding-both-sadness-and-hope", "accent": "#e11d48"}, {"bookId": "02", "id": "idea-41-notice-what-goes-right", "book": "Book II: Feelings & Calm", "title": "Idea 4.1: Notice What Goes Right", "definition": "Our minds are naturally tuned to catch threats, flaws, and slights fast, so deliberately pausing for ten seconds to let small good moments sink in keeps balance honest.", "href": "02_feelings_and_emotional_health.html#idea-41-notice-what-goes-right", "accent": "#e11d48"}, {"bookId": "02", "id": "idea-42-calm-comes-from-living-close-to-what-you-value", "book": "Book II: Feelings & Calm", "title": "Idea 4.2: Calm Comes From Living Close to What You Value", "definition": "Waiting to feel perfectly happy before doing what matters keeps you stuck\u2014taking tiny honest actions shaped by your deeper values brings steady meaning even on imperfect days.", "href": "02_feelings_and_emotional_health.html#idea-42-calm-comes-from-living-close-to-what-you-value", "accent": "#e11d48"}, {"bookId": "02", "id": "idea-43-bouncing-back-one-small-step-at-a-time", "book": "Book II: Feelings & Calm", "title": "Idea 4.3: Bouncing Back One Small Step at a Time", "definition": "Resilience is not never falling apart or staying tough like stone; it is falling gently, getting honest rest or support, and taking one tiny steady step again tomorrow.", "href": "02_feelings_and_emotional_health.html#idea-43-bouncing-back-one-small-step-at-a-time", "accent": "#e11d48"}, {"bookId": "03", "id": "idea-11-what-empathy-really-means", "book": "Book III: People & Empathy", "title": "Idea 1.1: What Empathy Really Means", "definition": "Empathy means stepping gently alongside another person's feelings to understand how a moment lands for them\u2014without needing to erase your own voice or fix their entire life.", "href": "03_people_empathy_and_connection.html#idea-11-what-empathy-really-means", "accent": "#ea580c"}, {"bookId": "03", "id": "idea-12-curiosity-over-quick-judgment", "book": "Book III: People & Empathy", "title": "Idea 1.2: Curiosity Over Quick Judgment", "definition": "Pausing to ask honestly \"why might a thoughtful person act that way?\" shrinks harsh snap judgments into calmer understanding and cleaner solutions.", "href": "03_people_empathy_and_connection.html#idea-12-curiosity-over-quick-judgment", "accent": "#ea580c"}, {"bookId": "03", "id": "idea-13-hearing-what-tone-and-silence-say", "book": "Book III: People & Empathy", "title": "Idea 1.3: Hearing What Tone and Silence Say", "definition": "Much of how people feel hides quietly outside dictionary words\u2014inside tightened voices, sudden pauses, crossed arms, and gentle sighs waiting to be noticed respectfully.", "href": "03_people_empathy_and_connection.html#idea-13-hearing-what-tone-and-silence-say", "accent": "#ea580c"}, {"bookId": "03", "id": "idea-21-listening-to-understand-not-waiting-to-talk", "book": "Book III: People & Empathy", "title": "Idea 2.1: Listening to Understand, Not Waiting to Talk", "definition": "Real listening turns down your inner comeback planner so you can hear what the other person actually hopes you understand\u2014helping them soften before you even reply.", "href": "03_people_empathy_and_connection.html#idea-21-listening-to-understand-not-waiting-to-talk", "accent": "#ea580c"}, {"bookId": "03", "id": "idea-22-warmth-first-advice-later", "book": "Book III: People & Empathy", "title": "Idea 2.2: Warmth First, Advice Later", "definition": "When someone is hurt, worried, or worn out, warm companionship heals far faster than jumping straight into fast solutions\u2014especially unsolicited fixes nobody asked for yet.", "href": "03_people_empathy_and_connection.html#idea-22-warmth-first-advice-later", "accent": "#ea580c"}, {"bookId": "03", "id": "idea-23-sharing-your-feelings-without-blaming", "book": "Book III: People & Empathy", "title": "Idea 2.3: Sharing Your Feelings Without Blaming", "definition": "Talking calmly about what you felt and what you wish going forward keeps people listening, whereas sweeping \"you always...\" attacks make them lock doors fast.", "href": "03_people_empathy_and_connection.html#idea-23-sharing-your-feelings-without-blaming", "accent": "#ea580c"}, {"bookId": "03", "id": "idea-31-kind-boundaries-keep-closeness-safe", "book": "Book III: People & Empathy", "title": "Idea 3.1: Kind Boundaries Keep Closeness Safe", "definition": "Healthy boundaries are simply clear, warm agreements showing where my limits end and yours begin\u2014protecting affection from quietly turning into bitter tiredness.", "href": "03_people_empathy_and_connection.html#idea-31-kind-boundaries-keep-closeness-safe", "accent": "#ea580c"}, {"bookId": "03", "id": "idea-32-asking-clearly-and-respecting-a-no", "book": "Book III: People & Empathy", "title": "Idea 3.2: Asking Clearly and Respecting a \"No\"", "definition": "Making clear direct requests frees friends from playing guessing games, and letting someone decline without guilt proves that when they say \"yes,\" they truly mean it.", "href": "03_people_empathy_and_connection.html#idea-32-asking-clearly-and-respecting-a-no", "accent": "#ea580c"}, {"bookId": "03", "id": "idea-33-owning-mistakes-and-repairing-trust", "book": "Book III: People & Empathy", "title": "Idea 3.3: Owning Mistakes and Repairing Trust", "definition": "Relationships do not stay strong because nobody ever messes up; they grow strong because people apologize cleanly without hiding behind excuses and try honestly to mend the bruise.", "href": "03_people_empathy_and_connection.html#idea-33-owning-mistakes-and-repairing-trust", "accent": "#ea580c"}, {"bookId": "03", "id": "idea-41-steady-human-connection-keeps-us-healthy", "book": "Book III: People & Empathy", "title": "Idea 4.1: Steady Human Connection Keeps Us Healthy", "definition": "Warm, reliable friendships and everyday friendly moments with neighbors protect your heart, calm stress, and extend healthy life just as meaningfully as good food and sleep.", "href": "03_people_empathy_and_connection.html#idea-41-steady-human-connection-keeps-us-healthy", "accent": "#ea580c"}, {"bookId": "03", "id": "idea-42-both-giving-help-and-letting-people-help-you", "book": "Book III: People & Empathy", "title": "Idea 4.2: Both Giving Help and Letting People Help You", "definition": "True connection walks on two legs\u2014offering a kind hand generously when able, and trusting friends enough to accept warm help when your own arms feel heavy.", "href": "03_people_empathy_and_connection.html#idea-42-both-giving-help-and-letting-people-help-you", "accent": "#ea580c"}, {"bookId": "03", "id": "idea-43-belonging-together-while-staying-yourself", "book": "Book III: People & Empathy", "title": "Idea 4.3: Belonging Together While Staying Yourself", "definition": "Healthy groups welcome people deeply as they genuinely are; true belonging lets you fit warmly into community without forcing you to hide your conscience or wear a fake mask.", "href": "03_people_empathy_and_connection.html#idea-43-belonging-together-while-staying-yourself", "accent": "#ea580c"}, {"bookId": "04", "id": "idea-11-the-main-point-versus-the-reasons", "book": "Book IV: Clear Thinking", "title": "Idea 1.1: The Main Point Versus the Reasons", "definition": "Before deciding whether to agree with anyone, cleanly separate the point they want you to accept from the actual reasons offered to hold that point up.", "href": "04_clear_thinking_and_truth.html#idea-11-the-main-point-versus-the-reasons", "accent": "#2563eb"}, {"bookId": "04", "id": "idea-12-tight-story-versus-true-facts", "book": "Book IV: Clear Thinking", "title": "Idea 1.2: Tight Story Versus True Facts", "definition": "A neat step-by-step chain of thinking can fit together cleanly on paper and still land completely wrong if even one starting fact is false in real life.", "href": "04_clear_thinking_and_truth.html#idea-12-tight-story-versus-true-facts", "accent": "#2563eb"}, {"bookId": "04", "id": "idea-13-spotting-what-went-unsaid", "book": "Book IV: Clear Thinking", "title": "Idea 1.3: Spotting What Went Unsaid", "definition": "Speakers almost always skip one quiet middle step they assume everyone accepts; bringing that unspoken guess into sunlight is the fastest way to test whether an idea holds up.", "href": "04_clear_thinking_and_truth.html#idea-13-spotting-what-went-unsaid", "accent": "#2563eb"}, {"bookId": "04", "id": "idea-21-following-fixed-rules-to-sure-answers", "book": "Book IV: Clear Thinking", "title": "Idea 2.1: Following Fixed Rules to Sure Answers", "definition": "When a general rule truly applies to every single item in a group, anything sitting inside that group follows that rule automatically with zero guesswork.", "href": "04_clear_thinking_and_truth.html#idea-21-following-fixed-rules-to-sure-answers", "accent": "#2563eb"}, {"bookId": "04", "id": "idea-22-learning-everyday-patterns-from-experience", "book": "Book IV: Clear Thinking", "title": "Idea 2.2: Learning Everyday Patterns From Experience", "definition": "Seeing something happen smoothly many times builds a helpful expectation for next time\u2014useful for everyday life, yet always keeping slight room for surprise.", "href": "04_clear_thinking_and_truth.html#idea-22-learning-everyday-patterns-from-experience", "accent": "#2563eb"}, {"bookId": "04", "id": "idea-23-working-backward-from-clues", "book": "Book IV: Clear Thinking", "title": "Idea 2.3: Working Backward From Clues", "definition": "When you step onto a surprising scene, work cleanly backward to list two or three simple stories and favor the one fitting all clues without weird extra coincidences.", "href": "04_clear_thinking_and_truth.html#idea-23-working-backward-from-clues", "accent": "#2563eb"}, {"bookId": "04", "id": "idea-31-happening-together-does-not-mean-causing", "book": "Book IV: Clear Thinking", "title": "Idea 3.1: Happening Together Does Not Mean Causing", "definition": "Two things rising and falling during the same season can move closely together without one ever causing or pushing the other at all.", "href": "04_clear_thinking_and_truth.html#idea-31-happening-together-does-not-mean-causing", "accent": "#2563eb"}, {"bookId": "04", "id": "idea-32-look-for-the-hidden-background-driver", "book": "Book IV: Clear Thinking", "title": "Idea 3.2: Look for the Hidden Background Driver", "definition": "Many fake causes disappear the moment you spot an unmentioned background factor\u2014like age, income, weather, or stress\u2014quietly moving both visible sides together.", "href": "04_clear_thinking_and_truth.html#idea-32-look-for-the-hidden-background-driver", "accent": "#2563eb"}, {"bookId": "04", "id": "idea-33-do-not-only-count-the-winners", "book": "Book IV: Clear Thinking", "title": "Idea 3.3: Do Not Only Count the Winners", "definition": "Judging any choice strictly by admiring the people who made it through hides all the quiet folks who tried the exact same path and dropped out along the way.", "href": "04_clear_thinking_and_truth.html#idea-33-do-not-only-count-the-winners", "accent": "#2563eb"}, {"bookId": "04", "id": "idea-41-notice-when-a-key-word-shifts-meaning", "book": "Book IV: Clear Thinking", "title": "Idea 4.1: Notice When a Key Word Shifts Meaning", "definition": "Arguments turn muddy fast when someone uses one key word in two slightly different ways partway through\u2014sneaking a slippery leap past listeners unnoticed.", "href": "04_clear_thinking_and_truth.html#idea-41-notice-when-a-key-word-shifts-meaning", "accent": "#2563eb"}, {"bookId": "04", "id": "idea-42-answer-what-someone-truly-meant", "book": "Book IV: Clear Thinking", "title": "Idea 4.2: Answer What Someone Truly Meant", "definition": "Real understanding responds cleanly to the fairest, strongest version of someone else's view\u2014instead of tearing down a silly twisted caricature nobody actually believes.", "href": "04_clear_thinking_and_truth.html#idea-42-answer-what-someone-truly-meant", "accent": "#2563eb"}, {"bookId": "04", "id": "idea-43-ask-what-clue-could-change-your-mind", "book": "Book IV: Clear Thinking", "title": "Idea 4.3: Ask What Clue Could Change Your Mind", "definition": "Hold beliefs like adjustable dimmer switches rather than glued light switches\u2014nudging your certainty smoothly up or down as honest real clues show up.", "href": "04_clear_thinking_and_truth.html#idea-43-ask-what-clue-could-change-your-mind", "accent": "#2563eb"}, {"bookId": "05", "id": "idea-11-how-many-versus-which-place-in-line", "book": "Book V: Numbers & Size", "title": "Idea 1.1: How Many Versus Which Place in Line", "definition": "A number can answer two completely different everyday questions: \"How big is this whole pile?\" or \"Which exact spot sits in line?\"\u2014and mixing them up breaks clear thinking.", "href": "05_numbers_size_and_patterns.html#idea-11-how-many-versus-which-place-in-line", "accent": "#0d9488"}, {"bookId": "05", "id": "idea-12-grouping-in-tens-to-make-big-numbers-easy", "book": "Book V: Numbers & Size", "title": "Idea 1.2: Grouping in Tens to Make Big Numbers Easy", "definition": "Instead of inventing thousands of separate symbols for big counts, bundling neatly in groups of ten lets just ten plain digits count any pile clearly by changing which slot they sit in.", "href": "05_numbers_size_and_patterns.html#idea-12-grouping-in-tens-to-make-big-numbers-easy", "accent": "#0d9488"}, {"bookId": "05", "id": "idea-13-zero-means-empty-and-holds-an-open-spot", "book": "Book V: Numbers & Size", "title": "Idea 1.3: Zero Means Empty and Holds an Open Spot", "definition": "Zero works double duty softly behind scenes: telling us a basket stands completely empty and politely holding an empty middle column open so big numbers keep their true size.", "href": "05_numbers_size_and_patterns.html#idea-13-zero-means-empty-and-holds-an-open-spot", "accent": "#0d9488"}, {"bookId": "05", "id": "idea-21-keeping-balance-steady-across-different-sizes", "book": "Book V: Numbers & Size", "title": "Idea 2.1: Keeping Balance Steady Across Different Sizes", "definition": "A fair balance compares one piece against another piece\u2014staying identical in taste, shade, or fairness whenever you shrink a recipe down or double it smoothly for company.", "href": "05_numbers_size_and_patterns.html#idea-21-keeping-balance-steady-across-different-sizes", "accent": "#0d9488"}, {"bookId": "05", "id": "idea-22-measuring-how-fast-things-happen", "book": "Book V: Numbers & Size", "title": "Idea 2.2: Measuring How Fast Things Happen", "definition": "Comparing any ongoing flow fairly asks how much happens per single unit\u2014such as miles per hour, cost per pound, or rest breaks per afternoon.", "href": "05_numbers_size_and_patterns.html#idea-22-measuring-how-fast-things-happen", "accent": "#0d9488"}, {"bookId": "05", "id": "idea-23-watch-what-number-a-percent-starts-from", "book": "Book V: Numbers & Size", "title": "Idea 2.3: Watch What Number a Percent Starts From", "definition": "Saying \"ten percent\" always means ten parts out of whatever whole pile is standing right underneath it at that moment\u2014so switching starting piles silently breaks math intuition!", "href": "05_numbers_size_and_patterns.html#idea-23-watch-what-number-a-percent-starts-from", "accent": "#0d9488"}, {"bookId": "05", "id": "idea-31-steady-steps-versus-snowballing-growth", "book": "Book V: Numbers & Size", "title": "Idea 3.1: Steady Steps Versus Snowballing Growth", "definition": "Adding the exact same steady piece each round walks evenly up calm straight stairs, while growing by a steady fraction each round bends sharply upward like a giant snowball rolling downhill.", "href": "05_numbers_size_and_patterns.html#idea-31-steady-steps-versus-snowballing-growth", "accent": "#0d9488"}, {"bookId": "05", "id": "idea-32-why-big-things-need-thicker-legs-than-toys", "book": "Book V: Numbers & Size", "title": "Idea 3.2: Why Big Things Need Thicker Legs Than Toys", "definition": "Stretching an object's length or height makes its outer skin grow briskly while its heavy inside volume shoots up much faster\u2014so giant bridges, cakes, and animals must change shape to hold together.", "href": "05_numbers_size_and_patterns.html#idea-32-why-big-things-need-thicker-legs-than-toys", "accent": "#0d9488"}, {"bookId": "05", "id": "idea-33-what-stays-connected-when-shapes-stretch", "book": "Book V: Numbers & Size", "title": "Idea 3.3: What Stays Connected When Shapes Stretch", "definition": "Some qualities care strictly about exact inches and sharp corners, while deeper map-like connections care solely about what touches what\u2014staying intact even when rubber sheets stretch or bend.", "href": "05_numbers_size_and_patterns.html#idea-33-what-stays-connected-when-shapes-stretch", "accent": "#0d9488"}, {"bookId": "05", "id": "idea-41-middle-person-versus-one-huge-outlier", "book": "Book V: Numbers & Size", "title": "Idea 4.1: Middle Person Versus One Huge Outlier", "definition": "Adding everything together and splitting evenly gets wildly pulled away by one giant extreme number, whereas lining people up and checking the quiet person right in the middle stays honest.", "href": "05_numbers_size_and_patterns.html#idea-41-middle-person-versus-one-huge-outlier", "accent": "#0d9488"}, {"bookId": "05", "id": "idea-42-same-average-can-hide-wild-swings", "book": "Book V: Numbers & Size", "title": "Idea 4.2: Same Average Can Hide Wild Swings", "definition": "Knowing only the typical middle tells nothing about how wildly calm or bumpy real days behave around that center\u2014and wild swings can break plans that survive steady average conditions easily.", "href": "05_numbers_size_and_patterns.html#idea-42-same-average-can-hide-wild-swings", "accent": "#0d9488"}, {"bookId": "05", "id": "idea-43-big-surprises-usually-drift-back-toward-normal", "book": "Book V: Numbers & Size", "title": "Idea 4.3: Big Surprises Usually Drift Back Toward Normal", "definition": "When something unusually lucky or wildly messy happens far out past normal habits, the very next round tends calmly to drift closer back toward everyday life all on its own.", "href": "05_numbers_size_and_patterns.html#idea-43-big-surprises-usually-drift-back-toward-normal", "accent": "#0d9488"}, {"bookId": "06", "id": "idea-11-everything-solid-is-made-of-moving-tiny-pieces", "book": "Book VI: Matter & Energy", "title": "Idea 1.1: Everything Solid Is Made of Moving Tiny Pieces", "definition": "Even hard rocks, crisp glass windows, and calm pond water are woven from billions of unimaginably tiny building bits constantly jiggling and pulling gently onto neighbors.", "href": "06_things_motion_and_energy.html#idea-11-everything-solid-is-made-of-moving-tiny-pieces", "accent": "#d97706"}, {"bookId": "06", "id": "idea-12-ice-water-and-steam-show-three-speeds-of-the-same-stuff", "book": "Book VI: Matter & Energy", "title": "Idea 1.2: Ice, Water, and Steam Show Three Speeds of the Same Stuff", "definition": "Solid ice, liquid puddle water, and floating invisible steam are not three separate recipes\u2014they are the exact same water pieces holding tight, sliding loose, or bouncing freely across open air.", "href": "06_things_motion_and_energy.html#idea-12-ice-water-and-steam-show-three-speeds-of-the-same-stuff", "accent": "#d97706"}, {"bookId": "06", "id": "idea-13-how-light-boats-float-while-tiny-pebbles-sink", "book": "Book VI: Matter & Energy", "title": "Idea 1.3: How Light Boats Float While Tiny Pebbles Sink", "definition": "Whether something floats cleanly up top or drops to the bottom does not depend strictly on total weight\u2014it depends on how much weight sits squeezed inside its size compared against water pushed aside.", "href": "06_things_motion_and_energy.html#idea-13-how-light-boats-float-while-tiny-pebbles-sink", "accent": "#d97706"}, {"bookId": "06", "id": "idea-21-moving-things-keep-going-until-something-nudges-them", "book": "Book VI: Matter & Energy", "title": "Idea 2.1: Moving Things Keep Going Until Something Nudges Them", "definition": "Objects at calm rest stay lazily put, and moving things keep gliding straight along unless some outside push, bump, or gentle rub shows up to speed, slow, or steer them.", "href": "06_things_motion_and_energy.html#idea-21-moving-things-keep-going-until-something-nudges-them", "accent": "#d97706"}, {"bookId": "06", "id": "idea-22-balanced-pushes-look-like-standing-completely-still", "book": "Book VI: Matter & Energy", "title": "Idea 2.2: Balanced Pushes Look Like Standing Completely Still", "definition": "When something sits calmly motionless, that does not mean zero pushes are acting\u2014it simply means opposing pushes balance each other neatly down to an even tie.", "href": "06_things_motion_and_energy.html#idea-22-balanced-pushes-look-like-standing-completely-still", "accent": "#d97706"}, {"bookId": "06", "id": "idea-23-every-push-always-pushes-back-equally", "book": "Book VI: Matter & Energy", "title": "Idea 2.3: Every Push Always Pushes Back Equally", "definition": "Pushes never walk alone in single direction: the instant one object pushes forward onto another, that partner simultaneously pushes straight back identically in opposite direction.", "href": "06_things_motion_and_energy.html#idea-23-every-push-always-pushes-back-equally", "accent": "#d97706"}, {"bookId": "06", "id": "idea-31-energy-only-changes-outfitsnever-vanishes", "book": "Book VI: Matter & Energy", "title": "Idea 3.1: Energy Only Changes Outfits\u2014Never Vanishes", "definition": "Energy can transform effortlessly from bright sunlight to leafy sugar to warm walking legs or gentle brake warmth\u2014yet total energy across all changes never creates or erases a single ounce out of nowhere.", "href": "06_things_motion_and_energy.html#idea-31-energy-only-changes-outfitsnever-vanishes", "accent": "#d97706"}, {"bookId": "06", "id": "idea-32-waiting-energy-versus-moving-energy", "book": "Book VI: Matter & Energy", "title": "Idea 3.2: Waiting Energy Versus Moving Energy", "definition": "Things store quiet waiting energy simply by standing up high, stretching tight springs, or holding rich fuel\u2014ready to burst cleanly into active moving energy the second anything lets go.", "href": "06_things_motion_and_energy.html#idea-32-waiting-energy-versus-moving-energy", "accent": "#d97706"}, {"bookId": "06", "id": "idea-33-total-effort-versus-how-fast-you-work", "book": "Book VI: Matter & Energy", "title": "Idea 3.3: Total Effort Versus How Fast You Work", "definition": "Lifting ten grocery bags up porch stairs spends almost the exact same total work whether you stroll calmly bag by bag or sprint wildly\u2014yet doing the exact same climb faster demands way stronger burst speed!", "href": "06_things_motion_and_energy.html#idea-33-total-effort-versus-how-fast-you-work", "accent": "#d97706"}, {"bookId": "06", "id": "idea-41-warmth-spreads-out-until-things-match", "book": "Book VI: Matter & Energy", "title": "Idea 4.1: Warmth Spreads Out Until Things Match", "definition": "Warmth naturally flows gently out from hotter crowded corners toward cooler neighbors until both match comfortably at the same calm temperature\u2014never climbing uphill by itself!", "href": "06_things_motion_and_energy.html#idea-41-warmth-spreads-out-until-things-match", "accent": "#d97706"}, {"bookId": "06", "id": "idea-42-neat-order-takes-care-while-clutter-happens-easily", "book": "Book VI: Matter & Energy", "title": "Idea 4.2: Neat Order Takes Care While Clutter Happens Easily", "definition": "There are countless messy scrambled ways for things to land and only a tiny handful of neat tidy spots\u2014so without light gentle tidying, everything drifts naturally toward mixing and sprawl!", "href": "06_things_motion_and_energy.html#idea-42-neat-order-takes-care-while-clutter-happens-easily", "accent": "#d97706"}, {"bookId": "06", "id": "idea-43-ripples-and-invisible-pulls-carry-action-across-space", "book": "Book VI: Matter & Energy", "title": "Idea 4.3: Ripples and Invisible Pulls Carry Action Across Space", "definition": "Both waves rippling through water and invisible pulls like gravity or magnets carry real energy and motion far across open distances without hauling giant solid chunks from start to finish!", "href": "06_things_motion_and_energy.html#idea-43-ripples-and-invisible-pulls-carry-action-across-space", "accent": "#d97706"}, {"bookId": "07", "id": "idea-11-smart-borders-let-good-in-and-keep-harm-out", "book": "Book VII: Living Nature", "title": "Idea 1.1: Smart Borders Let Good In and Keep Harm Out", "definition": "Every living thing begins with a flexible living border that protects inner balance\u2014welcoming clean water, air, and food inside while turning harmful threats politely out.", "href": "07_living_things_and_nature.html#idea-11-smart-borders-let-good-in-and-keep-harm-out", "accent": "#16a34a"}, {"bookId": "07", "id": "idea-12-turning-food-gently-into-repair-and-motion", "book": "Book VII: Living Nature", "title": "Idea 1.2: Turning Food Gently Into Repair and Motion", "definition": "Instead of setting meals ablaze like dry wood matches, living bodies unpack stored food energy smoothly bit by tiny bit\u2014using it cleanly both to power motion and mend daily wear.", "href": "07_living_things_and_nature.html#idea-12-turning-food-gently-into-repair-and-motion", "accent": "#16a34a"}, {"bookId": "07", "id": "idea-13-how-bodies-hold-steady-inside-changing-weather", "book": "Book VII: Living Nature", "title": "Idea 1.3: How Bodies Hold Steady Inside Changing Weather", "definition": "Living bodies constantly check inner comfort gauges\u2014sweating gently when too warm, shivering when chilly, asking politely for sips when dry\u2014so delicate body chemistry stays calmly balanced despite bumpy days outside.", "href": "07_living_things_and_nature.html#idea-13-how-bodies-hold-steady-inside-changing-weather", "accent": "#16a34a"}, {"bookId": "07", "id": "idea-21-tiny-living-rooms-work-together-as-whole-creatures", "book": "Book VII: Living Nature", "title": "Idea 2.1: Tiny Living Rooms Work Together as Whole Creatures", "definition": "A living cell is the tiniest whole package able to guard clean borders, feed smoothly, repair parts, sense cues, and split into fresh copies\u2014teaming up in trillions to form eyes, roots, hearts, and hands.", "href": "07_living_things_and_nature.html#idea-21-tiny-living-rooms-work-together-as-whole-creatures", "accent": "#16a34a"}, {"bookId": "07", "id": "idea-22-shaped-helper-pieces-do-nearly-every-job-inside-life", "book": "Book VII: Living Nature", "title": "Idea 2.2: Shaped Helper Pieces Do Nearly Every Job Inside Life", "definition": "Long flexible chains of twenty tiny building beads fold cleanly into custom three-dimensional tools\u2014tiny scissors, oxygen baskets, doorway locks, and spring beams\u2014handling nearly every physical chore inside cells.", "href": "07_living_things_and_nature.html#idea-22-shaped-helper-pieces-do-nearly-every-job-inside-life", "accent": "#16a34a"}, {"bookId": "07", "id": "idea-23-rechargeable-pocket-batteries-run-every-living-cell", "book": "Book VII: Living Nature", "title": "Idea 2.3: Rechargeable Pocket Batteries Run Every Living Cell", "definition": "Rather than hauling whole blazing cookstoves inside tiny nerve tips, cells break lunch neatly down to charge uniform tiny reusable batteries passing smooth tiny power bursts across every room.", "href": "07_living_things_and_nature.html#idea-23-rechargeable-pocket-batteries-run-every-living-cell", "accent": "#16a34a"}, {"bookId": "07", "id": "idea-31-every-living-cell-holds-a-shared-recipe-library", "book": "Book VII: Living Nature", "title": "Idea 3.1: Every Living Cell Holds a Shared Recipe Library", "definition": "Every cell inside one creature locks away a neat complete inherited recipe library\u2014yet eye rooms, muscle bands, and skin patches stay completely different purely because different rooms open different chapters quietly at the right moment!", "href": "07_living_things_and_nature.html#idea-31-every-living-cell-holds-a-shared-recipe-library", "accent": "#16a34a"}, {"bookId": "07", "id": "idea-32-family-recipes-work-hand-in-hand-with-care-and-surroundings", "book": "Book VII: Living Nature", "title": "Idea 3.2: Family Recipes Work Hand in Hand With Care and Surroundings", "definition": "Genes never build anything completely locked inside empty rooms; inherited instructions collaborate closely every single day with nutrition, warmth, restful care, sunlight, and lived experience!", "href": "07_living_things_and_nature.html#idea-32-family-recipes-work-hand-in-hand-with-care-and-surroundings", "accent": "#16a34a"}, {"bookId": "07", "id": "idea-33-helpful-fits-spread-naturally-across-long-ages", "book": "Book VII: Living Nature", "title": "Idea 3.3: Helpful Fits Spread Naturally Across Long Ages", "definition": "Whenever small harmless differences pop naturally into family groups, features fitting local winters, hungry hawks, or dry summers cleanly help survivors stay healthy and pass those handy fits onward to kids!", "href": "07_living_things_and_nature.html#idea-33-helpful-fits-spread-naturally-across-long-ages", "accent": "#16a34a"}, {"bookId": "07", "id": "idea-41-sunlight-passes-once-while-water-and-soil-cycle-round", "book": "Book VII: Living Nature", "title": "Idea 4.1: Sunlight Passes Once While Water and Soil Cycle Round", "definition": "Fresh sunlight beams warmly through green leaves once on an ongoing one-way river before drifting gently out into night skies\u2014while water drops, wood pieces, and soil minerals recycle cleanly around endlessly!", "href": "07_living_things_and_nature.html#idea-41-sunlight-passes-once-while-water-and-soil-cycle-round", "accent": "#16a34a"}, {"bookId": "07", "id": "idea-42-every-place-has-room-and-food-for-only-so-many", "book": "Book VII: Living Nature", "title": "Idea 4.2: Every Place Has Room and Food for Only So Many", "definition": "Every meadow, coral reef, and town porch carries gentle real limits\u2014how much fresh rain, sunny leaves, nesting hollows, and clean water fit comfortably before crowding slows healthy growth naturally down!", "href": "07_living_things_and_nature.html#idea-42-every-place-has-room-and-food-for-only-so-many", "accent": "#16a34a"}, {"bookId": "07", "id": "idea-43-helpers-quiet-neighbors-and-uninvited-guests", "book": "Book VII: Living Nature", "title": "Idea 4.3: Helpers, Quiet Neighbors, and Uninvited Guests", "definition": "Living relationships weave every style across nature\u2014mutual cheerful trades helping both friends, quiet free shelters harming nobody, and crafty uninvited takers wearing generous hosts down!", "href": "07_living_things_and_nature.html#idea-43-helpers-quiet-neighbors-and-uninvited-guests", "accent": "#16a34a"}, {"bookId": "08", "id": "idea-11-a-good-word-gives-foggy-experience-a-clean-handle", "book": "Book VIII: Shared Systems", "title": "Idea 1.1: A Good Word Gives Foggy Experience a Clean Handle", "definition": "Putting a simple honest name onto a recurring everyday pattern helps you spot it quickly next month and talk cleanly with others without re-explaining everything from scratch.", "href": "08_messages_systems_and_community.html#idea-11-a-good-word-gives-foggy-experience-a-clean-handle", "accent": "#7c3aed"}, {"bookId": "08", "id": "idea-12-dictionary-meaning-versus-emotional-feel", "book": "Book VIII: Shared Systems", "title": "Idea 1.2: Dictionary Meaning Versus Emotional Feel", "definition": "Words carry two jobs quietly at once: pointing factually at an object or habit in reality, and slipping subtle warm praise or sharp scolding underneath!", "href": "08_messages_systems_and_community.html#idea-12-dictionary-meaning-versus-emotional-feel", "accent": "#7c3aed"}, {"bookId": "08", "id": "idea-13-hearing-the-true-message-past-background-chatter", "book": "Book VIII: Shared Systems", "title": "Idea 1.3: Hearing the True Message Past Background Chatter", "definition": "Every helpful signal\u2014whether spoken softly across crowded rooms or tucked inside busy newsfeeds\u2014fights stray background chatter unless you slow down, cut clutter, and check key details back!", "href": "08_messages_systems_and_community.html#idea-13-hearing-the-true-message-past-background-chatter", "accent": "#7c3aed"}, {"bookId": "08", "id": "idea-21-clear-step-by-step-plans-beat-fuzzy-hopes", "book": "Book VIII: Shared Systems", "title": "Idea 2.1: Clear Step-by-Step Plans Beat Fuzzy Hopes", "definition": "Turning big scary tasks into modest clean steps\u2014doing things calmly in order, checking simple yes-or-no branches, and repeating patiently till finished\u2014guides anyone calmly past overwhelm!", "href": "08_messages_systems_and_community.html#idea-21-clear-step-by-step-plans-beat-fuzzy-hopes", "accent": "#7c3aed"}, {"bookId": "08", "id": "idea-22-where-things-stand-right-now-versus-ongoing-rules", "book": "Book VIII: Shared Systems", "title": "Idea 2.2: Where Things Stand Right Now Versus Ongoing Rules", "definition": "Always keep clear separation between ongoing steady habits (your recipe card sitting forever neat inside binders) and right-now conditions (half-stirred warm batter changing second by second inside mixing bowls)!", "href": "08_messages_systems_and_community.html#idea-22-where-things-stand-right-now-versus-ongoing-rules", "accent": "#7c3aed"}, {"bookId": "08", "id": "idea-23-simple-front-controls-hide-messy-wiring-underneath", "book": "Book VIII: Shared Systems", "title": "Idea 2.3: Simple Front Controls Hide Messy Wiring Underneath", "definition": "Good shared tools, kitchens, and teams hide busy plumbing safely behind simple, calm front buttons\u2014so everyone navigates easily without needing engineering books just to toast breakfast bread!", "href": "08_messages_systems_and_community.html#idea-23-simple-front-controls-hide-messy-wiring-underneath", "accent": "#7c3aed"}, {"bookId": "08", "id": "idea-31-steady-loops-calm-things-while-snowball-loops-spin-out", "book": "Book VIII: Shared Systems", "title": "Idea 3.1: Steady Loops Calm Things While Snowball Loops Spin Out", "definition": "Some everyday chains naturally cool down spikes and hold peaceful balance steady, while snowballing chains feed right back onto themselves pushing joy, kindness, OR panic higher and higher!", "href": "08_messages_systems_and_community.html#idea-31-steady-loops-calm-things-while-snowball-loops-spin-out", "accent": "#7c3aed"}, {"bookId": "08", "id": "idea-32-the-narrowest-doorway-sets-the-whole-speed", "book": "Book VIII: Shared Systems", "title": "Idea 3.2: The Narrowest Doorway Sets the Whole Speed", "definition": "In any connected line of chores, baking, or teamwork, speeding up fast steps sitting ahead of one tight jam changes zero final finish time\u2014only gently easing that narrowest tight doorway unlocks flow!", "href": "08_messages_systems_and_community.html#idea-32-the-narrowest-doorway-sets-the-whole-speed", "accent": "#7c3aed"}, {"bookId": "08", "id": "idea-33-every-yes-quietly-costs-what-else-you-value", "book": "Book VIII: Shared Systems", "title": "Idea 3.3: Every \"Yes\" Quietly Costs What Else You Value", "definition": "Because clean waking hours, warm energy, and shelf rooms run smoothly limited, choosing almost anything worthwhile silently spends the next best warm activity you gave up right alongside!", "href": "08_messages_systems_and_community.html#idea-33-every-yes-quietly-costs-what-else-you-value", "accent": "#7c3aed"}, {"bookId": "08", "id": "idea-41-rewards-quietly-steer-what-people-do", "book": "Book VIII: Shared Systems", "title": "Idea 4.1: Rewards Quietly Steer What People Do", "definition": "Whenever daily habits or community rules turn sour despite kindly speeches, look patiently underneath at what actual daily comfort, praise, or penalties people meet on ground!", "href": "08_messages_systems_and_community.html#idea-41-rewards-quietly-steer-what-people-do", "accent": "#7c3aed"}, {"bookId": "08", "id": "idea-42-caring-together-for-shared-spaces", "book": "Book VIII: Shared Systems", "title": "Idea 4.2: Caring Together for Shared Spaces", "definition": "Clean parks, welcoming office kitchens, quiet libraries, and high neighborhood trust prosper beautifully when everybody pitches in small tidy care\u2014yet fade swiftly if folks assume \"somebody else cleans up after me.\"", "href": "08_messages_systems_and_community.html#idea-42-caring-together-for-shared-spaces", "accent": "#7c3aed"}, {"bookId": "08", "id": "idea-43-writing-good-lessons-down-helps-everyone-grow-wiser", "book": "Book VIII: Shared Systems", "title": "Idea 4.3: Writing Good Lessons Down Helps Everyone Grow Wiser", "definition": "Storing helpful discoveries neatly inside recipes, friendly checklists, shared books, and humble welcoming feedback loops prevents every fresh generation from stumbling blindly over identical scraped knees!", "href": "08_messages_systems_and_community.html#idea-43-writing-good-lessons-down-helps-everyone-grow-wiser", "accent": "#7c3aed"}];
+  const TOTAL_BOOKS = new Set(ALL_CONCEPTS.map((c) => c.bookId)).size;
+  const root = document.documentElement;
+  const THEME_COLORS = { paper: '#f7f4ed', sepia: '#efe4cd', night: '#0d1017' };
+
+  // Compact First-Party Cookie Store (synced with localStorage backup)
+  function getCookie(name) {
+    try {
+      const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]+)'));
+      return match ? decodeURIComponent(match[1]) : null;
+    } catch { return null; }
+  }
+
+  function setCookie(name, value, days) {
+    try {
+      const maxAge = (days || 365) * 86400;
+      const sec = location.protocol === 'https:' ? '; Secure' : '';
+      document.cookie = name + '=' + encodeURIComponent(value) + '; path=/; max-age=' + maxAge + '; SameSite=Lax' + sec;
+    } catch {}
+  }
+
+  // Migrate smoothly from earlier 6-book index map without losing reading theme/size preferences
+  if (getCookie('pef_ver') !== '2') {
+    ['pef_prog', 'pef_seen', 'pef_last', 'pef_bm'].forEach((k) => setCookie(k, '', -1));
+    try {
+      ['pef_seen_ls', 'pef_last_ls', 'plain-books-bookmarks', 'plain-books-last-read', 'plain-books-volume-progress'].forEach((k) => localStorage.removeItem(k));
+    } catch {}
+    setCookie('pef_ver', '2', 365);
+  }
+
+  function readStoreJson(cookieName, lsKey, fallback) {
+    const rawC = getCookie(cookieName);
+    if (rawC) {
+      try { return JSON.parse(rawC); } catch {}
+    }
+    try {
+      const rawLs = localStorage.getItem(lsKey);
+      if (rawLs) return JSON.parse(rawLs);
+    } catch {}
+    return fallback;
+  }
+
+  function writeStoreJson(cookieName, lsKey, obj) {
+    const str = JSON.stringify(obj);
+    setCookie(cookieName, str, 365);
+    try { localStorage.setItem(lsKey, str); } catch {}
+  }
+
+  // Migrate legacy localStorage data into cookies once if cookies are empty
+  function readPrefs() {
+    const prefs = readStoreJson('pef_prefs', 'pef_prefs_ls', null);
+    if (prefs && typeof prefs === 'object') return prefs;
+    const legacy = {
+      t: localStorage.getItem('plain-books-theme') || 'paper',
+      s: localStorage.getItem('plain-books-size') || 'md',
+      f: localStorage.getItem('plain-books-focus') === '1' ? 1 : 0,
+      d: 0
+    };
+    writeStoreJson('pef_prefs', 'pef_prefs_ls', legacy);
+    return legacy;
+  }
+
+  function savePrefs(patch) {
+    const cur = Object.assign({ t: 'paper', s: 'md', f: 0, d: 0 }, readPrefs(), patch);
+    writeStoreJson('pef_prefs', 'pef_prefs_ls', cur);
+    return cur;
+  }
+
+  function readBookmarksIndices() {
+    const c = getCookie('pef_bm');
+    if (c !== null) {
+      return c ? c.split(',').map(Number).filter((n) => Number.isInteger(n) && n >= 0 && n < ALL_CONCEPTS.length) : [];
+    }
+    try {
+      const legacy = JSON.parse(localStorage.getItem('plain-books-bookmarks') || '[]');
+      if (legacy.length) {
+        const idxList = [];
+        for (const item of legacy) {
+          const idx = ALL_CONCEPTS.findIndex((x) => x.href === item.href);
+          if (idx >= 0 && !idxList.includes(idx)) idxList.push(idx);
+        }
+        writeBookmarksIndices(idxList);
+        return idxList;
+      }
+    } catch {}
+    return [];
+  }
+
+  function writeBookmarksIndices(indices) {
+    const clean = Array.from(new Set(indices)).filter((n) => Number.isInteger(n) && n >= 0 && n < ALL_CONCEPTS.length);
+    const val = clean.join(',');
+    setCookie('pef_bm', val, 365);
+    try {
+      const full = clean.map((i) => ALL_CONCEPTS[i]);
+      localStorage.setItem('plain-books-bookmarks', JSON.stringify(full));
+    } catch {}
+    window.dispatchEvent(new CustomEvent('plain-books-bookmarks-changed'));
+  }
+
+  function readSeenMap() {
+    return readStoreJson('pef_seen', 'pef_seen_ls', {});
+  }
+
+  function markConceptSeen(bookId, conceptIndex) {
+    if (!bookId || conceptIndex < 0 || conceptIndex > 30) return;
+    const seen = readSeenMap();
+    const curMask = parseInt(seen[bookId] || '0', 16) || 0;
+    const nextMask = curMask | (1 << conceptIndex);
+    if (nextMask !== curMask) {
+      seen[bookId] = nextMask.toString(16);
+      writeStoreJson('pef_seen', 'pef_seen_ls', seen);
+    }
+  }
+
+  function countBits(hexStr) {
+    let n = parseInt(hexStr || '0', 16) || 0;
+    let c = 0;
+    while (n) { n &= n - 1; c++; }
+    return c;
+  }
+
+  function readProgressMap() {
+    return readStoreJson('pef_prog', 'plain-books-volume-progress', {});
+  }
+
+  function readLastRead() {
+    const compact = readStoreJson('pef_last', 'pef_last_ls', null);
+    if (compact && compact.b && compact.c) {
+      const match = ALL_CONCEPTS.find((x) => x.bookId === compact.b && x.id === compact.c);
+      if (match) {
+        return {
+          href: match.href,
+          bookHref: match.href.split('#')[0],
+          book: match.book,
+          title: match.title,
+          pct: compact.p || 0
+        };
+      }
+    }
+    try {
+      const legacy = JSON.parse(localStorage.getItem('plain-books-last-read') || 'null');
+      if (legacy && legacy.href) return legacy;
+    } catch {}
+    return null;
+  }
+
+  window.PlainBooksStore = {
+    ALL_CONCEPTS,
+    readBookmarks: () => readBookmarksIndices().map((i) => ALL_CONCEPTS[i]),
+    removeBookmarkByHref: (href) => {
+      const idx = ALL_CONCEPTS.findIndex((c) => c.href === href);
+      if (idx >= 0) {
+        writeBookmarksIndices(readBookmarksIndices().filter((x) => x !== idx));
+      }
+    },
+    clearBookmarks: () => writeBookmarksIndices([]),
+    readProgressMap,
+    readSeenMap,
+    countBits,
+    readLastRead,
+    cookiesEnabled: () => navigator.cookieEnabled !== false,
+    resetAllProgress: () => {
+      ['pef_prog', 'pef_seen', 'pef_last', 'pef_bm'].forEach((k) => setCookie(k, '', -1));
+      try {
+        ['pef_seen_ls', 'pef_last_ls', 'plain-books-bookmarks', 'plain-books-last-read', 'plain-books-volume-progress'].forEach((k) => localStorage.removeItem(k));
+      } catch {}
+      window.dispatchEvent(new CustomEvent('plain-books-bookmarks-changed'));
+    }
+  };
+
+  // Apply saved preferences immediately
+  const initPrefs = readPrefs();
+  root.setAttribute('data-theme', initPrefs.t || 'paper');
+  root.setAttribute('data-size', initPrefs.s || 'md');
+  if (initPrefs.f) document.body.classList.add('focus-mode');
+
+  function syncThemeMeta(theme) {
+    const meta = document.getElementById('meta-theme-color');
+    if (meta) meta.setAttribute('content', THEME_COLORS[theme] || '#f7f4ed');
+  }
+
+  function syncButtons() {
+    const theme = root.getAttribute('data-theme');
+    const size = root.getAttribute('data-size');
+    syncThemeMeta(theme);
+    document.querySelectorAll('[data-set-theme]').forEach((btn) => {
+      const active = btn.getAttribute('data-set-theme') === theme;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+    document.querySelectorAll('[data-set-size]').forEach((btn) => {
+      const active = btn.getAttribute('data-set-size') === size;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+    const focusBtn = document.getElementById('focus-mode-btn');
+    if (focusBtn) {
+      const on = document.body.classList.contains('focus-mode');
+      focusBtn.classList.toggle('active', on);
+      focusBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
+  }
+
+  function currentPageFile() {
+    const parts = location.pathname.split('/');
+    const last = parts[parts.length - 1] || 'index.html';
+    return last.endsWith('.html') ? last : last + '.html';
+  }
+
+  function syncBookmarksUI() {
+    const savedSet = new Set(readBookmarksIndices());
+    document.querySelectorAll('.concept-card[data-concept-index]').forEach((card) => {
+      const idx = Number(card.getAttribute('data-concept-index'));
+      const page = currentPageFile();
+      const globalIdx = ALL_CONCEPTS.findIndex((c) => c.href.startsWith(page + '#') && c.id === card.getAttribute('data-concept-id'));
+      const btn = card.querySelector('.bookmark-btn');
+      if (!btn || globalIdx < 0) return;
+      const isSaved = savedSet.has(globalIdx);
+      btn.classList.toggle('saved', isSaved);
+      btn.setAttribute('aria-pressed', isSaved ? 'true' : 'false');
+      const label = btn.querySelector('span');
+      if (label) label.textContent = isSaved ? 'Saved' : 'Save';
+    });
+  }
+
+  // Settings Sheet
+  const settingsBackdrop = document.getElementById('settings-backdrop');
+  function openSettings() {
+    if (!settingsBackdrop) return;
+    const cookieLbl = document.getElementById('cookie-status-label');
+    if (cookieLbl) {
+      cookieLbl.textContent = navigator.cookieEnabled
+        ? 'Cookies Active (365-day progress & bookmarks)'
+        : 'Fallback Storage (cookies disabled)';
+    }
+    settingsBackdrop.hidden = false;
+  }
+  function closeSettings() {
+    if (settingsBackdrop) settingsBackdrop.hidden = true;
+  }
+
+  document.addEventListener('click', async (e) => {
+    const tBtn = e.target.closest('[data-set-theme]');
+    if (tBtn) {
+      const val = tBtn.getAttribute('data-set-theme');
+      root.setAttribute('data-theme', val);
+      savePrefs({ t: val });
+      try { localStorage.setItem('plain-books-theme', val); } catch {}
+      syncButtons();
+    }
+    const sBtn = e.target.closest('[data-set-size]');
+    if (sBtn) {
+      const val = sBtn.getAttribute('data-set-size');
+      root.setAttribute('data-size', val);
+      savePrefs({ s: val });
+      try { localStorage.setItem('plain-books-size', val); } catch {}
+      syncButtons();
+    }
+    if (e.target.closest('#focus-mode-btn')) {
+      const on = document.body.classList.toggle('focus-mode');
+      savePrefs({ f: on ? 1 : 0 });
+      syncButtons();
+    }
+    if (e.target.closest('#open-settings-btn')) openSettings();
+    if (e.target === settingsBackdrop || e.target.closest('#close-settings-btn')) closeSettings();
+    if (e.target.closest('#reset-progress-btn')) {
+      window.PlainBooksStore.resetAllProgress();
+      syncBookmarksUI();
+      updateReadingState();
+      const rb = e.target.closest('#reset-progress-btn');
+      rb.textContent = 'Progress Reset';
+      setTimeout(() => { rb.textContent = 'Reset Saved Progress'; }, 1400);
+    }
+
+    const menuBtn = e.target.closest('#mobile-menu-btn');
+    if (menuBtn) {
+      const open = document.body.classList.toggle('drawer-open');
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    if (e.target.closest('#sidebar-close-btn') || e.target.closest('#sidebar-backdrop') || e.target.closest('.sidebar a')) {
+      document.body.classList.remove('drawer-open');
+      const mb = document.getElementById('mobile-menu-btn');
+      if (mb) mb.setAttribute('aria-expanded', 'false');
+    }
+    if (e.target.closest('#back-to-top')) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    const copyBtn = e.target.closest('.copy-link-btn');
+    if (copyBtn) {
+      const id = copyBtn.getAttribute('data-copy-id');
+      const url = location.href.split('#')[0] + '#' + id;
+      try { await navigator.clipboard.writeText(url); } catch { location.hash = id; }
+      copyBtn.classList.add('copied');
+      const sp = copyBtn.querySelector('span');
+      if (sp) sp.textContent = 'Copied';
+      setTimeout(() => {
+        copyBtn.classList.remove('copied');
+        if (sp) sp.textContent = 'Link';
+      }, 1400);
+    }
+    const bBtn = e.target.closest('.bookmark-btn');
+    if (bBtn) {
+      const page = currentPageFile();
+      const id = bBtn.getAttribute('data-bookmark-id');
+      const globalIdx = ALL_CONCEPTS.findIndex((c) => c.href === page + '#' + id);
+      if (globalIdx >= 0) {
+        const list = readBookmarksIndices();
+        const pos = list.indexOf(globalIdx);
+        if (pos >= 0) list.splice(pos, 1);
+        else list.unshift(globalIdx);
+        writeBookmarksIndices(list);
+        syncBookmarksUI();
+      }
+    }
+  });
+
+  // Scroll-Spy + Cookie Progress Persistence
+  const conceptCards = Array.from(document.querySelectorAll('.concept-card[data-concept-id]'));
+  const chapterHeadings = Array.from(document.querySelectorAll('h2.chapter-heading[id]'));
+  const sidebarLinks = Array.from(document.querySelectorAll('.sidebar a[href^="#"]'));
+  const backTopBtn = document.getElementById('back-to-top');
+  const currentBookId = document.body.getAttribute('data-book-id') || '';
+
+  function updateReadingState() {
+    const bar = document.getElementById('reading-progress');
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = total > 0 ? Math.min(100, Math.max(0, (window.scrollY / total) * 100)) : 0;
+    if (bar) bar.style.width = pct.toFixed(1) + '%';
+    if (backTopBtn) backTopBtn.classList.toggle('visible', window.scrollY > 420);
+
+    if (conceptCards.length && currentBookId) {
+      let activeCard = conceptCards[0];
+      for (const card of conceptCards) {
+        if (card.getBoundingClientRect().top <= 190) activeCard = card;
+      }
+      let activeChap = chapterHeadings[0];
+      for (const ch of chapterHeadings) {
+        if (ch.getBoundingClientRect().top <= 190) activeChap = ch;
+      }
+
+      const activeId = activeCard.getAttribute('data-concept-id');
+      const activeIdx = Number(activeCard.getAttribute('data-concept-index') || 0);
+      const activeChapId = activeChap ? activeChap.getAttribute('id') : '';
+      sidebarLinks.forEach((a) => {
+        const href = a.getAttribute('href').slice(1);
+        a.classList.toggle('active-nav', href === activeId || href === activeChapId);
+      });
+
+      const pctRound = Math.round(pct);
+      markConceptSeen(currentBookId, activeIdx);
+      writeStoreJson('pef_last', 'pef_last_ls', { b: currentBookId, c: activeId, p: pctRound });
+
+      const prog = readProgressMap();
+      if ((prog[currentBookId] || 0) < pctRound || !prog[currentBookId]) {
+        prog[currentBookId] = Math.max(prog[currentBookId] || 0, pctRound);
+        writeStoreJson('pef_prog', 'plain-books-volume-progress', prog);
+      }
+    }
+  }
+
+  let scrollTimer = null;
+  window.addEventListener('scroll', () => {
+    const bar = document.getElementById('reading-progress');
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = total > 0 ? Math.min(100, Math.max(0, (window.scrollY / total) * 100)) : 0;
+    if (bar) bar.style.width = pct.toFixed(1) + '%';
+    if (backTopBtn) backTopBtn.classList.toggle('visible', window.scrollY > 420);
+    if (!scrollTimer) {
+      scrollTimer = setTimeout(() => {
+        scrollTimer = null;
+        updateReadingState();
+      }, 120);
+    }
+  }, { passive: true });
+  if (conceptCards.length) updateReadingState();
+
+  // Command Palette Search
+  const cmdBackdrop = document.getElementById('cmd-backdrop');
+  const cmdInput = document.getElementById('cmd-input');
+  const cmdList = document.getElementById('cmd-list');
+  let cmdSelected = 0;
+
+  function escHtml(str) {
+    return String(str).replace(/[&<>"']/g, (ch) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[ch]));
+  }
+
+  function renderCmdList(query) {
+    if (!cmdList) return;
+    const q = query.trim().toLowerCase();
+    const hits = q
+      ? ALL_CONCEPTS.filter((c) =>
+          c.title.toLowerCase().includes(q) ||
+          c.definition.toLowerCase().includes(q) ||
+          c.book.toLowerCase().includes(q)
+        )
+      : ALL_CONCEPTS.slice(0, 12);
+
+    cmdSelected = 0;
+    if (!hits.length) {
+      cmdList.innerHTML = '<div style="padding: 1rem; color: var(--text-muted); font-size: 0.9rem;">No matching everyday ideas found.</div>';
+      return;
+    }
+    cmdList.innerHTML = hits.slice(0, 14).map((c, idx) => `
+      <a class="cmd-item ${idx === 0 ? 'selected' : ''}" href="${escHtml(c.href)}">
+        <div class="cmd-item-book" style="color:${escHtml(c.accent)}">${escHtml(c.book)}</div>
+        <div class="cmd-item-title">${escHtml(c.title)}</div>
+        <div class="cmd-item-def">${escHtml(c.definition)}</div>
+      </a>
+    `).join('');
+  }
+
+  function openCmd() {
+    if (!cmdBackdrop || !cmdInput) return;
+    cmdBackdrop.hidden = false;
+    cmdInput.value = '';
+    renderCmdList('');
+    setTimeout(() => cmdInput.focus(), 20);
+  }
+  function closeCmd() {
+    if (cmdBackdrop) cmdBackdrop.hidden = true;
+  }
+
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#open-cmd-btn')) openCmd();
+    if (e.target === cmdBackdrop || e.target.closest('#close-cmd-btn')) closeCmd();
+    if (e.target.closest('.cmd-item')) closeCmd();
+  });
+
+  if (cmdInput) {
+    cmdInput.addEventListener('input', () => renderCmdList(cmdInput.value));
+    cmdInput.addEventListener('keydown', (e) => {
+      const items = Array.from(cmdList.querySelectorAll('.cmd-item'));
+      if (!items.length) return;
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        cmdSelected = (cmdSelected + 1) % items.length;
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        cmdSelected = (cmdSelected - 1 + items.length) % items.length;
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        items[cmdSelected].click();
+        return;
+      }
+      items.forEach((it, idx) => it.classList.toggle('selected', idx === cmdSelected));
+      items[cmdSelected].scrollIntoView({ block: 'nearest' });
+    });
+  }
+
+  // Streamlined Android & iOS PWA Install System
+  const statusPill = document.getElementById('pwa-status-pill');
+  const statusSheetPill = document.getElementById('sheet-offline-pill');
+  const installBtns = () => Array.from(document.querySelectorAll('#pwa-install-btn, #sheet-install-btn, #banner-install-btn'));
+  const installBanner = document.getElementById('mobile-install-banner');
+  const bannerSub = document.getElementById('install-banner-sub');
+  const installBackdrop = document.getElementById('install-backdrop');
+  const installChecksEl = document.getElementById('install-checks');
+  const installInstructionsEl = document.getElementById('install-instructions');
+  const installNativeBtn = document.getElementById('install-native-btn');
+  const copyUrlBtn = document.getElementById('copy-app-url-btn');
+  let deferredInstallPrompt = window.__bipPrompt || null;
+  let swActiveState = false;
+
+  const ua = navigator.userAgent || '';
+  const isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const isAndroid = /Android/i.test(ua);
+  const isStandalone =
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true;
+
+  let selectedOsTab = isIOS ? 'ios' : (isAndroid ? 'android' : 'desktop');
+
+  function refreshConnectionStatus(cachedReady) {
+    swActiveState = Boolean(cachedReady || swActiveState);
+    [statusPill, statusSheetPill].forEach((pill) => {
+      if (!pill) return;
+      if (!navigator.onLine) {
+        pill.hidden = false;
+        pill.classList.add('is-offline');
+        pill.textContent = 'Offline Mode';
+      } else if (swActiveState) {
+        pill.hidden = false;
+        pill.classList.remove('is-offline');
+        pill.textContent = 'Offline Ready';
+      }
+    });
+  }
+
+  function updateInstallUI() {
+    installBtns().forEach((b) => { b.hidden = isStandalone; });
+    if (installBanner) {
+      const dismissed = Boolean(readPrefs().d);
+      const isMobile = isIOS || isAndroid || window.innerWidth <= 960;
+      installBanner.hidden = isStandalone || dismissed || (!isMobile && !deferredInstallPrompt);
+      if (bannerSub) {
+        if (deferredInstallPrompt) {
+          bannerSub.textContent = '1-tap install for instant offline reading across all ' + TOTAL_BOOKS + ' books.';
+        } else if (isIOS) {
+          bannerSub.textContent = 'Add to your iPhone or iPad Home Screen for full-screen offline reading.';
+        } else if (isAndroid) {
+          bannerSub.textContent = 'Install to your Android home screen to read offline anytime.';
+        } else {
+          bannerSub.textContent = 'Install as a standalone offline reading app.';
+        }
+      }
+    }
+  }
+
+  function renderInstallStepsFor(tab) {
+    if (!installInstructionsEl) return;
+    document.querySelectorAll('[data-install-os]').forEach((b) => {
+      b.classList.toggle('active', b.getAttribute('data-install-os') === tab);
+    });
+
+    if (location.protocol === 'file:') {
+      installInstructionsEl.innerHTML =
+        '<li>This preview is opened from local <code>file://</code> storage, where browsers block offline apps.</li>' +
+        '<li>Open the live HTTPS app at <a href="https://nasakib.github.io/plain-english-foundations/">nasakib.github.io/plain-english-foundations</a> to install on Android, iOS, or Desktop.</li>';
+      return;
+    }
+
+    if (tab === 'ios') {
+      const shareSvg = '<span class="inline-ios-ico" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></span>';
+      installInstructionsEl.innerHTML =
+        '<li>In <strong>Safari</strong> or <strong>Chrome on iPhone/iPad</strong>, tap the <strong>Share</strong> icon ' + shareSvg + ' in the address bar (top right) or bottom toolbar.</li>' +
+        '<li>Scroll the share sheet down and tap <strong>Add to Home Screen</strong>.</li>' +
+        '<li>Tap <strong>Add</strong> in the top corner. Launching from your Home Screen opens full-screen offline with all ' + TOTAL_BOOKS + ' books and saved cookie progress.</li>';
+    } else if (tab === 'android') {
+      installInstructionsEl.innerHTML = deferredInstallPrompt
+        ? '<li>Tap the blue <strong>Install App Now</strong> button below to add the app directly to your Android home screen.</li>'
+        : '<li>Tap the <strong>&vellip;</strong> browser menu in the top-right corner of Chrome, Edge, or Samsung Internet.</li>' +
+          '<li>Tap <strong>Install app</strong> (or <strong>Add to Home screen</strong> &rarr; <strong>Install</strong>).</li>' +
+          '<li>The Foundations icon is added to your app drawer and works completely offline.</li>';
+    } else {
+      installInstructionsEl.innerHTML = deferredInstallPrompt
+        ? '<li>Click <strong>Install App Now</strong> below for 1-click desktop installation.</li>'
+        : '<li>In <strong>Chrome</strong> or <strong>Microsoft Edge</strong>, click the <strong>Install</strong> icon inside the right side of the address bar.</li>' +
+          '<li>Or open browser menu &rarr; <strong>Cast, save, and share</strong> / <strong>Apps</strong> &rarr; <strong>Install this site as an app</strong>.</li>';
+    }
+  }
+
+  function renderInstallModal() {
+    if (!installChecksEl) return;
+    const isSecure = location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    const hasSwCtrl = Boolean(navigator.serviceWorker && navigator.serviceWorker.controller) || swActiveState;
+
+    installChecksEl.innerHTML = [
+      { label: 'Secure App URL', val: isSecure ? 'Ready (' + location.protocol.replace(':', '').toUpperCase() + ')' : 'File mode' },
+      { label: 'Offline Cache', val: hasSwCtrl ? 'Active (All ' + TOTAL_BOOKS + ' books)' : (isSecure ? 'Caching now...' : 'Needs HTTPS') },
+      { label: 'Cookie Progress', val: navigator.cookieEnabled ? 'Active (365 days)' : 'Storage fallback' },
+      { label: '1-Tap Prompt', val: deferredInstallPrompt ? 'Ready' : (isIOS ? 'Use iOS Share' : 'Use Browser Menu') },
+    ].map((item) => `<div class="install-check-item"><strong>${escHtml(item.label)}</strong><span>${escHtml(item.val)}</span></div>`).join('');
+
+    if (installNativeBtn) installNativeBtn.hidden = !deferredInstallPrompt;
+    renderInstallStepsFor(selectedOsTab);
+  }
+
+  function openInstallModal() {
+    if (!installBackdrop) return;
+    closeSettings();
+    renderInstallModal();
+    installBackdrop.hidden = false;
+  }
+  function closeInstallModal() {
+    if (installBackdrop) installBackdrop.hidden = true;
+  }
+
+  async function triggerInstall() {
+    if (deferredInstallPrompt) {
+      const promptEvt = deferredInstallPrompt;
+      deferredInstallPrompt = null;
+      updateInstallUI();
+      try {
+        await promptEvt.prompt();
+        const choice = await promptEvt.userChoice;
+        if (choice && choice.outcome === 'accepted') {
+          closeInstallModal();
+          return;
+        }
+      } catch {}
+    }
+    openInstallModal();
+  }
+
+  if ('serviceWorker' in navigator && (location.protocol === 'http:' || location.protocol === 'https:')) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js').then((reg) => {
+        if (reg.active) refreshConnectionStatus(true);
+        if (reg.installing || reg.waiting) {
+          const worker = reg.installing || reg.waiting;
+          worker.addEventListener('statechange', () => {
+            if (worker.state === 'activated') refreshConnectionStatus(true);
+          });
+        }
+      }).catch(() => {});
+    });
+    navigator.serviceWorker.addEventListener('message', (event) => {
+      if (event.data && event.data.type === 'OFFLINE_READY') refreshConnectionStatus(true);
+    });
+    window.addEventListener('online', () => refreshConnectionStatus(swActiveState));
+    window.addEventListener('offline', () => refreshConnectionStatus(true));
+  }
+
+  window.addEventListener('plain-books-bip-ready', () => {
+    deferredInstallPrompt = window.__bipPrompt;
+    updateInstallUI();
+  });
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    window.__bipPrompt = e;
+    deferredInstallPrompt = e;
+    updateInstallUI();
+  });
+
+  document.addEventListener('click', async (e) => {
+    if (e.target.closest('#pwa-install-btn') || e.target.closest('#sheet-install-btn') || e.target.closest('#banner-install-btn') || e.target.closest('#install-native-btn')) {
+      triggerInstall();
+    }
+    if (e.target.closest('#dismiss-install-banner')) {
+      savePrefs({ d: 1 });
+      updateInstallUI();
+    }
+    const osBtn = e.target.closest('[data-install-os]');
+    if (osBtn) {
+      selectedOsTab = osBtn.getAttribute('data-install-os');
+      renderInstallStepsFor(selectedOsTab);
+    }
+    if (e.target.closest('#copy-app-url-btn')) {
+      try { await navigator.clipboard.writeText(location.href.split('#')[0]); } catch {}
+      copyUrlBtn.textContent = 'Link Copied';
+      setTimeout(() => { copyUrlBtn.textContent = 'Copy App URL'; }, 1500);
+    }
+    if (e.target === installBackdrop || e.target.closest('#close-install-btn') || e.target.closest('#close-install-btn-2')) {
+      closeInstallModal();
+    }
+  });
+
+  window.addEventListener('appinstalled', () => {
+    window.__bipPrompt = null;
+    deferredInstallPrompt = null;
+    updateInstallUI();
+    closeInstallModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      if (cmdBackdrop && cmdBackdrop.hidden) openCmd(); else closeCmd();
+    } else if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+      e.preventDefault();
+      openCmd();
+    } else if (e.key === 'Escape') {
+      closeCmd();
+      closeInstallModal();
+      closeSettings();
+      document.body.classList.remove('drawer-open');
+    }
+  });
+
+  updateInstallUI();
+  syncButtons();
+  syncBookmarksUI();
+})();
+</script>
+</body>
+</html>

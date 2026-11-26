@@ -2,14 +2,14 @@
   "id": "./index.html",
   "name": "The Plain-English Foundations Library",
   "short_name": "Foundations",
-  "description": "Six plain-English books isolating 90 foundational concepts across logic, quantity, physics, life, computation, and human coordination.",
+  "description": "Eight plain-English books isolating 96 everyday ideas across body health, calm feelings, empathy, clear thinking, numbers, physics, living nature, and shared systems.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
   "background_color": "#f7f4ed",
-  "theme_color": "#2563eb",
-  "categories": ["books", "education", "reference"],
+  "theme_color": "#059669",
+  "categories": ["books", "education", "health", "lifestyle"],
   "icons": [
     {
       "src": "./icons/icon-192.png",
@@ -38,39 +38,51 @@
   ],
   "shortcuts": [
     {
-      "name": "Book I: Logic & Reasoning",
-      "short_name": "Logic",
-      "url": "./01_logic_and_reasoning.html",
+      "name": "Book I: Your Body & Health",
+      "short_name": "Body",
+      "url": "./01_body_and_physical_health.html",
       "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
-      "name": "Book II: Number & Space",
+      "name": "Book II: Feelings & Calm",
+      "short_name": "Feelings",
+      "url": "./02_feelings_and_emotional_health.html",
+      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Book III: People & Empathy",
+      "short_name": "Empathy",
+      "url": "./03_people_empathy_and_connection.html",
+      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Book IV: Clear Thinking",
+      "short_name": "Thinking",
+      "url": "./04_clear_thinking_and_truth.html",
+      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Book V: Numbers & Size",
       "short_name": "Numbers",
-      "url": "./02_number_proportion_and_space.html",
+      "url": "./05_numbers_size_and_patterns.html",
       "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
-      "name": "Book III: Matter & Energy",
+      "name": "Book VI: Matter & Energy",
       "short_name": "Physics",
-      "url": "./03_matter_energy_and_physics.html",
+      "url": "./06_things_motion_and_energy.html",
       "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
-      "name": "Book IV: Life & Evolution",
-      "short_name": "Biology",
-      "url": "./04_life_cells_and_evolution.html",
+      "name": "Book VII: Living Nature",
+      "short_name": "Nature",
+      "url": "./07_living_things_and_nature.html",
       "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     },
     {
-      "name": "Book V: Information & Systems",
-      "short_name": "Systems",
-      "url": "./05_computation_information_and_systems.html",
-      "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
-    },
-    {
-      "name": "Book VI: Language & Coordination",
-      "short_name": "Society",
-      "url": "./06_language_economics_and_coordination.html",
+      "name": "Book VIII: Shared Systems",
+      "short_name": "Community",
+      "url": "./08_messages_systems_and_community.html",
       "icons": [{ "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
     }
   ]

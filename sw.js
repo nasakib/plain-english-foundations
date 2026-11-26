@@ -1,4 +1,4 @@
-const CACHE_NAME = 'plain-english-library-v3';
+const CACHE_NAME = 'plain-english-library-v4';
 
 const PRECACHE_URLS = [
   './',
@@ -11,18 +11,22 @@ const PRECACHE_URLS = [
   './icons/icon-512.png',
   './icons/icon-maskable-512.png',
   './icons/apple-touch-icon.png',
-  './01_logic_and_reasoning.html',
-  './01_logic_and_reasoning.md',
-  './02_number_proportion_and_space.html',
-  './02_number_proportion_and_space.md',
-  './03_matter_energy_and_physics.html',
-  './03_matter_energy_and_physics.md',
-  './04_life_cells_and_evolution.html',
-  './04_life_cells_and_evolution.md',
-  './05_computation_information_and_systems.html',
-  './05_computation_information_and_systems.md',
-  './06_language_economics_and_coordination.html',
-  './06_language_economics_and_coordination.md',
+  './01_body_and_physical_health.html',
+  './01_body_and_physical_health.md',
+  './02_feelings_and_emotional_health.html',
+  './02_feelings_and_emotional_health.md',
+  './03_people_empathy_and_connection.html',
+  './03_people_empathy_and_connection.md',
+  './04_clear_thinking_and_truth.html',
+  './04_clear_thinking_and_truth.md',
+  './05_numbers_size_and_patterns.html',
+  './05_numbers_size_and_patterns.md',
+  './06_things_motion_and_energy.html',
+  './06_things_motion_and_energy.md',
+  './07_living_things_and_nature.html',
+  './07_living_things_and_nature.md',
+  './08_messages_systems_and_community.html',
+  './08_messages_systems_and_community.md',
 ];
 
 self.addEventListener('install', (event) => {

@@ -7,25 +7,25 @@
   <link rel="icon" type="image/svg+xml" href="./icons/icon.svg" />
   <style>
     :root {
-      --bg: #faf8f4;
+      --bg: #f7f4ed;
       --surface: #ffffff;
       --text: #1c1917;
-      --text-muted: #57534e;
-      --border: #e5dfd3;
+      --text-muted: #524d47;
+      --border: #e2dacb;
     }
     html[data-theme="sepia"] {
-      --bg: #f4ecd8;
-      --surface: #fbf6ea;
-      --text: #2c2219;
-      --text-muted: #695847;
-      --border: #dfd1b5;
+      --bg: #efe4cd;
+      --surface: #fbf5e7;
+      --text: #2c2118;
+      --text-muted: #5f4e3d;
+      --border: #d9c7a3;
     }
     html[data-theme="night"] {
-      --bg: #111318;
-      --surface: #181b22;
-      --text: #e7e5e4;
-      --text-muted: #a8a29e;
-      --border: #2b303d;
+      --bg: #0d1017;
+      --surface: #151923;
+      --text: #ece9e4;
+      --text-muted: #aeb6c4;
+      --border: #2a3142;
     }
     body {
       margin: 0;
@@ -41,7 +41,7 @@
       max-width: 520px;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-top: 5px solid #2563eb;
+      border-top: 5px solid #059669;
       border-radius: 20px;
       padding: 2.25rem;
       box-shadow: 0 12px 34px rgba(0, 0, 0, 0.08);
@@ -53,8 +53,8 @@
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: #2563eb;
-      background: rgba(37, 99, 235, 0.12);
+      color: #059669;
+      background: rgba(5, 150, 105, 0.11);
       padding: 0.25rem 0.7rem;
       border-radius: 999px;
       margin-bottom: 0.85rem;
@@ -73,7 +73,7 @@
       display: inline-block;
       padding: 0.58rem 1.2rem;
       border-radius: 999px;
-      background: #2563eb;
+      background: #059669;
       color: #ffffff;
       font-weight: 700;
       font-size: 0.9rem;
@@ -84,13 +84,17 @@
 </head>
 <body>
   <main class="card">
-    <div class="code">404 &middot; Shelf Not Found</div>
+    <div class="code">404 &middot; Page Moved or Missing</div>
     <h1>Page Not Found</h1>
-    <p>That shelf in The Plain-English Foundations Library does not exist. Return to the main library index to browse all six volumes and ninety isolated concepts.</p>
-    <a href="./index.html">Return to Library Index</a>
+    <p>That shelf in The Plain-English Foundations Library has moved or does not exist. Return to the main library to browse all eight gentle books and ninety-six everyday ideas.</p>
+    <a href="./index.html">Open Library Home</a>
   </main>
   <script>
-    document.documentElement.setAttribute('data-theme', localStorage.getItem('plain-books-theme') || 'paper');
+    try {
+      var m = document.cookie.match(/(?:^|; )pef_prefs=([^;]+)/);
+      var p = m ? JSON.parse(decodeURIComponent(m[1])) : null;
+      document.documentElement.setAttribute('data-theme', (p && p.t) || localStorage.getItem('plain-books-theme') || 'paper');
+    } catch (e) {}
   </script>
 </body>
 </html>
