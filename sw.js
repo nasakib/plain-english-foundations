@@ -1,8 +1,9 @@
-const CACHE_NAME = 'plain-english-library-v1';
+const CACHE_NAME = 'plain-english-library-v2';
 
 const PRECACHE_URLS = [
   './',
   './index.html',
+  './404.html',
   './manifest.webmanifest',
   './README.md',
   './icons/icon.svg',

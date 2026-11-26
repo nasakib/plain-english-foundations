@@ -5,54 +5,83 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Plain-English Foundations Library</title>
   <link rel="manifest" href="manifest.webmanifest" />
-  <meta name="theme-color" content="#faf8f4" id="meta-theme-color" />
+  <meta name="theme-color" content="#f7f4ed" id="meta-theme-color" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-title" content="Foundations" />
   <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png" />
+  <script>
+    window.__bipPrompt = null;
+    window.addEventListener('beforeinstallprompt', function (e) {
+      e.preventDefault();
+      window.__bipPrompt = e;
+      window.dispatchEvent(new CustomEvent('plain-books-bip-ready'));
+    });
+  </script>
   <style>
 :root {
-  --bg: #faf8f4;
+  --bg: #f7f4ed;
   --surface: #ffffff;
-  --surface-muted: #f3efe7;
+  --surface-elevated: #ffffff;
+  --surface-muted: #efeae0;
   --text: #1c1917;
   --text-muted: #57534e;
-  --border: #e5dfd3;
-  --quote-bg: #f6f3ec;
-  --shadow: 0 8px 30px rgba(28, 25, 23, 0.06);
+  --border: #e4ddd0;
+  --quote-bg: #f6f3eb;
+  --example-bg: #f8fafc;
+  --warn-bg: #fff8eb;
+  --warn-border: #f59e0b;
+  --shadow-sm: 0 2px 10px rgba(28, 25, 23, 0.04);
+  --shadow: 0 12px 34px rgba(28, 25, 23, 0.07);
   --font-serif: "Charter", "Georgia", "Cambria", "Times New Roman", serif;
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --base-size: 18px;
 }
 
 html[data-theme="sepia"] {
-  --bg: #f4ecd8;
-  --surface: #fbf6ea;
-  --surface-muted: #ede2ca;
-  --text: #2c2219;
-  --text-muted: #695847;
-  --border: #dfd1b5;
-  --quote-bg: #f0e6d0;
+  --bg: #efe4cd;
+  --surface: #fbf5e7;
+  --surface-elevated: #fdf9ef;
+  --surface-muted: #e6d7b9;
+  --text: #2c2118;
+  --text-muted: #695745;
+  --border: #dccba9;
+  --quote-bg: #f2e7cf;
+  --example-bg: #f5ecda;
+  --warn-bg: #f6e7c8;
+  --warn-border: #d97706;
 }
 
 html[data-theme="night"] {
-  --bg: #111318;
-  --surface: #181b22;
-  --surface-muted: #20242e;
-  --text: #e7e5e4;
-  --text-muted: #a8a29e;
-  --border: #2b303d;
-  --quote-bg: #1e232e;
-  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --bg: #0d1017;
+  --surface: #151923;
+  --surface-elevated: #1b212e;
+  --surface-muted: #202736;
+  --text: #ece9e4;
+  --text-muted: #a1a7b3;
+  --border: #2a3142;
+  --quote-bg: #1b2232;
+  --example-bg: #171d29;
+  --warn-bg: #241d17;
+  --warn-border: #f59e0b;
+  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.25);
+  --shadow: 0 14px 38px rgba(0, 0, 0, 0.45);
 }
 
 html[data-size="sm"] { --base-size: 16px; }
 html[data-size="md"] { --base-size: 18px; }
 html[data-size="lg"] { --base-size: 20px; }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.4rem;
+}
+
 * { box-sizing: border-box; }
+
+[id] { scroll-margin-top: 5.4rem; }
 
 body {
   margin: 0;
@@ -60,7 +89,8 @@ body {
   color: var(--text);
   font-family: var(--font-sans);
   line-height: 1.7;
-  transition: background 0.2s ease, color 0.2s ease;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.22s ease, color 0.22s ease;
 }
 
 a {
@@ -69,6 +99,12 @@ a {
 }
 a:hover { text-decoration: underline; }
 
+.ui-ico {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
 #reading-progress {
   position: fixed;
   top: 0;
@@ -76,44 +112,67 @@ a:hover { text-decoration: underline; }
   height: 3px;
   width: 0%;
   background: var(--accent, #2563eb);
-  z-index: 1000;
+  z-index: 1200;
   transition: width 0.08s linear;
 }
 
+/* Sticky Top Navigation Bar */
 .topbar {
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 200;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 0.7rem 1.5rem;
-  background: var(--surface);
+  gap: 0.75rem;
+  padding: 0.65rem 1.35rem;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
   border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
 }
 
 .topbar-left, .topbar-right {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.55rem;
   flex-wrap: wrap;
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 800;
+  font-size: 0.92rem;
+  color: var(--text);
+}
+.brand-mark img {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+}
+
+.topbar-subtitle {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
 }
 
 .pill-btn, .pill-link {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.38rem 0.75rem;
+  padding: 0.36rem 0.72rem;
   border-radius: 999px;
   border: 1px solid var(--border);
   background: var(--surface-muted);
   color: var(--text);
-  font-size: 0.82rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
   text-decoration: none;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.12s ease;
 }
 .pill-btn:hover, .pill-link:hover {
   border-color: var(--accent, #2563eb);
@@ -125,35 +184,140 @@ a:hover { text-decoration: underline; }
   border-color: var(--accent, #2563eb);
 }
 
+/* Segmented Controls */
+.segmented-group {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px;
+  border-radius: 999px;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+}
+.seg-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.28rem 0.62rem;
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.seg-btn:hover { color: var(--text); }
+.seg-btn.active {
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+.swatch-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px solid rgba(120, 120, 120, 0.4);
+}
+
+.kbd-hint {
+  font-size: 0.68rem;
+  padding: 0.1rem 0.36rem;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  border: 1px solid rgba(22, 163, 74, 0.35);
+  background: rgba(22, 163, 74, 0.12);
+  color: #15803d;
+}
+.status-pill::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+html[data-theme="night"] .status-pill {
+  color: #4ade80;
+  border-color: rgba(74, 222, 128, 0.35);
+}
+.status-pill.is-offline {
+  border-color: rgba(217, 119, 6, 0.45);
+  background: rgba(217, 119, 6, 0.14);
+  color: #b45309;
+}
+html[data-theme="night"] .status-pill.is-offline { color: #fbbf24; }
+
+.install-btn {
+  background: var(--accent, #2563eb);
+  color: #ffffff;
+  border-color: var(--accent, #2563eb);
+}
+.install-btn:hover { opacity: 0.92; }
+
+.mobile-menu-btn { display: none; }
+.sidebar-close-btn { display: none; }
+.sidebar-backdrop { display: none; }
+
+/* Book Shell Layout */
 .book-shell {
   display: grid;
-  grid-template-columns: 290px minmax(0, 1fr);
-  max-width: 1320px;
+  grid-template-columns: 300px minmax(0, 1fr);
+  max-width: 1340px;
   margin: 0 auto;
   gap: 2rem;
-  padding: 2rem 1.5rem 4rem;
+  padding: 1.75rem 1.5rem 4.5rem;
+  transition: grid-template-columns 0.2s ease;
+}
+
+body.focus-mode .book-shell {
+  grid-template-columns: minmax(0, 840px);
+  justify-content: center;
+}
+body.focus-mode .sidebar {
+  display: none;
 }
 
 .sidebar {
   position: sticky;
-  top: 4.5rem;
+  top: 4.6rem;
   align-self: start;
-  max-height: calc(100vh - 6rem);
+  max-height: calc(100vh - 5.8rem);
   overflow-y: auto;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: 18px;
   padding: 1.15rem;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-sm);
+}
+
+.sidebar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
 }
 
 .sidebar-label {
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin: 0 0 0.75rem;
+  margin: 0;
 }
 
 .sidebar-nav {
@@ -167,52 +331,63 @@ a:hover { text-decoration: underline; }
 
 .sidebar-chapter > a {
   display: block;
-  font-size: 0.86rem;
+  font-size: 0.84rem;
   font-weight: 700;
   color: var(--text);
-  padding: 0.35rem 0.45rem;
+  padding: 0.34rem 0.5rem;
   border-radius: 8px;
+  transition: background 0.12s ease, color 0.12s ease;
 }
-.sidebar-chapter > a:hover {
-  background: var(--surface-muted);
+.sidebar-chapter > a:hover,
+.sidebar-chapter > a.active-nav {
+  background: var(--accent-soft);
+  color: var(--accent);
   text-decoration: none;
 }
 
 .sidebar-concepts {
   list-style: none;
-  padding: 0.15rem 0 0.45rem 0.85rem;
-  margin: 0;
+  padding: 0.15rem 0 0.45rem 0.75rem;
+  margin: 0.15rem 0 0 0.35rem;
   border-left: 2px solid var(--border);
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.15rem;
 }
 
 .sidebar-concepts a {
   display: block;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
+  line-height: 1.38;
   color: var(--text-muted);
-  padding: 0.18rem 0.35rem;
+  padding: 0.24rem 0.45rem;
   border-radius: 6px;
+  transition: background 0.12s ease, color 0.12s ease;
 }
 .sidebar-concepts a:hover {
-  color: var(--accent, #2563eb);
+  color: var(--accent);
   background: var(--surface-muted);
   text-decoration: none;
 }
+.sidebar-concepts a.active-nav {
+  color: var(--accent);
+  background: var(--accent-soft);
+  font-weight: 700;
+}
 
+/* Main Editorial Reader Column */
 .reader-column {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 2.75rem clamp(1.35rem, 4vw, 3.75rem);
+  border-radius: 22px;
+  padding: 2.75rem clamp(1.35rem, 4.5vw, 4rem);
   box-shadow: var(--shadow);
   font-family: var(--font-serif);
   font-size: var(--base-size);
 }
 
 .book-hero {
-  border-bottom: 2px solid var(--border);
+  border-bottom: 1px solid var(--border);
   padding-bottom: 1.75rem;
   margin-bottom: 2rem;
 }
@@ -220,11 +395,11 @@ a:hover { text-decoration: underline; }
 .volume-badge {
   display: inline-block;
   font-family: var(--font-sans);
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: 0.74rem;
+  font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 0.3rem 0.75rem;
+  padding: 0.3rem 0.78rem;
   border-radius: 999px;
   background: var(--accent-soft);
   color: var(--accent);
@@ -233,9 +408,10 @@ a:hover { text-decoration: underline; }
 
 .book-hero h1 {
   font-family: var(--font-serif);
-  font-size: clamp(1.85rem, 3.2vw, 2.55rem);
-  line-height: 1.2;
+  font-size: clamp(1.9rem, 3.4vw, 2.65rem);
+  line-height: 1.18;
   margin: 0 0 0.85rem;
+  letter-spacing: -0.015em;
 }
 
 .book-meta-lines {
@@ -248,145 +424,236 @@ a:hover { text-decoration: underline; }
 }
 
 .book-stats {
-  margin-top: 1rem;
+  margin-top: 1.15rem;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.65rem;
+  gap: 0.55rem;
   font-family: var(--font-sans);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
+  font-weight: 600;
   color: var(--text-muted);
 }
 .book-stats span {
   background: var(--surface-muted);
   border: 1px solid var(--border);
-  padding: 0.25rem 0.65rem;
-  border-radius: 8px;
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
 }
 
 .chapter-heading {
   font-family: var(--font-sans);
   font-size: 1.48rem;
-  line-height: 1.3;
-  margin: 2.4rem 0 0.9rem;
-  padding-top: 0.5rem;
+  line-height: 1.28;
+  margin: 2.35rem 0 0.85rem;
+  padding-top: 0.35rem;
+  letter-spacing: -0.01em;
   color: var(--text);
+}
+
+.reader-column > p {
+  max-width: 68ch;
+  line-height: 1.78;
+}
+
+.toc-grid {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(235px, 1fr));
+  gap: 0.55rem;
+  font-family: var(--font-sans);
+}
+.toc-grid li a {
+  display: block;
+  padding: 0.62rem 0.85rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  color: var(--text);
+  font-size: 0.86rem;
+  font-weight: 600;
+  transition: border-color 0.14s ease, transform 0.12s ease;
+}
+.toc-grid li a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+  text-decoration: none;
 }
 
 .section-divider {
   border: 0;
   border-top: 1px solid var(--border);
-  margin: 2.25rem 0;
+  margin: 2.15rem 0;
 }
 
+/* Isolated Concept Cards */
 .concept-card {
-  margin: 1.75rem 0 2.25rem;
-  padding: 1.4rem 1.55rem;
-  border-radius: 16px;
+  margin: 1.75rem 0 2.15rem;
+  padding: 1.55rem 1.7rem;
+  border-radius: 18px;
   border: 1px solid var(--border);
   border-left: 5px solid var(--accent);
-  background: var(--surface);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  background: var(--surface-elevated);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.concept-card:target {
+  box-shadow: 0 0 0 3px var(--accent-soft), var(--shadow);
 }
 
 .concept-header-row {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 0.9rem;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
 }
 
 .concept-title {
   font-family: var(--font-sans);
-  font-size: 1.18rem;
+  font-size: 1.2rem;
+  line-height: 1.3;
   margin: 0;
-  color: var(--accent);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex: 1;
+  min-width: 210px;
 }
 
-.bookmark-btn {
+.concept-num-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 0.18rem 0.52rem;
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--accent);
   flex-shrink: 0;
+}
+
+.concept-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.icon-chip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
   font-family: var(--font-sans);
-  font-size: 0.75rem;
+  font-size: 0.74rem;
   font-weight: 700;
-  padding: 0.28rem 0.65rem;
+  padding: 0.28rem 0.62rem;
   border-radius: 999px;
   border: 1px solid var(--border);
   background: var(--surface-muted);
   color: var(--text-muted);
   cursor: pointer;
+  transition: all 0.15s ease;
 }
-.bookmark-btn:hover {
+.icon-chip-btn:hover {
   border-color: var(--accent);
   color: var(--accent);
 }
-.bookmark-btn.saved {
+.icon-chip-btn.saved {
   background: var(--accent);
   border-color: var(--accent);
   color: #ffffff;
 }
-
-.status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.3rem 0.65rem;
-  border-radius: 999px;
-  font-size: 0.76rem;
-  font-weight: 700;
-  border: 1px solid rgba(22, 163, 74, 0.35);
-  background: rgba(22, 163, 74, 0.12);
-  color: #15803d;
+.icon-chip-btn.saved svg { fill: currentColor; }
+.icon-chip-btn.copied {
+  border-color: #16a34a;
+  color: #16a34a;
 }
-html[data-theme="night"] .status-pill {
-  color: #4ade80;
-  border-color: rgba(74, 222, 128, 0.35);
-}
-.status-pill.is-offline {
-  border-color: rgba(217, 119, 6, 0.45);
-  background: rgba(217, 119, 6, 0.14);
-  color: #b45309;
-}
-html[data-theme="night"] .status-pill.is-offline {
-  color: #fbbf24;
-}
-.install-btn {
-  background: var(--accent, #2563eb);
-  color: #ffffff;
-  border-color: var(--accent, #2563eb);
-}
-.install-btn:hover { opacity: 0.92; }
 
 .isolated-definition {
-  margin: 0 0 1rem;
-  padding: 0.9rem 1.1rem;
-  border-radius: 10px;
+  margin: 0 0 1.05rem;
+  padding: 0.95rem 1.15rem;
+  border-radius: 12px;
   background: var(--quote-bg);
-  border-left: 3px solid var(--accent);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
   font-size: 1.02em;
+  line-height: 1.65;
+}
+.isolated-definition strong:first-child {
+  font-family: var(--font-sans);
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 0.2rem;
 }
 
 .concept-part {
-  margin: 0.85rem 0;
+  margin: 0.95rem 0;
+  line-height: 1.75;
+}
+.concept-part > strong:first-child {
+  font-family: var(--font-sans);
+  font-size: 0.82em;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  margin-right: 0.35rem;
+}
+
+.role-mental-model {
+  padding: 0.82rem 1.05rem;
+  border-radius: 11px;
+  background: var(--accent-soft);
+}
+
+.role-explanation {
+  max-width: 66ch;
+}
+
+.role-example {
+  padding: 0.82rem 1.05rem;
+  border-radius: 11px;
+  background: var(--example-bg);
+  border: 1px dashed var(--border);
 }
 
 .role-distinction {
-  margin-top: 1rem;
-  padding: 0.8rem 1rem;
-  border-radius: 10px;
-  background: var(--surface-muted);
-  font-size: 0.95em;
+  margin-top: 1.05rem;
+  padding: 0.88rem 1.05rem;
+  border-radius: 11px;
+  background: var(--warn-bg);
+  border: 1px solid color-mix(in srgb, var(--warn-border) 35%, var(--border));
+  border-left: 4px solid var(--warn-border);
+  font-size: 0.96em;
+}
+.role-distinction > strong:first-child {
+  color: #b45309;
+}
+html[data-theme="night"] .role-distinction > strong:first-child {
+  color: #fbbf24;
 }
 
-.toc-list, .concept-index-list {
+.concept-index-list {
   padding-left: 1.25rem;
+  columns: 1;
 }
-.toc-list li, .concept-index-list li {
-  margin: 0.4rem 0;
+.concept-index-list li {
+  margin: 0.48rem 0;
+  line-height: 1.6;
 }
 
 .table-wrap {
   overflow-x: auto;
   margin: 1.25rem 0;
+  border-radius: 14px;
+  border: 1px solid var(--border);
 }
 .distinctions-table {
   width: 100%;
@@ -395,11 +662,12 @@ html[data-theme="night"] .status-pill.is-offline {
   font-size: 0.9rem;
 }
 .distinctions-table th, .distinctions-table td {
-  border: 1px solid var(--border);
-  padding: 0.7rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  padding: 0.78rem 0.95rem;
   text-align: left;
   vertical-align: top;
 }
+.distinctions-table tr:last-child td { border-bottom: 0; }
 .distinctions-table th {
   background: var(--surface-muted);
   font-weight: 700;
@@ -409,28 +677,29 @@ html[data-theme="night"] .status-pill.is-offline {
   padding-left: 1.25rem;
 }
 .self-check-item {
-  margin: 1.1rem 0;
+  margin: 1.2rem 0;
 }
 .question-text {
   font-weight: 600;
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.5rem;
 }
 .answer-reveal {
   font-family: var(--font-sans);
   font-size: 0.9rem;
   background: var(--surface-muted);
   border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 0.45rem 0.85rem;
+  border-radius: 12px;
+  padding: 0.55rem 0.9rem;
 }
 .answer-reveal summary {
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--accent);
 }
 .answer-body {
-  margin-top: 0.5rem;
+  margin-top: 0.55rem;
   color: var(--text);
+  line-height: 1.6;
 }
 
 .book-footer-nav {
@@ -439,23 +708,199 @@ html[data-theme="night"] .status-pill.is-offline {
   border-top: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
+  align-items: center;
+  gap: 0.85rem;
   flex-wrap: wrap;
   font-family: var(--font-sans);
 }
 
+/* Back to Top Floating Button */
+#back-to-top {
+  position: fixed;
+  right: 1.35rem;
+  bottom: 1.35rem;
+  z-index: 150;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+#back-to-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* Command Palette Search Modal */
+.cmd-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  background: rgba(15, 23, 42, 0.52);
+  backdrop-filter: blur(4px);
+  display: grid;
+  place-items: start center;
+  padding: 8vh 1rem 1rem;
+}
+.cmd-backdrop[hidden] { display: none; }
+.cmd-dialog {
+  width: min(680px, 100%);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  font-family: var(--font-sans);
+}
+.cmd-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--border);
+}
+.cmd-input {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 1rem;
+  font-family: var(--font-sans);
+}
+.cmd-list {
+  max-height: 55vh;
+  overflow-y: auto;
+  padding: 0.55rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.cmd-item {
+  display: block;
+  padding: 0.68rem 0.85rem;
+  border-radius: 11px;
+  border: 1px solid transparent;
+  color: var(--text);
+  text-decoration: none;
+}
+.cmd-item:hover, .cmd-item.selected {
+  background: var(--surface-muted);
+  border-color: var(--border);
+  text-decoration: none;
+}
+.cmd-item-book {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+.cmd-item-title {
+  font-weight: 700;
+  font-size: 0.94rem;
+  margin: 0.12rem 0;
+}
+.cmd-item-def {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.install-dialog {
+  width: min(540px, 100%);
+  padding: 1.35rem 1.5rem;
+}
+.install-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+.install-head h3 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+.install-checks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin: 0.9rem 0 1rem;
+}
+.install-check-item {
+  font-size: 0.78rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+}
+.install-check-item strong { display: block; font-size: 0.72rem; color: var(--text-muted); }
+.install-steps {
+  margin: 0.6rem 0 1rem;
+  padding-left: 1.2rem;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+.install-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+}
+
 @media (max-width: 960px) {
+  .topbar { padding: 0.6rem 0.9rem; }
+  .topbar-subtitle { display: none; }
+  .kbd-hint { display: none; }
+  .focus-toggle-btn { display: none; }
+  .mobile-menu-btn { display: inline-flex; }
   .book-shell {
     grid-template-columns: 1fr;
+    padding: 1.1rem 0.9rem 4rem;
   }
   .sidebar {
-    position: static;
-    max-height: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(320px, 86vw);
+    max-height: 100vh;
+    z-index: 600;
+    border-radius: 0 18px 18px 0;
+    transform: translateX(-105%);
+    transition: transform 0.22s ease;
   }
+  body.drawer-open .sidebar {
+    transform: translateX(0);
+  }
+  body.drawer-open .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 550;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(2px);
+  }
+  .sidebar-close-btn { display: inline-flex; }
 }
 
 @media print {
-  .topbar, .sidebar, #reading-progress, .book-footer-nav, .bookmark-btn { display: none !important; }
+  .topbar, .sidebar, .sidebar-backdrop, #reading-progress, #back-to-top, .book-footer-nav, .concept-actions, .cmd-backdrop { display: none !important; }
   .book-shell { display: block; padding: 0; }
   .reader-column { border: 0; box-shadow: none; padding: 0; }
   .concept-card { break-inside: avoid; }
@@ -463,42 +908,91 @@ html[data-theme="night"] .status-pill.is-offline {
 }
 
     .portal-wrap {
-      max-width: 1180px;
+      max-width: 1220px;
       margin: 0 auto;
-      padding: 2.5rem 1.5rem 4rem;
+      padding: 2rem 1.5rem 4.5rem;
     }
     .portal-hero {
+      position: relative;
+      overflow: hidden;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 2.5rem clamp(1.5rem, 4vw, 3.25rem);
+      border-radius: 24px;
+      padding: 2.35rem clamp(1.35rem, 4vw, 3.25rem);
       box-shadow: var(--shadow);
-      margin-bottom: 2rem;
+      margin-bottom: 1.65rem;
+    }
+    .portal-hero-top {
+      display: flex;
+      align-items: center;
+      gap: 1.15rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .hero-emblem {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.18);
+      flex-shrink: 0;
     }
     .portal-hero h1 {
       font-family: var(--font-serif);
-      font-size: clamp(2rem, 4vw, 2.85rem);
-      margin: 0.4rem 0 0.75rem;
-      line-height: 1.18;
+      font-size: clamp(1.95rem, 3.8vw, 2.85rem);
+      margin: 0.25rem 0 0.7rem;
+      line-height: 1.16;
+      letter-spacing: -0.02em;
     }
     .portal-lead {
-      font-size: 1.06rem;
+      font-size: 1.04rem;
       color: var(--text-muted);
       max-width: 72ch;
-      margin: 0 0 1.35rem;
+      margin: 0 0 1.25rem;
+      line-height: 1.68;
+    }
+    .hero-kpi-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-bottom: 1.25rem;
+    }
+    .hero-kpi {
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.3rem 0.72rem;
+      border-radius: 999px;
+      background: var(--surface-muted);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+    .search-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .search-input-wrap svg {
+      position: absolute;
+      left: 1rem;
+      width: 18px;
+      height: 18px;
+      color: var(--text-muted);
+      pointer-events: none;
     }
     .search-box {
       width: 100%;
-      padding: 0.85rem 1.15rem;
+      padding: 0.9rem 1.15rem 0.9rem 2.75rem;
       border-radius: 14px;
       border: 1px solid var(--border);
       background: var(--surface-muted);
       color: var(--text);
-      font-size: 1rem;
+      font-size: 0.98rem;
       font-family: var(--font-sans);
+      transition: border-color 0.15s ease, background 0.15s ease;
     }
     .search-box:focus {
-      outline: 2px solid #2563eb;
+      outline: 0;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.14);
       background: var(--surface);
     }
     .search-results {
@@ -510,20 +1004,27 @@ html[data-theme="night"] .status-pill.is-offline {
     .search-hit {
       display: block;
       padding: 0.9rem 1rem;
-      border-radius: 12px;
+      border-radius: 13px;
       border: 1px solid var(--border);
       border-left: 4px solid var(--hit-accent, #2563eb);
-      background: var(--surface);
+      background: var(--surface-elevated);
       color: var(--text);
+      transition: transform 0.12s ease, box-shadow 0.14s ease;
     }
     .search-hit:hover {
       text-decoration: none;
-      transform: translateY(-1px);
+      transform: translateY(-2px);
       box-shadow: var(--shadow);
     }
+    .search-hit mark {
+      background: rgba(245, 158, 11, 0.28);
+      color: inherit;
+      padding: 0 2px;
+      border-radius: 3px;
+    }
     .search-hit-book {
-      font-size: 0.74rem;
-      font-weight: 700;
+      font-size: 0.72rem;
+      font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--text-muted);
@@ -534,80 +1035,183 @@ html[data-theme="night"] .status-pill.is-offline {
       color: var(--hit-accent, #2563eb);
     }
     .search-hit-def {
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
       line-height: 1.45;
     }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin: 0 0 1.35rem;
+    }
+    .filter-chip {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.4rem 0.82rem;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.14s ease;
+    }
+    .filter-chip:hover {
+      border-color: #2563eb;
+      color: var(--text);
+    }
+    .filter-chip.active {
+      background: #2563eb;
+      border-color: #2563eb;
+      color: #ffffff;
+    }
+
     .volumes-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
       gap: 1.35rem;
     }
     .volume-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-top: 5px solid var(--accent);
-      border-radius: 18px;
-      padding: 1.5rem;
-      box-shadow: var(--shadow);
+      border-radius: 20px;
+      padding: 1.55rem;
+      box-shadow: var(--shadow-sm);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 0.9rem;
+      gap: 1rem;
+      transition: transform 0.15s ease, box-shadow 0.18s ease;
     }
+    .volume-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+    .volume-card[hidden] { display: none; }
     .volume-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 0.5rem;
       flex-wrap: wrap;
+      margin-bottom: 0.5rem;
     }
     .volume-metrics {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--text-muted);
-      font-weight: 600;
+      font-weight: 700;
     }
     .volume-card h2 {
       font-family: var(--font-serif);
       font-size: 1.32rem;
-      margin: 0;
-      line-height: 1.28;
+      margin: 0 0 0.55rem;
+      line-height: 1.25;
     }
     .volume-card h2 a { color: var(--text); }
     .volume-thesis {
-      font-size: 0.92rem;
+      font-size: 0.91rem;
       color: var(--text-muted);
       margin: 0;
-      line-height: 1.55;
+      line-height: 1.58;
     }
-    .mini-concepts-wrap {
+    .card-mid {
       display: flex;
-      flex-wrap: wrap;
-      gap: 0.35rem;
+      flex-direction: column;
+      gap: 0.65rem;
     }
-    .mini-concept-pill {
-      font-size: 0.74rem;
-      padding: 0.2rem 0.52rem;
-      border-radius: 999px;
-      background: var(--surface-muted);
-      border: 1px solid var(--border);
+    .chapter-chips-label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       color: var(--text-muted);
     }
-    .mini-concept-pill:hover {
-      color: var(--accent);
+    .chapter-chips-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.36rem;
+    }
+    .chapter-pill {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.24rem 0.58rem;
+      border-radius: 8px;
+      background: var(--surface-muted);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .chapter-pill:hover {
       border-color: var(--accent);
+      color: var(--accent);
       text-decoration: none;
     }
+    .card-concepts-toggle {
+      font-size: 0.8rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.45rem 0.75rem;
+      background: var(--surface-muted);
+    }
+    .card-concepts-toggle summary {
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .card-concepts-list {
+      margin: 0.55rem 0 0.15rem;
+      padding-left: 1.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      max-height: 185px;
+      overflow-y: auto;
+    }
+    .card-concepts-list a {
+      color: var(--text);
+      font-size: 0.79rem;
+    }
+    .card-concepts-list a:hover { color: var(--accent); }
+
+    .vol-progress-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.75rem;
+    }
+    .vol-progress-track {
+      flex: 1;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--surface-muted);
+      overflow: hidden;
+    }
+    .vol-progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: var(--accent);
+      transition: width 0.25s ease;
+    }
+    .vol-progress-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      min-width: 2.3rem;
+      text-align: right;
+    }
+
     .volume-actions {
       display: flex;
       gap: 0.6rem;
       align-items: center;
-      padding-top: 0.4rem;
     }
     .primary-btn {
       display: inline-flex;
       align-items: center;
-      padding: 0.48rem 0.95rem;
+      padding: 0.5rem 1rem;
       border-radius: 999px;
       background: var(--accent);
       color: #ffffff;
@@ -615,13 +1219,14 @@ html[data-theme="night"] .status-pill.is-offline {
       font-weight: 700;
     }
     .primary-btn:hover { opacity: 0.92; text-decoration: none; }
+
     .shelf-panel {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 18px;
       padding: 1.25rem 1.5rem;
-      box-shadow: var(--shadow);
-      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 1.4rem;
     }
     .shelf-head {
       display: flex;
@@ -632,8 +1237,8 @@ html[data-theme="night"] .status-pill.is-offline {
       flex-wrap: wrap;
     }
     .shelf-title {
-      font-size: 0.82rem;
-      font-weight: 700;
+      font-size: 0.78rem;
+      font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--text-muted);
@@ -645,8 +1250,8 @@ html[data-theme="night"] .status-pill.is-offline {
       align-items: center;
       gap: 1rem;
       flex-wrap: wrap;
-      padding: 0.9rem 1.1rem;
-      border-radius: 12px;
+      padding: 0.9rem 1.15rem;
+      border-radius: 13px;
       background: var(--surface-muted);
       border: 1px solid var(--border);
       color: var(--text);
@@ -662,7 +1267,7 @@ html[data-theme="night"] .status-pill.is-offline {
       justify-content: space-between;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.7rem 0.9rem;
+      padding: 0.72rem 0.9rem;
       border-radius: 12px;
       border: 1px solid var(--border);
       border-left: 4px solid var(--bm-accent, #2563eb);
@@ -685,27 +1290,48 @@ html[data-theme="night"] .status-pill.is-offline {
 <body>
   <header class="topbar">
     <div class="topbar-left">
-      <strong style="font-size: 0.95rem;">The Plain-English Foundations Library</strong>
-      <span style="font-size: 0.82rem; color: var(--text-muted);">6 Volumes &middot; 90 Isolated Concepts &middot; ~29,694 Words</span>
+      <a class="brand-mark" href="index.html">
+        <img src="icons/icon.svg" alt="" />
+        <span>Foundations Library</span>
+      </a>
       <span id="pwa-status-pill" class="status-pill" hidden>Offline Ready</span>
     </div>
     <div class="topbar-right">
-      <button type="button" id="pwa-install-btn" class="pill-btn install-btn" hidden>Install App</button>
-      <button type="button" class="pill-btn" data-set-theme="paper">Paper</button>
-      <button type="button" class="pill-btn" data-set-theme="sepia">Sepia</button>
-      <button type="button" class="pill-btn" data-set-theme="night">Night</button>
+      <button type="button" id="open-cmd-btn" class="pill-btn"><svg class="ui-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span>Quick Jump</span><span class="kbd-hint">Ctrl+K</span></button>
+      
+      <div class="segmented-group" role="group" aria-label="Reading theme">
+        <button type="button" class="seg-btn" data-set-theme="paper"><span class="swatch-dot" style="background:#f7f4ed"></span>Paper</button>
+        <button type="button" class="seg-btn" data-set-theme="sepia"><span class="swatch-dot" style="background:#efe4cd"></span>Sepia</button>
+        <button type="button" class="seg-btn" data-set-theme="night"><span class="swatch-dot" style="background:#151923"></span>Night</button>
+      </div>
+      <button type="button" id="pwa-install-btn" class="pill-btn install-btn">Install App</button>
       <a class="pill-link" href="README.md">README</a>
     </div>
   </header>
 
   <main class="portal-wrap">
     <section class="portal-hero">
-      <div class="volume-badge" style="background: rgba(37,99,235,0.12); color: #2563eb;">Pure English Conceptual Isolation</div>
+      <div class="portal-hero-top">
+        <img class="hero-emblem" src="icons/icon.svg" alt="Foundations Library emblem" />
+        <div>
+          <div class="volume-badge" style="background: rgba(37,99,235,0.11); color: #2563eb; margin-bottom: 0.25rem;">Pure English Conceptual Isolation</div>
+          <div style="font-size: 0.84rem; font-weight: 600; color: var(--text-muted);">Zero code &middot; Zero symbolic math walls &middot; Offline PWA</div>
+        </div>
+      </div>
       <h1>Six Books of Foundational Knowledge in Plain English</h1>
       <p class="portal-lead">
-        Each volume isolates a core pillar of human knowledge without code blocks, cryptographic jargon, or dense mathematical symbols. Every individual concept stands cleanly on its own with a plain definition, a mental model, an everyday example, and a boundary showing what not to confuse it with.
+        Each volume isolates a core pillar of human knowledge into clean, self-contained concept modules—giving you a crisp definition, a visual mental model, plain-English prose, an everyday example, and a boundary showing what not to confuse it with.
       </p>
-      <input id="concept-search" class="search-box" type="search" placeholder="Search all 90 isolated concepts in plain English (e.g. entropy, opportunity cost, falsifiability, topology, consensus)..." />
+      <div class="hero-kpi-strip">
+        <span class="hero-kpi">6 Standalone Volumes</span>
+        <span class="hero-kpi">90 Isolated Concepts</span>
+        <span class="hero-kpi">~29,694 Words</span>
+        <span class="hero-kpi">30 Interactive Self-Checks</span>
+      </div>
+      <div class="search-input-wrap">
+        <svg class="ui-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="concept-search" class="search-box" type="search" placeholder="Search all 90 isolated concepts in plain English (e.g. entropy, opportunity cost, falsifiability, topology, consensus)..." />
+      </div>
       <div id="search-results" class="search-results" hidden></div>
     </section>
 
@@ -730,110 +1356,258 @@ html[data-theme="night"] .status-pill.is-offline {
       <div id="bookmarks-grid" class="bookmarks-grid"></div>
     </section>
 
+    <div class="filter-bar" role="group" aria-label="Filter volumes by domain">
+      <button type="button" class="filter-chip active" data-filter-roman="all">All 6 Volumes</button><button type="button" class="filter-chip" data-filter-roman="I">I &middot; Logic &amp; Reasoning</button><button type="button" class="filter-chip" data-filter-roman="II">II &middot; Number &amp; Space</button><button type="button" class="filter-chip" data-filter-roman="III">III &middot; Matter &amp; Energy</button><button type="button" class="filter-chip" data-filter-roman="IV">IV &middot; Life &amp; Evolution</button><button type="button" class="filter-chip" data-filter-roman="V">V &middot; Information &amp; Systems</button><button type="button" class="filter-chip" data-filter-roman="VI">VI &middot; Language &amp; Coordination</button>
+    </div>
+
     <section class="volumes-grid">
       
-        <article class="volume-card" style="--accent: #2563eb; --accent-soft: rgba(37, 99, 235, 0.12);">
-          <div class="volume-top">
-            <span class="volume-badge">Book I &middot; Thinking &amp; Evidence</span>
-            <span class="volume-metrics">15 concepts &middot; ~23 min</span>
+        <article class="volume-card" data-roman="I" data-book-href="01_logic_and_reasoning.html" style="--accent: #2563eb; --accent-soft: rgba(37, 99, 235, 0.11);">
+          <div>
+            <div class="volume-top">
+              <span class="volume-badge">Book I &middot; Thinking &amp; Evidence</span>
+              <span class="volume-metrics">15 concepts &middot; ~23 min</span>
+            </div>
+            <h2><a href="01_logic_and_reasoning.html">Book I: Logic, Reasoning, and How We Know</a></h2>
+            <p class="volume-thesis">Good thinking is not a mysterious talent reserved for specialists. It is the habit of separating one claim from another, asking what reasons hold each claim up, checking whether those reasons are actually true, and noticing where language hides a leap in logic. When every step of an argument is isolated and stated in ordinary English, weak reasoning has nowhere to hide and strong reasoning becomes unmistakable.</p>
           </div>
-          <h2><a href="01_logic_and_reasoning.html">Book I: Logic, Reasoning, and How We Know</a></h2>
-          <p class="volume-thesis">Good thinking is not a mysterious talent reserved for specialists. It is the habit of separating one claim from another, asking what reasons hold each claim up, checking whether those reasons are actually true, and noticing where language hides a leap in logic. When every step of an argument is isolated and stated in ordinary English, weak reasoning has nowhere to hide and strong reasoning becomes unmistakable.</p>
-          <div class="mini-concepts-wrap"><a class="mini-concept-pill" href="01_logic_and_reasoning.html#concept-11-claims-premises-and-conclusions">Claims, Premises, and Conclusions</a><a class="mini-concept-pill" href="01_logic_and_reasoning.html#concept-12-validity-versus-soundness">Validity Versus Soundness</a><a class="mini-concept-pill" href="01_logic_and_reasoning.html#concept-13-hidden-assumptions">Hidden Assumptions</a><a class="mini-concept-pill" href="01_logic_and_reasoning.html#concept-21-deductive-reasoning">Deductive Reasoning</a><a class="mini-concept-pill" href="01_logic_and_reasoning.html#concept-22-inductive-reasoning">Inductive Reasoning</a><a class="mini-concept-pill" href="01_logic_and_reasoning.html#concept-23-abductive-reasoning-best-explanation">Abductive Reasoning (Best Explanation)</a><a class="mini-concept-pill" href="01_logic_and_reasoning.html#concept-31-correlation-versus-causation">Correlation Versus Causation</a><a class="mini-concept-pill" href="01_logic_and_reasoning.html#concept-32-confounding-variables">Confounding Variables</a><a class="mini-concept-pill" href="01_logic_and_reasoning.html#concept-33-survivorship-bias">Survivorship Bias</a><a class="mini-concept-pill" href="01_logic_and_reasoning.html#concept-41-equivocation-shifting-meanings-mid-stream">Equivocation (Shifting Meanings Mid-Stream)</a><a class="mini-concept-pill" href="01_logic_and_reasoning.html#concept-42-straw-man-versus-steel-man">Straw Man Versus Steel Man</a><a class="mini-concept-pill" href="01_logic_and_reasoning.html#concept-43-base-rate-neglect">Base-Rate Neglect</a><a class="mini-concept-pill" href="01_logic_and_reasoning.html#concept-51-falsifiability">Falsifiability</a><a class="mini-concept-pill" href="01_logic_and_reasoning.html#concept-52-occams-razor-parsimony">Occam&#x27;s Razor (Parsimony)</a><a class="mini-concept-pill" href="01_logic_and_reasoning.html#concept-53-updating-beliefs-proportionally-to-evidence">Updating Beliefs Proportionally to Evidence</a></div>
-          <div class="volume-actions">
-            <a class="primary-btn" href="01_logic_and_reasoning.html">Open Styled Book</a>
-            <a class="pill-link" href="01_logic_and_reasoning.md">View Markdown</a>
+
+          <div class="card-mid">
+            <div class="chapter-chips-label">Chapters</div>
+            <div class="chapter-chips-wrap"><a class="chapter-pill" href="01_logic_and_reasoning.html#chapter-1-the-anatomy-of-an-argument">The Anatomy of an Argument</a><a class="chapter-pill" href="01_logic_and_reasoning.html#chapter-2-certainty-patterns-and-best-explanations">Certainty, Patterns, and Best Explanations</a><a class="chapter-pill" href="01_logic_and_reasoning.html#chapter-3-cause-correlation-and-hidden-variables">Cause, Correlation, and Hidden Variables</a><a class="chapter-pill" href="01_logic_and_reasoning.html#chapter-4-everyday-traps-and-reasoning-fallacies">Everyday Traps and Reasoning Fallacies</a><a class="chapter-pill" href="01_logic_and_reasoning.html#chapter-5-testing-claims-and-updating-your-mind">Testing Claims and Updating Your Mind</a></div>
+
+            <details class="card-concepts-toggle">
+              <summary>Browse all 15 isolated concepts</summary>
+              <ul class="card-concepts-list"><li><a href="01_logic_and_reasoning.html#concept-11-claims-premises-and-conclusions">1.1: Claims, Premises, and Conclusions</a></li><li><a href="01_logic_and_reasoning.html#concept-12-validity-versus-soundness">1.2: Validity Versus Soundness</a></li><li><a href="01_logic_and_reasoning.html#concept-13-hidden-assumptions">1.3: Hidden Assumptions</a></li><li><a href="01_logic_and_reasoning.html#concept-21-deductive-reasoning">2.1: Deductive Reasoning</a></li><li><a href="01_logic_and_reasoning.html#concept-22-inductive-reasoning">2.2: Inductive Reasoning</a></li><li><a href="01_logic_and_reasoning.html#concept-23-abductive-reasoning-best-explanation">2.3: Abductive Reasoning (Best Explanation)</a></li><li><a href="01_logic_and_reasoning.html#concept-31-correlation-versus-causation">3.1: Correlation Versus Causation</a></li><li><a href="01_logic_and_reasoning.html#concept-32-confounding-variables">3.2: Confounding Variables</a></li><li><a href="01_logic_and_reasoning.html#concept-33-survivorship-bias">3.3: Survivorship Bias</a></li><li><a href="01_logic_and_reasoning.html#concept-41-equivocation-shifting-meanings-mid-stream">4.1: Equivocation (Shifting Meanings Mid-Stream)</a></li><li><a href="01_logic_and_reasoning.html#concept-42-straw-man-versus-steel-man">4.2: Straw Man Versus Steel Man</a></li><li><a href="01_logic_and_reasoning.html#concept-43-base-rate-neglect">4.3: Base-Rate Neglect</a></li><li><a href="01_logic_and_reasoning.html#concept-51-falsifiability">5.1: Falsifiability</a></li><li><a href="01_logic_and_reasoning.html#concept-52-occams-razor-parsimony">5.2: Occam&#x27;s Razor (Parsimony)</a></li><li><a href="01_logic_and_reasoning.html#concept-53-updating-beliefs-proportionally-to-evidence">5.3: Updating Beliefs Proportionally to Evidence</a></li></ul>
+            </details>
           </div>
-        </article>
-        
-        <article class="volume-card" style="--accent: #0d9488; --accent-soft: rgba(13, 148, 136, 0.12);">
-          <div class="volume-top">
-            <span class="volume-badge">Book II &middot; Quantity &amp; Form</span>
-            <span class="volume-metrics">15 concepts &middot; ~24 min</span>
-          </div>
-          <h2><a href="02_number_proportion_and_space.html">Book II: Number, Proportion, and Spatial Thinking</a></h2>
-          <p class="volume-thesis">Mathematics is often taught as a foreign script of symbols to memorize and push around a page. Behind those symbols, however, sits a surprisingly intuitive set of everyday ideas about quantity, balance, comparison, shape, and chance. When we strip away compressed shorthand and explain each quantitative concept directly in plain English, numbers stop looking like magic tricks and start acting like clear tools for seeing the world accurately.</p>
-          <div class="mini-concepts-wrap"><a class="mini-concept-pill" href="02_number_proportion_and_space.html#concept-11-cardinality-versus-ordinal-position">Cardinality Versus Ordinal Position</a><a class="mini-concept-pill" href="02_number_proportion_and_space.html#concept-12-place-value-and-bundling-bases">Place Value and Bundling Bases</a><a class="mini-concept-pill" href="02_number_proportion_and_space.html#concept-13-zero-as-quantity-and-placeholder">Zero as Quantity and Placeholder</a><a class="mini-concept-pill" href="02_number_proportion_and_space.html#concept-21-ratios-as-relative-balance">Ratios as Relative Balance</a><a class="mini-concept-pill" href="02_number_proportion_and_space.html#concept-22-rates-change-per-unit">Rates (Change Per Unit)</a><a class="mini-concept-pill" href="02_number_proportion_and_space.html#concept-23-percentages-and-shifting-baselines">Percentages and Shifting Baselines</a><a class="mini-concept-pill" href="02_number_proportion_and_space.html#concept-31-linear-additive-growth">Linear (Additive) Growth</a><a class="mini-concept-pill" href="02_number_proportion_and_space.html#concept-32-compound-multiplicative-growth">Compound (Multiplicative) Growth</a><a class="mini-concept-pill" href="02_number_proportion_and_space.html#concept-33-scaling-laws-length-surface-and-volume">Scaling Laws (Length, Surface, and Volume)</a><a class="mini-concept-pill" href="02_number_proportion_and_space.html#concept-41-spatial-dimensions-zero-to-three-and-beyond">Spatial Dimensions (Zero to Three and Beyond)</a><a class="mini-concept-pill" href="02_number_proportion_and_space.html#concept-42-symmetry-and-conservation-under-motion">Symmetry and Conservation Under Motion</a><a class="mini-concept-pill" href="02_number_proportion_and_space.html#concept-43-topological-invariance-stretching-without-tearing">Topological Invariance (Stretching Without Tearing)</a><a class="mini-concept-pill" href="02_number_proportion_and_space.html#concept-51-mean-versus-median">Mean Versus Median</a><a class="mini-concept-pill" href="02_number_proportion_and_space.html#concept-52-spread-and-variability">Spread and Variability</a><a class="mini-concept-pill" href="02_number_proportion_and_space.html#concept-53-regression-to-the-typical">Regression to the Typical</a></div>
-          <div class="volume-actions">
-            <a class="primary-btn" href="02_number_proportion_and_space.html">Open Styled Book</a>
-            <a class="pill-link" href="02_number_proportion_and_space.md">View Markdown</a>
-          </div>
-        </article>
-        
-        <article class="volume-card" style="--accent: #d97706; --accent-soft: rgba(217, 119, 6, 0.12);">
-          <div class="volume-top">
-            <span class="volume-badge">Book III &middot; Physical Reality</span>
-            <span class="volume-metrics">15 concepts &middot; ~24 min</span>
-          </div>
-          <h2><a href="03_matter_energy_and_physics.html">Book III: Matter, Energy, and the Physical World</a></h2>
-          <p class="volume-thesis">The physical universe runs on remarkably few core rules, repeated across scales from microscopic specks of dust to spinning stars. Matter refuses to appear from thin air, moving objects refuse to stop without a push, energy constantly changes costume without ever vanishing, and heat quietly spreads outward like perfume in a quiet room. Isolating these physical rules in plain English shows how the world around your kitchen stove, car tires, and sunlight actually holds together.</p>
-          <div class="mini-concepts-wrap"><a class="mini-concept-pill" href="03_matter_energy_and_physics.html#concept-11-atoms-and-molecules">Atoms and Molecules</a><a class="mini-concept-pill" href="03_matter_energy_and_physics.html#concept-12-states-of-matter-solid-liquid-gas">States of Matter (Solid, Liquid, Gas)</a><a class="mini-concept-pill" href="03_matter_energy_and_physics.html#concept-13-density-and-buoyancy">Density and Buoyancy</a><a class="mini-concept-pill" href="03_matter_energy_and_physics.html#concept-21-inertia-and-mass">Inertia and Mass</a><a class="mini-concept-pill" href="03_matter_energy_and_physics.html#concept-22-acceleration-and-balanced-forces">Acceleration and Balanced Forces</a><a class="mini-concept-pill" href="03_matter_energy_and_physics.html#concept-23-paired-action-and-reaction">Paired Action and Reaction</a><a class="mini-concept-pill" href="03_matter_energy_and_physics.html#concept-31-energy-transformation-and-conservation">Energy Transformation and Conservation</a><a class="mini-concept-pill" href="03_matter_energy_and_physics.html#concept-32-mechanical-work-and-power">Mechanical Work and Power</a><a class="mini-concept-pill" href="03_matter_energy_and_physics.html#concept-33-potential-versus-kinetic-energy">Potential Versus Kinetic Energy</a><a class="mini-concept-pill" href="03_matter_energy_and_physics.html#concept-41-temperature-versus-heat">Temperature Versus Heat</a><a class="mini-concept-pill" href="03_matter_energy_and_physics.html#concept-42-entropy-and-spreading-out">Entropy and Spreading Out</a><a class="mini-concept-pill" href="03_matter_energy_and_physics.html#concept-43-efficiency-and-waste-heat">Efficiency and Waste Heat</a><a class="mini-concept-pill" href="03_matter_energy_and_physics.html#concept-51-waves-as-traveling-disturbances">Waves as Traveling Disturbances</a><a class="mini-concept-pill" href="03_matter_energy_and_physics.html#concept-52-resonance">Resonance</a><a class="mini-concept-pill" href="03_matter_energy_and_physics.html#concept-53-invisible-fields-gravity-electricity-and-magnetism">Invisible Fields (Gravity, Electricity, and Magnetism)</a></div>
-          <div class="volume-actions">
-            <a class="primary-btn" href="03_matter_energy_and_physics.html">Open Styled Book</a>
-            <a class="pill-link" href="03_matter_energy_and_physics.md">View Markdown</a>
+
+          <div>
+            <div class="vol-progress-row">
+              <div class="vol-progress-track"><div class="vol-progress-fill" data-progress-for="01_logic_and_reasoning.html"></div></div>
+              <span class="vol-progress-label" data-progress-label="01_logic_and_reasoning.html">0%</span>
+            </div>
+            <div class="volume-actions">
+              <a class="primary-btn" href="01_logic_and_reasoning.html">Open Book I &rarr;</a>
+              <a class="pill-link" href="01_logic_and_reasoning.md">Markdown</a>
+            </div>
           </div>
         </article>
         
-        <article class="volume-card" style="--accent: #16a34a; --accent-soft: rgba(22, 163, 74, 0.12);">
-          <div class="volume-top">
-            <span class="volume-badge">Book IV &middot; Living Systems</span>
-            <span class="volume-metrics">15 concepts &middot; ~23 min</span>
+        <article class="volume-card" data-roman="II" data-book-href="02_number_proportion_and_space.html" style="--accent: #0d9488; --accent-soft: rgba(13, 148, 136, 0.11);">
+          <div>
+            <div class="volume-top">
+              <span class="volume-badge">Book II &middot; Quantity &amp; Form</span>
+              <span class="volume-metrics">15 concepts &middot; ~24 min</span>
+            </div>
+            <h2><a href="02_number_proportion_and_space.html">Book II: Number, Proportion, and Spatial Thinking</a></h2>
+            <p class="volume-thesis">Mathematics is often taught as a foreign script of symbols to memorize and push around a page. Behind those symbols, however, sits a surprisingly intuitive set of everyday ideas about quantity, balance, comparison, shape, and chance. When we strip away compressed shorthand and explain each quantitative concept directly in plain English, numbers stop looking like magic tricks and start acting like clear tools for seeing the world accurately.</p>
           </div>
-          <h2><a href="04_life_cells_and_evolution.html">Book IV: Life, Cells, and Evolution</a></h2>
-          <p class="volume-thesis">Living things look miraculously purposeful, yet biology rests on a small set of physical and informational principles working relentlessly across billions of cycles. A cell draws a boundary against chaos, repairs itself from the inside out, stores instructions in durable molecular ribbons, copies those instructions with occasional tiny differences, and submits every variation to the test of survival in a shared environment. Isolating each biological concept in plain English shows how life bridges inert chemistry and intricate ecosystems.</p>
-          <div class="mini-concepts-wrap"><a class="mini-concept-pill" href="04_life_cells_and_evolution.html#concept-11-boundaries-and-selective-exchange">Boundaries and Selective Exchange</a><a class="mini-concept-pill" href="04_life_cells_and_evolution.html#concept-12-metabolism-building-and-burning">Metabolism (Building and Burning)</a><a class="mini-concept-pill" href="04_life_cells_and_evolution.html#concept-13-homeostasis-active-inner-balance">Homeostasis (Active Inner Balance)</a><a class="mini-concept-pill" href="04_life_cells_and_evolution.html#concept-21-the-cell-as-the-minimum-unit-of-life">The Cell as the Minimum Unit of Life</a><a class="mini-concept-pill" href="04_life_cells_and_evolution.html#concept-22-proteins-as-molecular-workers">Proteins as Molecular Workers</a><a class="mini-concept-pill" href="04_life_cells_and_evolution.html#concept-23-energy-currency-inside-cells">Energy Currency Inside Cells</a><a class="mini-concept-pill" href="04_life_cells_and_evolution.html#concept-31-genes-as-biological-recipes">Genes as Biological Recipes</a><a class="mini-concept-pill" href="04_life_cells_and_evolution.html#concept-32-mutation-copying-slips-and-variation">Mutation (Copying Slips and Variation)</a><a class="mini-concept-pill" href="04_life_cells_and_evolution.html#concept-33-nature-working-together-with-nurture">Nature Working Together With Nurture</a><a class="mini-concept-pill" href="04_life_cells_and_evolution.html#concept-41-the-three-ingredients-of-natural-selection">The Three Ingredients of Natural Selection</a><a class="mini-concept-pill" href="04_life_cells_and_evolution.html#concept-42-adaptation-versus-luck-drift">Adaptation Versus Luck (Drift)</a><a class="mini-concept-pill" href="04_life_cells_and_evolution.html#concept-43-common-descent-and-deep-time">Common Descent and Deep Time</a><a class="mini-concept-pill" href="04_life_cells_and_evolution.html#concept-51-energy-flows-one-way-matter-recycles">Energy Flows One Way, Matter Recycles</a><a class="mini-concept-pill" href="04_life_cells_and_evolution.html#concept-52-carrying-capacity-and-limiting-factors">Carrying Capacity and Limiting Factors</a><a class="mini-concept-pill" href="04_life_cells_and_evolution.html#concept-53-mutualism-parasitism-and-competition">Mutualism, Parasitism, and Competition</a></div>
-          <div class="volume-actions">
-            <a class="primary-btn" href="04_life_cells_and_evolution.html">Open Styled Book</a>
-            <a class="pill-link" href="04_life_cells_and_evolution.md">View Markdown</a>
+
+          <div class="card-mid">
+            <div class="chapter-chips-label">Chapters</div>
+            <div class="chapter-chips-wrap"><a class="chapter-pill" href="02_number_proportion_and_space.html#chapter-1-quantity-counting-and-place-value">Quantity, Counting, and Place Value</a><a class="chapter-pill" href="02_number_proportion_and_space.html#chapter-2-ratios-rates-and-percentages">Ratios, Rates, and Percentages</a><a class="chapter-pill" href="02_number_proportion_and_space.html#chapter-3-linear-growth-versus-compound-growth">Linear Growth Versus Compound Growth</a><a class="chapter-pill" href="02_number_proportion_and_space.html#chapter-4-dimension-shape-and-spatial-invariance">Dimension, Shape, and Spatial Invariance</a><a class="chapter-pill" href="02_number_proportion_and_space.html#chapter-5-averages-spread-and-everyday-uncertainty">Averages, Spread, and Everyday Uncertainty</a></div>
+
+            <details class="card-concepts-toggle">
+              <summary>Browse all 15 isolated concepts</summary>
+              <ul class="card-concepts-list"><li><a href="02_number_proportion_and_space.html#concept-11-cardinality-versus-ordinal-position">1.1: Cardinality Versus Ordinal Position</a></li><li><a href="02_number_proportion_and_space.html#concept-12-place-value-and-bundling-bases">1.2: Place Value and Bundling Bases</a></li><li><a href="02_number_proportion_and_space.html#concept-13-zero-as-quantity-and-placeholder">1.3: Zero as Quantity and Placeholder</a></li><li><a href="02_number_proportion_and_space.html#concept-21-ratios-as-relative-balance">2.1: Ratios as Relative Balance</a></li><li><a href="02_number_proportion_and_space.html#concept-22-rates-change-per-unit">2.2: Rates (Change Per Unit)</a></li><li><a href="02_number_proportion_and_space.html#concept-23-percentages-and-shifting-baselines">2.3: Percentages and Shifting Baselines</a></li><li><a href="02_number_proportion_and_space.html#concept-31-linear-additive-growth">3.1: Linear (Additive) Growth</a></li><li><a href="02_number_proportion_and_space.html#concept-32-compound-multiplicative-growth">3.2: Compound (Multiplicative) Growth</a></li><li><a href="02_number_proportion_and_space.html#concept-33-scaling-laws-length-surface-and-volume">3.3: Scaling Laws (Length, Surface, and Volume)</a></li><li><a href="02_number_proportion_and_space.html#concept-41-spatial-dimensions-zero-to-three-and-beyond">4.1: Spatial Dimensions (Zero to Three and Beyond)</a></li><li><a href="02_number_proportion_and_space.html#concept-42-symmetry-and-conservation-under-motion">4.2: Symmetry and Conservation Under Motion</a></li><li><a href="02_number_proportion_and_space.html#concept-43-topological-invariance-stretching-without-tearing">4.3: Topological Invariance (Stretching Without Tearing)</a></li><li><a href="02_number_proportion_and_space.html#concept-51-mean-versus-median">5.1: Mean Versus Median</a></li><li><a href="02_number_proportion_and_space.html#concept-52-spread-and-variability">5.2: Spread and Variability</a></li><li><a href="02_number_proportion_and_space.html#concept-53-regression-to-the-typical">5.3: Regression to the Typical</a></li></ul>
+            </details>
+          </div>
+
+          <div>
+            <div class="vol-progress-row">
+              <div class="vol-progress-track"><div class="vol-progress-fill" data-progress-for="02_number_proportion_and_space.html"></div></div>
+              <span class="vol-progress-label" data-progress-label="02_number_proportion_and_space.html">0%</span>
+            </div>
+            <div class="volume-actions">
+              <a class="primary-btn" href="02_number_proportion_and_space.html">Open Book II &rarr;</a>
+              <a class="pill-link" href="02_number_proportion_and_space.md">Markdown</a>
+            </div>
           </div>
         </article>
         
-        <article class="volume-card" style="--accent: #7c3aed; --accent-soft: rgba(124, 58, 237, 0.12);">
-          <div class="volume-top">
-            <span class="volume-badge">Book V &middot; Computation &amp; Feedback</span>
-            <span class="volume-metrics">15 concepts &middot; ~24 min</span>
+        <article class="volume-card" data-roman="III" data-book-href="03_matter_energy_and_physics.html" style="--accent: #d97706; --accent-soft: rgba(217, 119, 6, 0.11);">
+          <div>
+            <div class="volume-top">
+              <span class="volume-badge">Book III &middot; Physical Reality</span>
+              <span class="volume-metrics">15 concepts &middot; ~24 min</span>
+            </div>
+            <h2><a href="03_matter_energy_and_physics.html">Book III: Matter, Energy, and the Physical World</a></h2>
+            <p class="volume-thesis">The physical universe runs on remarkably few core rules, repeated across scales from microscopic specks of dust to spinning stars. Matter refuses to appear from thin air, moving objects refuse to stop without a push, energy constantly changes costume without ever vanishing, and heat quietly spreads outward like perfume in a quiet room. Isolating these physical rules in plain English shows how the world around your kitchen stove, car tires, and sunlight actually holds together.</p>
           </div>
-          <h2><a href="05_computation_information_and_systems.html">Book V: Computation, Information, and Systems</a></h2>
-          <p class="volume-thesis">Long before silicon microchips existed, humans were already running computations on beads, ledgers, recipes, and mail routes. Computation is not magic trapped inside glass screens; it is the craft of representing messy real-world facts as crisp distinctions, transforming them through unambiguous step-by-step rules, hiding messy details behind clean layers, and keeping messages accurate across noisy distances. Isolating these principles in plain English demystifies modern technology and illuminates how every organized system behaves.</p>
-          <div class="mini-concepts-wrap"><a class="mini-concept-pill" href="05_computation_information_and_systems.html#concept-11-information-as-eliminated-uncertainty">Information as Eliminated Uncertainty</a><a class="mini-concept-pill" href="05_computation_information_and_systems.html#concept-12-signal-versus-noise">Signal Versus Noise</a><a class="mini-concept-pill" href="05_computation_information_and_systems.html#concept-13-compression-removing-repetition-without-losing-meaning">Compression (Removing Repetition Without Losing Meaning)</a><a class="mini-concept-pill" href="05_computation_information_and_systems.html#concept-21-algorithms-unambiguous-step-by-step-recipes">Algorithms (Unambiguous Step-by-Step Recipes)</a><a class="mini-concept-pill" href="05_computation_information_and_systems.html#concept-22-search-and-scaling-effort">Search and Scaling Effort</a><a class="mini-concept-pill" href="05_computation_information_and_systems.html#concept-23-trade-offs-between-speed-and-space">Trade-Offs Between Speed and Space</a><a class="mini-concept-pill" href="05_computation_information_and_systems.html#concept-31-state-versus-process">State Versus Process</a><a class="mini-concept-pill" href="05_computation_information_and_systems.html#concept-32-names-references-and-values">Names, References, and Values</a><a class="mini-concept-pill" href="05_computation_information_and_systems.html#concept-33-abstraction-and-clean-interfaces">Abstraction and Clean Interfaces</a><a class="mini-concept-pill" href="05_computation_information_and_systems.html#concept-41-protocols-and-packet-switching">Protocols and Packet Switching</a><a class="mini-concept-pill" href="05_computation_information_and_systems.html#concept-42-cryptography-locks-and-signatures">Cryptography, Locks, and Signatures</a><a class="mini-concept-pill" href="05_computation_information_and_systems.html#concept-43-consensus-without-a-single-boss">Consensus Without a Single Boss</a><a class="mini-concept-pill" href="05_computation_information_and_systems.html#concept-51-balancing-versus-reinforcing-feedback-loops">Balancing Versus Reinforcing Feedback Loops</a><a class="mini-concept-pill" href="05_computation_information_and_systems.html#concept-52-bottlenecks-and-system-throughput">Bottlenecks and System Throughput</a><a class="mini-concept-pill" href="05_computation_information_and_systems.html#concept-53-emergence-when-the-crowd-does-something-new">Emergence (When the Crowd Does Something New)</a></div>
-          <div class="volume-actions">
-            <a class="primary-btn" href="05_computation_information_and_systems.html">Open Styled Book</a>
-            <a class="pill-link" href="05_computation_information_and_systems.md">View Markdown</a>
+
+          <div class="card-mid">
+            <div class="chapter-chips-label">Chapters</div>
+            <div class="chapter-chips-wrap"><a class="chapter-pill" href="03_matter_energy_and_physics.html#chapter-1-what-stuff-is-made-of">What Stuff Is Made Of</a><a class="chapter-pill" href="03_matter_energy_and_physics.html#chapter-2-force-motion-and-balance">Force, Motion, and Balance</a><a class="chapter-pill" href="03_matter_energy_and_physics.html#chapter-3-energy-work-and-conservation">Energy, Work, and Conservation</a><a class="chapter-pill" href="03_matter_energy_and_physics.html#chapter-4-heat-disorder-and-one-way-time">Heat, Disorder, and One-Way Time</a><a class="chapter-pill" href="03_matter_energy_and_physics.html#chapter-5-waves-light-and-invisible-fields">Waves, Light, and Invisible Fields</a></div>
+
+            <details class="card-concepts-toggle">
+              <summary>Browse all 15 isolated concepts</summary>
+              <ul class="card-concepts-list"><li><a href="03_matter_energy_and_physics.html#concept-11-atoms-and-molecules">1.1: Atoms and Molecules</a></li><li><a href="03_matter_energy_and_physics.html#concept-12-states-of-matter-solid-liquid-gas">1.2: States of Matter (Solid, Liquid, Gas)</a></li><li><a href="03_matter_energy_and_physics.html#concept-13-density-and-buoyancy">1.3: Density and Buoyancy</a></li><li><a href="03_matter_energy_and_physics.html#concept-21-inertia-and-mass">2.1: Inertia and Mass</a></li><li><a href="03_matter_energy_and_physics.html#concept-22-acceleration-and-balanced-forces">2.2: Acceleration and Balanced Forces</a></li><li><a href="03_matter_energy_and_physics.html#concept-23-paired-action-and-reaction">2.3: Paired Action and Reaction</a></li><li><a href="03_matter_energy_and_physics.html#concept-31-energy-transformation-and-conservation">3.1: Energy Transformation and Conservation</a></li><li><a href="03_matter_energy_and_physics.html#concept-32-mechanical-work-and-power">3.2: Mechanical Work and Power</a></li><li><a href="03_matter_energy_and_physics.html#concept-33-potential-versus-kinetic-energy">3.3: Potential Versus Kinetic Energy</a></li><li><a href="03_matter_energy_and_physics.html#concept-41-temperature-versus-heat">4.1: Temperature Versus Heat</a></li><li><a href="03_matter_energy_and_physics.html#concept-42-entropy-and-spreading-out">4.2: Entropy and Spreading Out</a></li><li><a href="03_matter_energy_and_physics.html#concept-43-efficiency-and-waste-heat">4.3: Efficiency and Waste Heat</a></li><li><a href="03_matter_energy_and_physics.html#concept-51-waves-as-traveling-disturbances">5.1: Waves as Traveling Disturbances</a></li><li><a href="03_matter_energy_and_physics.html#concept-52-resonance">5.2: Resonance</a></li><li><a href="03_matter_energy_and_physics.html#concept-53-invisible-fields-gravity-electricity-and-magnetism">5.3: Invisible Fields (Gravity, Electricity, and Magnetism)</a></li></ul>
+            </details>
+          </div>
+
+          <div>
+            <div class="vol-progress-row">
+              <div class="vol-progress-track"><div class="vol-progress-fill" data-progress-for="03_matter_energy_and_physics.html"></div></div>
+              <span class="vol-progress-label" data-progress-label="03_matter_energy_and_physics.html">0%</span>
+            </div>
+            <div class="volume-actions">
+              <a class="primary-btn" href="03_matter_energy_and_physics.html">Open Book III &rarr;</a>
+              <a class="pill-link" href="03_matter_energy_and_physics.md">Markdown</a>
+            </div>
           </div>
         </article>
         
-        <article class="volume-card" style="--accent: #be123c; --accent-soft: rgba(190, 18, 60, 0.12);">
-          <div class="volume-top">
-            <span class="volume-badge">Book VI &middot; Meaning &amp; Society</span>
-            <span class="volume-metrics">15 concepts &middot; ~23 min</span>
+        <article class="volume-card" data-roman="IV" data-book-href="04_life_cells_and_evolution.html" style="--accent: #16a34a; --accent-soft: rgba(22, 163, 74, 0.11);">
+          <div>
+            <div class="volume-top">
+              <span class="volume-badge">Book IV &middot; Living Systems</span>
+              <span class="volume-metrics">15 concepts &middot; ~23 min</span>
+            </div>
+            <h2><a href="04_life_cells_and_evolution.html">Book IV: Life, Cells, and Evolution</a></h2>
+            <p class="volume-thesis">Living things look miraculously purposeful, yet biology rests on a small set of physical and informational principles working relentlessly across billions of cycles. A cell draws a boundary against chaos, repairs itself from the inside out, stores instructions in durable molecular ribbons, copies those instructions with occasional tiny differences, and submits every variation to the test of survival in a shared environment. Isolating each biological concept in plain English shows how life bridges inert chemistry and intricate ecosystems.</p>
           </div>
-          <h2><a href="06_language_economics_and_coordination.html">Book VI: Language, Economics, and Human Coordination</a></h2>
-          <p class="volume-thesis">Human beings are physically modest creatures—slower than cheetahs, weaker than bears, lacking claws or fur—yet we reshape continents, build cities, cure diseases, and map galaxies. Our real superpower is large-scale cooperation across strangers. That cooperation runs on three subtle invisible systems: shared language that lets minds align cleanly; everyday economic realities of scarcity, trade-offs, and incentives; and institutions that turn fragile promises into reliable trust. Isolating those concepts in plain English sharpens how we read, choose, negotiate, and build together.</p>
-          <div class="mini-concepts-wrap"><a class="mini-concept-pill" href="06_language_economics_and_coordination.html#concept-11-concept-isolation-through-naming">Concept Isolation Through Naming</a><a class="mini-concept-pill" href="06_language_economics_and_coordination.html#concept-12-connotation-versus-denotation">Connotation Versus Denotation</a><a class="mini-concept-pill" href="06_language_economics_and_coordination.html#concept-13-context-and-shared-background">Context and Shared Background</a><a class="mini-concept-pill" href="06_language_economics_and_coordination.html#concept-21-scarcity-and-trade-offs">Scarcity and Trade-Offs</a><a class="mini-concept-pill" href="06_language_economics_and_coordination.html#concept-22-opportunity-cost-the-invisible-price-tag">Opportunity Cost (The Invisible Price Tag)</a><a class="mini-concept-pill" href="06_language_economics_and_coordination.html#concept-23-marginal-thinking-the-next-single-step">Marginal Thinking (The Next Single Step)</a><a class="mini-concept-pill" href="06_language_economics_and_coordination.html#concept-31-subjective-value-and-voluntary-trade">Subjective Value and Voluntary Trade</a><a class="mini-concept-pill" href="06_language_economics_and_coordination.html#concept-32-prices-as-compact-signals">Prices as Compact Signals</a><a class="mini-concept-pill" href="06_language_economics_and_coordination.html#concept-33-incentives-and-unintended-consequences">Incentives and Unintended Consequences</a><a class="mini-concept-pill" href="06_language_economics_and_coordination.html#concept-41-coordination-traps-the-prisoners-dilemma">Coordination Traps (The Prisoner&#x27;s Dilemma)</a><a class="mini-concept-pill" href="06_language_economics_and_coordination.html#concept-42-the-tragedy-of-shared-commons">The Tragedy of Shared Commons</a><a class="mini-concept-pill" href="06_language_economics_and_coordination.html#concept-43-repeated-games-reputation-and-institutions">Repeated Games, Reputation, and Institutions</a><a class="mini-concept-pill" href="06_language_economics_and_coordination.html#concept-51-division-of-labor-and-comparative-advantage">Division of Labor and Comparative Advantage</a><a class="mini-concept-pill" href="06_language_economics_and_coordination.html#concept-52-external-memory-writing-and-shared-tools">External Memory (Writing and Shared Tools)</a><a class="mini-concept-pill" href="06_language_economics_and_coordination.html#concept-53-error-correcting-cultures">Error-Correcting Cultures</a></div>
-          <div class="volume-actions">
-            <a class="primary-btn" href="06_language_economics_and_coordination.html">Open Styled Book</a>
-            <a class="pill-link" href="06_language_economics_and_coordination.md">View Markdown</a>
+
+          <div class="card-mid">
+            <div class="chapter-chips-label">Chapters</div>
+            <div class="chapter-chips-wrap"><a class="chapter-pill" href="04_life_cells_and_evolution.html#chapter-1-what-makes-something-alive">What Makes Something Alive</a><a class="chapter-pill" href="04_life_cells_and_evolution.html#chapter-2-the-cell-as-a-living-city">The Cell as a Living City</a><a class="chapter-pill" href="04_life_cells_and_evolution.html#chapter-3-information-and-inheritance">Information and Inheritance</a><a class="chapter-pill" href="04_life_cells_and_evolution.html#chapter-4-natural-selection-and-adaptation">Natural Selection and Adaptation</a><a class="chapter-pill" href="04_life_cells_and_evolution.html#chapter-5-ecosystems-and-living-feedback">Ecosystems and Living Feedback</a></div>
+
+            <details class="card-concepts-toggle">
+              <summary>Browse all 15 isolated concepts</summary>
+              <ul class="card-concepts-list"><li><a href="04_life_cells_and_evolution.html#concept-11-boundaries-and-selective-exchange">1.1: Boundaries and Selective Exchange</a></li><li><a href="04_life_cells_and_evolution.html#concept-12-metabolism-building-and-burning">1.2: Metabolism (Building and Burning)</a></li><li><a href="04_life_cells_and_evolution.html#concept-13-homeostasis-active-inner-balance">1.3: Homeostasis (Active Inner Balance)</a></li><li><a href="04_life_cells_and_evolution.html#concept-21-the-cell-as-the-minimum-unit-of-life">2.1: The Cell as the Minimum Unit of Life</a></li><li><a href="04_life_cells_and_evolution.html#concept-22-proteins-as-molecular-workers">2.2: Proteins as Molecular Workers</a></li><li><a href="04_life_cells_and_evolution.html#concept-23-energy-currency-inside-cells">2.3: Energy Currency Inside Cells</a></li><li><a href="04_life_cells_and_evolution.html#concept-31-genes-as-biological-recipes">3.1: Genes as Biological Recipes</a></li><li><a href="04_life_cells_and_evolution.html#concept-32-mutation-copying-slips-and-variation">3.2: Mutation (Copying Slips and Variation)</a></li><li><a href="04_life_cells_and_evolution.html#concept-33-nature-working-together-with-nurture">3.3: Nature Working Together With Nurture</a></li><li><a href="04_life_cells_and_evolution.html#concept-41-the-three-ingredients-of-natural-selection">4.1: The Three Ingredients of Natural Selection</a></li><li><a href="04_life_cells_and_evolution.html#concept-42-adaptation-versus-luck-drift">4.2: Adaptation Versus Luck (Drift)</a></li><li><a href="04_life_cells_and_evolution.html#concept-43-common-descent-and-deep-time">4.3: Common Descent and Deep Time</a></li><li><a href="04_life_cells_and_evolution.html#concept-51-energy-flows-one-way-matter-recycles">5.1: Energy Flows One Way, Matter Recycles</a></li><li><a href="04_life_cells_and_evolution.html#concept-52-carrying-capacity-and-limiting-factors">5.2: Carrying Capacity and Limiting Factors</a></li><li><a href="04_life_cells_and_evolution.html#concept-53-mutualism-parasitism-and-competition">5.3: Mutualism, Parasitism, and Competition</a></li></ul>
+            </details>
+          </div>
+
+          <div>
+            <div class="vol-progress-row">
+              <div class="vol-progress-track"><div class="vol-progress-fill" data-progress-for="04_life_cells_and_evolution.html"></div></div>
+              <span class="vol-progress-label" data-progress-label="04_life_cells_and_evolution.html">0%</span>
+            </div>
+            <div class="volume-actions">
+              <a class="primary-btn" href="04_life_cells_and_evolution.html">Open Book IV &rarr;</a>
+              <a class="pill-link" href="04_life_cells_and_evolution.md">Markdown</a>
+            </div>
+          </div>
+        </article>
+        
+        <article class="volume-card" data-roman="V" data-book-href="05_computation_information_and_systems.html" style="--accent: #7c3aed; --accent-soft: rgba(124, 58, 237, 0.11);">
+          <div>
+            <div class="volume-top">
+              <span class="volume-badge">Book V &middot; Computation &amp; Feedback</span>
+              <span class="volume-metrics">15 concepts &middot; ~24 min</span>
+            </div>
+            <h2><a href="05_computation_information_and_systems.html">Book V: Computation, Information, and Systems</a></h2>
+            <p class="volume-thesis">Long before silicon microchips existed, humans were already running computations on beads, ledgers, recipes, and mail routes. Computation is not magic trapped inside glass screens; it is the craft of representing messy real-world facts as crisp distinctions, transforming them through unambiguous step-by-step rules, hiding messy details behind clean layers, and keeping messages accurate across noisy distances. Isolating these principles in plain English demystifies modern technology and illuminates how every organized system behaves.</p>
+          </div>
+
+          <div class="card-mid">
+            <div class="chapter-chips-label">Chapters</div>
+            <div class="chapter-chips-wrap"><a class="chapter-pill" href="05_computation_information_and_systems.html#chapter-1-what-information-really-is">What Information Really Is</a><a class="chapter-pill" href="05_computation_information_and_systems.html#chapter-2-recipes-decisions-and-cost-of-effort">Recipes, Decisions, and Cost of Effort</a><a class="chapter-pill" href="05_computation_information_and_systems.html#chapter-3-state-names-and-layers-of-abstraction">State, Names, and Layers of Abstraction</a><a class="chapter-pill" href="05_computation_information_and_systems.html#chapter-4-networks-trust-and-unreliable-channels">Networks, Trust, and Unreliable Channels</a><a class="chapter-pill" href="05_computation_information_and_systems.html#chapter-5-feedback-loops-bottlenecks-and-emergence">Feedback Loops, Bottlenecks, and Emergence</a></div>
+
+            <details class="card-concepts-toggle">
+              <summary>Browse all 15 isolated concepts</summary>
+              <ul class="card-concepts-list"><li><a href="05_computation_information_and_systems.html#concept-11-information-as-eliminated-uncertainty">1.1: Information as Eliminated Uncertainty</a></li><li><a href="05_computation_information_and_systems.html#concept-12-signal-versus-noise">1.2: Signal Versus Noise</a></li><li><a href="05_computation_information_and_systems.html#concept-13-compression-removing-repetition-without-losing-meaning">1.3: Compression (Removing Repetition Without Losing Meaning)</a></li><li><a href="05_computation_information_and_systems.html#concept-21-algorithms-unambiguous-step-by-step-recipes">2.1: Algorithms (Unambiguous Step-by-Step Recipes)</a></li><li><a href="05_computation_information_and_systems.html#concept-22-search-and-scaling-effort">2.2: Search and Scaling Effort</a></li><li><a href="05_computation_information_and_systems.html#concept-23-trade-offs-between-speed-and-space">2.3: Trade-Offs Between Speed and Space</a></li><li><a href="05_computation_information_and_systems.html#concept-31-state-versus-process">3.1: State Versus Process</a></li><li><a href="05_computation_information_and_systems.html#concept-32-names-references-and-values">3.2: Names, References, and Values</a></li><li><a href="05_computation_information_and_systems.html#concept-33-abstraction-and-clean-interfaces">3.3: Abstraction and Clean Interfaces</a></li><li><a href="05_computation_information_and_systems.html#concept-41-protocols-and-packet-switching">4.1: Protocols and Packet Switching</a></li><li><a href="05_computation_information_and_systems.html#concept-42-cryptography-locks-and-signatures">4.2: Cryptography, Locks, and Signatures</a></li><li><a href="05_computation_information_and_systems.html#concept-43-consensus-without-a-single-boss">4.3: Consensus Without a Single Boss</a></li><li><a href="05_computation_information_and_systems.html#concept-51-balancing-versus-reinforcing-feedback-loops">5.1: Balancing Versus Reinforcing Feedback Loops</a></li><li><a href="05_computation_information_and_systems.html#concept-52-bottlenecks-and-system-throughput">5.2: Bottlenecks and System Throughput</a></li><li><a href="05_computation_information_and_systems.html#concept-53-emergence-when-the-crowd-does-something-new">5.3: Emergence (When the Crowd Does Something New)</a></li></ul>
+            </details>
+          </div>
+
+          <div>
+            <div class="vol-progress-row">
+              <div class="vol-progress-track"><div class="vol-progress-fill" data-progress-for="05_computation_information_and_systems.html"></div></div>
+              <span class="vol-progress-label" data-progress-label="05_computation_information_and_systems.html">0%</span>
+            </div>
+            <div class="volume-actions">
+              <a class="primary-btn" href="05_computation_information_and_systems.html">Open Book V &rarr;</a>
+              <a class="pill-link" href="05_computation_information_and_systems.md">Markdown</a>
+            </div>
+          </div>
+        </article>
+        
+        <article class="volume-card" data-roman="VI" data-book-href="06_language_economics_and_coordination.html" style="--accent: #be123c; --accent-soft: rgba(190, 18, 60, 0.11);">
+          <div>
+            <div class="volume-top">
+              <span class="volume-badge">Book VI &middot; Meaning &amp; Society</span>
+              <span class="volume-metrics">15 concepts &middot; ~23 min</span>
+            </div>
+            <h2><a href="06_language_economics_and_coordination.html">Book VI: Language, Economics, and Human Coordination</a></h2>
+            <p class="volume-thesis">Human beings are physically modest creatures—slower than cheetahs, weaker than bears, lacking claws or fur—yet we reshape continents, build cities, cure diseases, and map galaxies. Our real superpower is large-scale cooperation across strangers. That cooperation runs on three subtle invisible systems: shared language that lets minds align cleanly; everyday economic realities of scarcity, trade-offs, and incentives; and institutions that turn fragile promises into reliable trust. Isolating those concepts in plain English sharpens how we read, choose, negotiate, and build together.</p>
+          </div>
+
+          <div class="card-mid">
+            <div class="chapter-chips-label">Chapters</div>
+            <div class="chapter-chips-wrap"><a class="chapter-pill" href="06_language_economics_and_coordination.html#chapter-1-how-language-isolates-and-connects-thought">How Language Isolates and Connects Thought</a><a class="chapter-pill" href="06_language_economics_and_coordination.html#chapter-2-scarcity-trade-offs-and-marginal-choice">Scarcity, Trade-Offs, and Marginal Choice</a><a class="chapter-pill" href="06_language_economics_and_coordination.html#chapter-3-value-price-and-incentives">Value, Price, and Incentives</a><a class="chapter-pill" href="06_language_economics_and_coordination.html#chapter-4-trust-dilemmas-and-shared-rules">Trust, Dilemmas, and Shared Rules</a><a class="chapter-pill" href="06_language_economics_and_coordination.html#chapter-5-specialization-and-compounding-knowledge">Specialization and Compounding Knowledge</a></div>
+
+            <details class="card-concepts-toggle">
+              <summary>Browse all 15 isolated concepts</summary>
+              <ul class="card-concepts-list"><li><a href="06_language_economics_and_coordination.html#concept-11-concept-isolation-through-naming">1.1: Isolation Through Naming</a></li><li><a href="06_language_economics_and_coordination.html#concept-12-connotation-versus-denotation">1.2: Connotation Versus Denotation</a></li><li><a href="06_language_economics_and_coordination.html#concept-13-context-and-shared-background">1.3: Context and Shared Background</a></li><li><a href="06_language_economics_and_coordination.html#concept-21-scarcity-and-trade-offs">2.1: Scarcity and Trade-Offs</a></li><li><a href="06_language_economics_and_coordination.html#concept-22-opportunity-cost-the-invisible-price-tag">2.2: Opportunity Cost (The Invisible Price Tag)</a></li><li><a href="06_language_economics_and_coordination.html#concept-23-marginal-thinking-the-next-single-step">2.3: Marginal Thinking (The Next Single Step)</a></li><li><a href="06_language_economics_and_coordination.html#concept-31-subjective-value-and-voluntary-trade">3.1: Subjective Value and Voluntary Trade</a></li><li><a href="06_language_economics_and_coordination.html#concept-32-prices-as-compact-signals">3.2: Prices as Compact Signals</a></li><li><a href="06_language_economics_and_coordination.html#concept-33-incentives-and-unintended-consequences">3.3: Incentives and Unintended Consequences</a></li><li><a href="06_language_economics_and_coordination.html#concept-41-coordination-traps-the-prisoners-dilemma">4.1: Coordination Traps (The Prisoner&#x27;s Dilemma)</a></li><li><a href="06_language_economics_and_coordination.html#concept-42-the-tragedy-of-shared-commons">4.2: The Tragedy of Shared Commons</a></li><li><a href="06_language_economics_and_coordination.html#concept-43-repeated-games-reputation-and-institutions">4.3: Repeated Games, Reputation, and Institutions</a></li><li><a href="06_language_economics_and_coordination.html#concept-51-division-of-labor-and-comparative-advantage">5.1: Division of Labor and Comparative Advantage</a></li><li><a href="06_language_economics_and_coordination.html#concept-52-external-memory-writing-and-shared-tools">5.2: External Memory (Writing and Shared Tools)</a></li><li><a href="06_language_economics_and_coordination.html#concept-53-error-correcting-cultures">5.3: Error-Correcting Cultures</a></li></ul>
+            </details>
+          </div>
+
+          <div>
+            <div class="vol-progress-row">
+              <div class="vol-progress-track"><div class="vol-progress-fill" data-progress-for="06_language_economics_and_coordination.html"></div></div>
+              <span class="vol-progress-label" data-progress-label="06_language_economics_and_coordination.html">0%</span>
+            </div>
+            <div class="volume-actions">
+              <a class="primary-btn" href="06_language_economics_and_coordination.html">Open Book VI &rarr;</a>
+              <a class="pill-link" href="06_language_economics_and_coordination.md">Markdown</a>
+            </div>
           </div>
         </article>
         
     </section>
   </main>
 
+  
+  <div id="cmd-backdrop" class="cmd-backdrop" hidden>
+    <div class="cmd-dialog" role="dialog" aria-modal="true" aria-label="Search all isolated concepts">
+      <div class="cmd-input-row">
+        <svg class="ui-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="cmd-input" class="cmd-input" type="search" placeholder="Jump to any of 90 isolated concepts across all 6 books..." />
+        <button type="button" id="close-cmd-btn" class="pill-btn">Esc</button>
+      </div>
+      <div id="cmd-list" class="cmd-list"></div>
+    </div>
+  </div>
+  <div id="install-backdrop" class="cmd-backdrop" hidden>
+    <div class="cmd-dialog install-dialog" role="dialog" aria-modal="true" aria-label="Install Plain-English Foundations Library App">
+      <div class="install-head">
+        <h3>Install Plain-English Foundations</h3>
+        <button type="button" id="close-install-btn" class="pill-btn">Close</button>
+      </div>
+      <div style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">
+        Install this library as an offline standalone reading app with all 6 books and 90 isolated concepts stored locally.
+      </div>
+      <div id="install-checks" class="install-checks"></div>
+      <ol id="install-instructions" class="install-steps"></ol>
+      <div class="install-actions">
+        <button type="button" id="install-native-btn" class="pill-btn install-btn" hidden>Install Now</button>
+        <button type="button" id="close-install-btn-2" class="pill-btn" onclick="document.getElementById('install-backdrop').hidden=true">Done</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     
 (function () {
+  const ALL_CONCEPTS = [{"book": "Book I: Logic & Reasoning", "title": "Concept 1.1: Claims, Premises, and Conclusions", "definition": "An argument is a connected set of statements in which one or more supporting statements, called premises, are offered as reasons to accept a target statement, called the conclusion.", "href": "01_logic_and_reasoning.html#concept-11-claims-premises-and-conclusions", "accent": "#2563eb"}, {"book": "Book I: Logic & Reasoning", "title": "Concept 1.2: Validity Versus Soundness", "definition": "An argument is valid when its conclusion strictly follows from its premises if those premises are taken as true; it is sound only when it is valid and all of its premises are actually true in the real world.", "href": "01_logic_and_reasoning.html#concept-12-validity-versus-soundness", "accent": "#2563eb"}, {"book": "Book I: Logic & Reasoning", "title": "Concept 1.3: Hidden Assumptions", "definition": "A hidden assumption is an unstated premise that an argument quietly relies upon in order for its conclusion to follow from its stated premises.", "href": "01_logic_and_reasoning.html#concept-13-hidden-assumptions", "accent": "#2563eb"}, {"book": "Book I: Logic & Reasoning", "title": "Concept 2.1: Deductive Reasoning", "definition": "Deductive reasoning moves from general rules or definitions to a guaranteed specific conclusion, leaving no room for the conclusion to be false if the starting premises are true.", "href": "01_logic_and_reasoning.html#concept-21-deductive-reasoning", "accent": "#2563eb"}, {"book": "Book I: Logic & Reasoning", "title": "Concept 2.2: Inductive Reasoning", "definition": "Inductive reasoning draws a general pattern or future expectation from a limited set of specific observations, making the conclusion probable rather than guaranteed.", "href": "01_logic_and_reasoning.html#concept-22-inductive-reasoning", "accent": "#2563eb"}, {"book": "Book I: Logic & Reasoning", "title": "Concept 2.3: Abductive Reasoning (Best Explanation)", "definition": "Abductive reasoning looks at an observed clue or surprise and works backward to select the simplest, most plausible explanation that would account for it.", "href": "01_logic_and_reasoning.html#concept-23-abductive-reasoning-best-explanation", "accent": "#2563eb"}, {"book": "Book I: Logic & Reasoning", "title": "Concept 3.1: Correlation Versus Causation", "definition": "Correlation means two things tend to rise or fall together; causation means one thing actively produces or changes the other.", "href": "01_logic_and_reasoning.html#concept-31-correlation-versus-causation", "accent": "#2563eb"}, {"book": "Book I: Logic & Reasoning", "title": "Concept 3.2: Confounding Variables", "definition": "A confounding variable is an unmeasured background factor that is tied to both the apparent cause and the observed outcome, creating a misleading impression of a direct link.", "href": "01_logic_and_reasoning.html#concept-32-confounding-variables", "accent": "#2563eb"}, {"book": "Book I: Logic & Reasoning", "title": "Concept 3.3: Survivorship Bias", "definition": "Survivorship bias occurs when we judge a whole group by examining only the visible winners or survivors, ignoring the invisible failures that dropped out of view.", "href": "01_logic_and_reasoning.html#concept-33-survivorship-bias", "accent": "#2563eb"}, {"book": "Book I: Logic & Reasoning", "title": "Concept 4.1: Equivocation (Shifting Meanings Mid-Stream)", "definition": "Equivocation happens when an argument uses the same word in two different senses across its premises and conclusion, making a leap look logical when the meaning quietly changed.", "href": "01_logic_and_reasoning.html#concept-41-equivocation-shifting-meanings-mid-stream", "accent": "#2563eb"}, {"book": "Book I: Logic & Reasoning", "title": "Concept 4.2: Straw Man Versus Steel Man", "definition": "A straw man distorts or oversimplifies an opponent's position so it becomes easy to knock down; a steel man reconstructs the opponent's argument in its strongest, clearest form before responding to it.", "href": "01_logic_and_reasoning.html#concept-42-straw-man-versus-steel-man", "accent": "#2563eb"}, {"book": "Book I: Logic & Reasoning", "title": "Concept 4.3: Base-Rate Neglect", "definition": "Base-rate neglect occurs when we judge how likely something is using only a vivid story or test result, while ignoring how rare or common the condition is in the overall population.", "href": "01_logic_and_reasoning.html#concept-43-base-rate-neglect", "accent": "#2563eb"}, {"book": "Book I: Logic & Reasoning", "title": "Concept 5.1: Falsifiability", "definition": "A claim is falsifiable if there is some clear, conceivable observation or test that could show it to be false if it really were wrong.", "href": "01_logic_and_reasoning.html#concept-51-falsifiability", "accent": "#2563eb"}, {"book": "Book I: Logic & Reasoning", "title": "Concept 5.2: Occam's Razor (Parsimony)", "definition": "When two explanations account equally well for all known facts, Occam's Razor advises preferring the explanation that introduces fewer unproven assumptions or extra moving parts.", "href": "01_logic_and_reasoning.html#concept-52-occams-razor-parsimony", "accent": "#2563eb"}, {"book": "Book I: Logic & Reasoning", "title": "Concept 5.3: Updating Beliefs Proportionally to Evidence", "definition": "Rational updating means adjusting your level of confidence upward or downward gradually based on how strong and unexpected new evidence is, rather than clinging stubbornly or flipping instantly from zero to total certainty.", "href": "01_logic_and_reasoning.html#concept-53-updating-beliefs-proportionally-to-evidence", "accent": "#2563eb"}, {"book": "Book II: Number & Space", "title": "Concept 1.1: Cardinality Versus Ordinal Position", "definition": "Cardinality tells you how many items are in a group altogether; ordinality tells you a specific item's rank or position along an ordered line.", "href": "02_number_proportion_and_space.html#concept-11-cardinality-versus-ordinal-position", "accent": "#0d9488"}, {"book": "Book II: Number & Space", "title": "Concept 1.2: Place Value and Bundling Bases", "definition": "Place value is the idea that the exact same digit changes its worth depending on which column it sits in, because each column to the left represents one larger bundle size.", "href": "02_number_proportion_and_space.html#concept-12-place-value-and-bundling-bases", "accent": "#0d9488"}, {"book": "Book II: Number & Space", "title": "Concept 1.3: Zero as Quantity and Placeholder", "definition": "Zero serves both as a quantity meaning complete absence and as a positional placeholder that keeps higher columns from collapsing into lower ones.", "href": "02_number_proportion_and_space.html#concept-13-zero-as-quantity-and-placeholder", "accent": "#0d9488"}, {"book": "Book II: Number & Space", "title": "Concept 2.1: Ratios as Relative Balance", "definition": "A ratio expresses how big one quantity is relative to another quantity, preserving the balance between them even when both grow or shrink together.", "href": "02_number_proportion_and_space.html#concept-21-ratios-as-relative-balance", "accent": "#0d9488"}, {"book": "Book II: Number & Space", "title": "Concept 2.2: Rates (Change Per Unit)", "definition": "A rate is a ratio comparing two measurements of completely different kinds\u2014most often tracking how much of something happens per unit of time, distance, or cost.", "href": "02_number_proportion_and_space.html#concept-22-rates-change-per-unit", "accent": "#0d9488"}, {"book": "Book II: Number & Space", "title": "Concept 2.3: Percentages and Shifting Baselines", "definition": "A percentage turns any ratio into parts out of one hundred, making unequal totals easy to compare\u2014provided you never lose track of what the starting \"one hundred percent\" baseline refers to.", "href": "02_number_proportion_and_space.html#concept-23-percentages-and-shifting-baselines", "accent": "#0d9488"}, {"book": "Book II: Number & Space", "title": "Concept 3.1: Linear (Additive) Growth", "definition": "Linear growth adds the exact same fixed amount during every equal stretch of time, forming a steady, predictable climb.", "href": "02_number_proportion_and_space.html#concept-31-linear-additive-growth", "accent": "#0d9488"}, {"book": "Book II: Number & Space", "title": "Concept 3.2: Compound (Multiplicative) Growth", "definition": "Compound growth happens when the growth itself generates further growth, multiplying the existing total by a steady percentage in every cycle.", "href": "02_number_proportion_and_space.html#concept-32-compound-multiplicative-growth", "accent": "#0d9488"}, {"book": "Book II: Number & Space", "title": "Concept 3.3: Scaling Laws (Length, Surface, and Volume)", "definition": "When an object grows proportionally in all directions, its outer surface grows much faster than its length, and its inside volume and weight grow far faster still.", "href": "02_number_proportion_and_space.html#concept-33-scaling-laws-length-surface-and-volume", "accent": "#0d9488"}, {"book": "Book II: Number & Space", "title": "Concept 4.1: Spatial Dimensions (Zero to Three and Beyond)", "definition": "Dimension counts the minimum number of independent directions you need to specify an exact location inside a space.", "href": "02_number_proportion_and_space.html#concept-41-spatial-dimensions-zero-to-three-and-beyond", "accent": "#0d9488"}, {"book": "Book II: Number & Space", "title": "Concept 4.2: Symmetry and Conservation Under Motion", "definition": "Symmetry means a shape or pattern looks identical after you perform a specific motion\u2014such as flipping it in a mirror, sliding it along a rail, or rotating it by a turn.", "href": "02_number_proportion_and_space.html#concept-42-symmetry-and-conservation-under-motion", "accent": "#0d9488"}, {"book": "Book II: Number & Space", "title": "Concept 4.3: Topological Invariance (Stretching Without Tearing)", "definition": "Topological invariance looks for properties of a shape\u2014especially connectedness and the number of holes\u2014that survive any smooth stretching, bending, or squishing as long as nothing is torn or glued together.", "href": "02_number_proportion_and_space.html#concept-43-topological-invariance-stretching-without-tearing", "accent": "#0d9488"}, {"book": "Book II: Number & Space", "title": "Concept 5.1: Mean Versus Median", "definition": "The mean adds every value together and divides evenly across all items; the median lines every value up from smallest to largest and picks the middle item sitting right in the center.", "href": "02_number_proportion_and_space.html#concept-51-mean-versus-median", "accent": "#0d9488"}, {"book": "Book II: Number & Space", "title": "Concept 5.2: Spread and Variability", "definition": "Spread measures how tightly individual values huddle around the middle or how wildly they scatter toward high and low extremes.", "href": "02_number_proportion_and_space.html#concept-52-spread-and-variability", "accent": "#0d9488"}, {"book": "Book II: Number & Space", "title": "Concept 5.3: Regression to the Typical", "definition": "When results depend on a mix of steady ability and temporary luck, an unusually extreme performance is very likely to be followed by a more ordinary performance closer to the long-run typical level.", "href": "02_number_proportion_and_space.html#concept-53-regression-to-the-typical", "accent": "#0d9488"}, {"book": "Book III: Matter & Energy", "title": "Concept 1.1: Atoms and Molecules", "definition": "Atoms are the basic chemical building blocks of ordinary matter; molecules are specific teams of atoms locked together by electrical attraction.", "href": "03_matter_energy_and_physics.html#concept-11-atoms-and-molecules", "accent": "#d97706"}, {"book": "Book III: Matter & Energy", "title": "Concept 1.2: States of Matter (Solid, Liquid, Gas)", "definition": "Solids, liquids, and gases are not different ingredients, but three levels of crowd tightness and motion among the exact same molecules.", "href": "03_matter_energy_and_physics.html#concept-12-states-of-matter-solid-liquid-gas", "accent": "#d97706"}, {"book": "Book III: Matter & Energy", "title": "Concept 1.3: Density and Buoyancy", "definition": "Density measures how tightly mass is packed into a given slice of space; buoyancy decides whether an object floats or sinks by comparing its average density against the fluid around it.", "href": "03_matter_energy_and_physics.html#concept-13-density-and-buoyancy", "accent": "#d97706"}, {"book": "Book III: Matter & Energy", "title": "Concept 2.1: Inertia and Mass", "definition": "Inertia is every object's built-in stubbornness against changing its state of rest or steady motion; mass measures how much inertia and matter an object carries.", "href": "03_matter_energy_and_physics.html#concept-21-inertia-and-mass", "accent": "#d97706"}, {"book": "Book III: Matter & Energy", "title": "Concept 2.2: Acceleration and Balanced Forces", "definition": "Acceleration means any change in speed or direction of motion; net force is the leftover push or pull after opposing forces cancel each other out.", "href": "03_matter_energy_and_physics.html#concept-22-acceleration-and-balanced-forces", "accent": "#d97706"}, {"book": "Book III: Matter & Energy", "title": "Concept 2.3: Paired Action and Reaction", "definition": "Forces never appear alone in nature; every push or pull exerted by one object on a second object is matched at that exact instant by an equal push or pull in the opposite direction back onto the first object.", "href": "03_matter_energy_and_physics.html#concept-23-paired-action-and-reaction", "accent": "#d97706"}, {"book": "Book III: Matter & Energy", "title": "Concept 3.1: Energy Transformation and Conservation", "definition": "Energy is the measurable capacity to cause change or motion; the law of conservation states that total energy in an isolated system is never created from nothing and never destroyed\u2014it only transforms from one form into another.", "href": "03_matter_energy_and_physics.html#concept-31-energy-transformation-and-conservation", "accent": "#d97706"}, {"book": "Book III: Matter & Energy", "title": "Concept 3.2: Mechanical Work and Power", "definition": "Physical work happens only when a force actually moves something along the direction of its push; power measures how quickly that work is carried out over time.", "href": "03_matter_energy_and_physics.html#concept-32-mechanical-work-and-power", "accent": "#d97706"}, {"book": "Book III: Matter & Energy", "title": "Concept 3.3: Potential Versus Kinetic Energy", "definition": "Potential energy is energy stored quietly in position, tension, or chemical arrangement waiting to be released; kinetic energy is energy actively expressed in motion.", "href": "03_matter_energy_and_physics.html#concept-33-potential-versus-kinetic-energy", "accent": "#d97706"}, {"book": "Book III: Matter & Energy", "title": "Concept 4.1: Temperature Versus Heat", "definition": "Temperature measures the average jiggling speed of individual molecules in a spot; heat measures thermal energy actively flowing from a warmer object into a cooler one.", "href": "03_matter_energy_and_physics.html#concept-41-temperature-versus-heat", "accent": "#d97706"}, {"book": "Book III: Matter & Energy", "title": "Concept 4.2: Entropy and Spreading Out", "definition": "Entropy measures how many equivalent microscopic arrangements a system can adopt\u2014which practically means how widely energy and matter have spread out rather than remaining concentrated in one corner.", "href": "03_matter_energy_and_physics.html#concept-42-entropy-and-spreading-out", "accent": "#d97706"}, {"book": "Book III: Matter & Energy", "title": "Concept 4.3: Efficiency and Waste Heat", "definition": "Every engine or process converting heat or fuel into useful directed work must spill some fraction of energy as scattered waste heat into its cooler surroundings.", "href": "03_matter_energy_and_physics.html#concept-43-efficiency-and-waste-heat", "accent": "#d97706"}, {"book": "Book III: Matter & Energy", "title": "Concept 5.1: Waves as Traveling Disturbances", "definition": "A wave transfers energy and pattern across distance through rhythmic back-and-forth disturbance, while the underlying medium mostly stays close to its original neighborhood.", "href": "03_matter_energy_and_physics.html#concept-51-waves-as-traveling-disturbances", "accent": "#d97706"}, {"book": "Book III: Matter & Energy", "title": "Concept 5.2: Resonance", "definition": "Resonance occurs when small, rhythmic pushes match an object's natural vibration rhythm, building tiny gentle nudges into dramatic swings.", "href": "03_matter_energy_and_physics.html#concept-52-resonance", "accent": "#d97706"}, {"book": "Book III: Matter & Energy", "title": "Concept 5.3: Invisible Fields (Gravity, Electricity, and Magnetism)", "definition": "A field is a continuous region of influence spread invisibly through space around matter or charges, telling any object entering that spot which way it will be pushed or pulled.", "href": "03_matter_energy_and_physics.html#concept-53-invisible-fields-gravity-electricity-and-magnetism", "accent": "#d97706"}, {"book": "Book IV: Life & Evolution", "title": "Concept 1.1: Boundaries and Selective Exchange", "definition": "Every living thing begins with an active boundary that separates its internal chemistry from the surrounding world while letting chosen nutrients in and pushing wastes out.", "href": "04_life_cells_and_evolution.html#concept-11-boundaries-and-selective-exchange", "accent": "#16a34a"}, {"book": "Book IV: Life & Evolution", "title": "Concept 1.2: Metabolism (Building and Burning)", "definition": "Metabolism is the ongoing two-way chemical economy inside an organism that breaks down incoming food or sunlight for fuel while using that energy to build and repair living parts.", "href": "04_life_cells_and_evolution.html#concept-12-metabolism-building-and-burning", "accent": "#16a34a"}, {"book": "Book IV: Life & Evolution", "title": "Concept 1.3: Homeostasis (Active Inner Balance)", "definition": "Homeostasis is a living system's habit of continually monitoring its inner state and nudging things back inside a narrow safe zone even as the outside world swings wildly.", "href": "04_life_cells_and_evolution.html#concept-13-homeostasis-active-inner-balance", "accent": "#16a34a"}, {"book": "Book IV: Life & Evolution", "title": "Concept 2.1: The Cell as the Minimum Unit of Life", "definition": "A cell is the smallest self-contained structure capable of maintaining boundaries, running metabolism, responding to surroundings, and copying itself.", "href": "04_life_cells_and_evolution.html#concept-21-the-cell-as-the-minimum-unit-of-life", "accent": "#16a34a"}, {"book": "Book IV: Life & Evolution", "title": "Concept 2.2: Proteins as Molecular Workers", "definition": "Proteins are long chains of smaller building blocks folded into precise three-dimensional tools that perform nearly every physical and chemical task inside a living cell.", "href": "04_life_cells_and_evolution.html#concept-22-proteins-as-molecular-workers", "accent": "#16a34a"}, {"book": "Book IV: Life & Evolution", "title": "Concept 2.3: Energy Currency Inside Cells", "definition": "Instead of burning food directly like a bonfire, cells convert fuel into a uniform rechargeable molecular battery passed cleanly from power plants to every miniature worker in the cell.", "href": "04_life_cells_and_evolution.html#concept-23-energy-currency-inside-cells", "accent": "#16a34a"}, {"book": "Book IV: Life & Evolution", "title": "Concept 3.1: Genes as Biological Recipes", "definition": "DNA is a long double-stranded molecular archive written in a four-letter chemical alphabet; a gene is a specific functional passage along that archive telling a cell how and when to build a protein or regulator.", "href": "04_life_cells_and_evolution.html#concept-31-genes-as-biological-recipes", "accent": "#16a34a"}, {"book": "Book IV: Life & Evolution", "title": "Concept 3.2: Mutation (Copying Slips and Variation)", "definition": "A mutation is any accidental change in the sequence of genetic letters caused by copying slips, radiation, or chemical wear.", "href": "04_life_cells_and_evolution.html#concept-32-mutation-copying-slips-and-variation", "accent": "#16a34a"}, {"book": "Book IV: Life & Evolution", "title": "Concept 3.3: Nature Working Together With Nurture", "definition": "Every living trait grows out of constant interaction between inherited genetic tendencies and the physical, nutritional, and social environment around the organism.", "href": "04_life_cells_and_evolution.html#concept-33-nature-working-together-with-nurture", "accent": "#16a34a"}, {"book": "Book IV: Life & Evolution", "title": "Concept 4.1: The Three Ingredients of Natural Selection", "definition": "Whenever individuals in a population vary, pass those differences down to offspring, and survive or reproduce unequally because of those differences, the population automatically shifts toward traits that fit current conditions best.", "href": "04_life_cells_and_evolution.html#concept-41-the-three-ingredients-of-natural-selection", "accent": "#16a34a"}, {"book": "Book IV: Life & Evolution", "title": "Concept 4.2: Adaptation Versus Luck (Drift)", "definition": "Adaptation shapes traits steadily because they improve survival or reproduction in an environment; genetic drift shifts traits purely through random luck in small populations.", "href": "04_life_cells_and_evolution.html#concept-42-adaptation-versus-luck-drift", "accent": "#16a34a"}, {"book": "Book IV: Life & Evolution", "title": "Concept 4.3: Common Descent and Deep Time", "definition": "All living organisms on Earth share branching family ancestry stretching back across immense spans of time, explaining why wildly different creatures carry matching bone layouts and shared molecular toolkits.", "href": "04_life_cells_and_evolution.html#concept-43-common-descent-and-deep-time", "accent": "#16a34a"}, {"book": "Book IV: Life & Evolution", "title": "Concept 5.1: Energy Flows One Way, Matter Recycles", "definition": "Energy enters ecosystems from sunlight or deep chemistry, passes upward step by step as organisms eat one another, and escapes steadily as warm waste heat; physical atoms like carbon and nitrogen cycle endlessly around and around.", "href": "04_life_cells_and_evolution.html#concept-51-energy-flows-one-way-matter-recycles", "accent": "#16a34a"}, {"book": "Book IV: Life & Evolution", "title": "Concept 5.2: Carrying Capacity and Limiting Factors", "definition": "Carrying capacity is the largest steady population of a species a local environment can sustain indefinitely; whichever single essential resource runs short first acts as the bottleneck limiting growth.", "href": "04_life_cells_and_evolution.html#concept-52-carrying-capacity-and-limiting-factors", "accent": "#16a34a"}, {"book": "Book IV: Life & Evolution", "title": "Concept 5.3: Mutualism, Parasitism, and Competition", "definition": "Living relationships range across mutually helpful partnerships (both gain), one-sided exploitation (one gains at the other's expense), and competition (both pay a cost chasing the same limited resource).", "href": "04_life_cells_and_evolution.html#concept-53-mutualism-parasitism-and-competition", "accent": "#16a34a"}, {"book": "Book V: Information & Systems", "title": "Concept 1.1: Information as Eliminated Uncertainty", "definition": "Information is a measurable reduction in surprise\u2014telling you which specific possibility happened out of a set of realistic alternatives.", "href": "05_computation_information_and_systems.html#concept-11-information-as-eliminated-uncertainty", "accent": "#7c3aed"}, {"book": "Book V: Information & Systems", "title": "Concept 1.2: Signal Versus Noise", "definition": "Signal is the meaningful pattern you actually want to hear or measure; noise is random unwanted static, chatter, or interference crowding the same channel.", "href": "05_computation_information_and_systems.html#concept-12-signal-versus-noise", "accent": "#7c3aed"}, {"book": "Book V: Information & Systems", "title": "Concept 1.3: Compression (Removing Repetition Without Losing Meaning)", "definition": "Compression shrinks the length of a message by spotting predictable repetition and describing patterns smartly instead of spelling every piece out raw.", "href": "05_computation_information_and_systems.html#concept-13-compression-removing-repetition-without-losing-meaning", "accent": "#7c3aed"}, {"book": "Book V: Information & Systems", "title": "Concept 2.1: Algorithms (Unambiguous Step-by-Step Recipes)", "definition": "An algorithm is a finite, crystal-clear sequence of step-by-step instructions that leaves zero room for improvisation and reliably turns inputs into a finished result.", "href": "05_computation_information_and_systems.html#concept-21-algorithms-unambiguous-step-by-step-recipes", "accent": "#7c3aed"}, {"book": "Book V: Information & Systems", "title": "Concept 2.2: Search and Scaling Effort", "definition": "How fast a task finishes as the pile grows depends completely on whether your method checks items one by one or cuts the pile dramatically at every step.", "href": "05_computation_information_and_systems.html#concept-22-search-and-scaling-effort", "accent": "#7c3aed"}, {"book": "Book V: Information & Systems", "title": "Concept 2.3: Trade-Offs Between Speed and Space", "definition": "Systems constantly trade extra storage space against extra thinking time: keeping pre-made notes or indexes takes shelf room yet saves work later, while computing fresh from scratch saves shelf space yet takes longer.", "href": "05_computation_information_and_systems.html#concept-23-trade-offs-between-speed-and-space", "accent": "#7c3aed"}, {"book": "Book V: Information & Systems", "title": "Concept 3.1: State Versus Process", "definition": "A process is the active set of rules running right now; state is the saved snapshot of conditions, balances, and positions remembered from one moment to the next.", "href": "05_computation_information_and_systems.html#concept-31-state-versus-process", "accent": "#7c3aed"}, {"book": "Book V: Information & Systems", "title": "Concept 3.2: Names, References, and Values", "definition": "A value is the actual thing itself; a name or reference is an address label pointing toward where that thing currently lives.", "href": "05_computation_information_and_systems.html#concept-32-names-references-and-values", "accent": "#7c3aed"}, {"book": "Book V: Information & Systems", "title": "Concept 3.3: Abstraction and Clean Interfaces", "definition": "Abstraction hides messy inner machinery behind a simple, dependable front door (the interface), letting you use a complicated system safely without memorizing how every nut and bolt inside works.", "href": "05_computation_information_and_systems.html#concept-33-abstraction-and-clean-interfaces", "accent": "#7c3aed"}, {"book": "Book V: Information & Systems", "title": "Concept 4.1: Protocols and Packet Switching", "definition": "A protocol is a mutually agreed set of rules for greeting, formatting, confirming, and retrying messages; packet switching chops large messages into numbered postcard-sized pieces that travel independently and reassemble cleanly at the far end.", "href": "05_computation_information_and_systems.html#concept-41-protocols-and-packet-switching", "accent": "#7c3aed"}, {"book": "Book V: Information & Systems", "title": "Concept 4.2: Cryptography, Locks, and Signatures", "definition": "Encryption scrambles a readable message with a secret key so eavesdroppers see gibberish; a digital signature proves unmistakably that a specific key holder created or approved a message and nobody altered a comma in transit.", "href": "05_computation_information_and_systems.html#concept-42-cryptography-locks-and-signatures", "accent": "#7c3aed"}, {"book": "Book V: Information & Systems", "title": "Concept 4.3: Consensus Without a Single Boss", "definition": "Distributed consensus is the art of getting multiple independent machines or people\u2014who may lose messages, run at different speeds, or even malfunction\u2014to agree on one shared, consistent order of facts without relying on one central dictator.", "href": "05_computation_information_and_systems.html#concept-43-consensus-without-a-single-boss", "accent": "#7c3aed"}, {"book": "Book V: Information & Systems", "title": "Concept 5.1: Balancing Versus Reinforcing Feedback Loops", "definition": "Balancing feedback loops resist change and steer a system back toward a stable target; reinforcing feedback loops amplify any nudge, pushing growth or collapse ever faster in the same direction.", "href": "05_computation_information_and_systems.html#concept-51-balancing-versus-reinforcing-feedback-loops", "accent": "#7c3aed"}, {"book": "Book V: Information & Systems", "title": "Concept 5.2: Bottlenecks and System Throughput", "definition": "Every multi-step pipeline moves only as fast as its single slowest narrowest stage, called the bottleneck; speeding up any other stage only piles inventory up right behind that bottleneck.", "href": "05_computation_information_and_systems.html#concept-52-bottlenecks-and-system-throughput", "accent": "#7c3aed"}, {"book": "Book V: Information & Systems", "title": "Concept 5.3: Emergence (When the Crowd Does Something New)", "definition": "Emergence happens when countless simple parts following purely local rules interact together to create sweeping large-scale patterns that no single part planned, knew about, or contains on its own.", "href": "05_computation_information_and_systems.html#concept-53-emergence-when-the-crowd-does-something-new", "accent": "#7c3aed"}, {"book": "Book VI: Language & Coordination", "title": "Concept 1.1: Concept Isolation Through Naming", "definition": "Naming isolates a recurring pattern out of messy experience so you can point at it cleanly, remember it distinctly, and combine it with other ideas without re-explaining it every time.", "href": "06_language_economics_and_coordination.html#concept-11-concept-isolation-through-naming", "accent": "#be123c"}, {"book": "Book VI: Language & Coordination", "title": "Concept 1.2: Connotation Versus Denotation", "definition": "Denotation is a word's literal factual core\u2014what it points to in the dictionary; connotation is the emotional attitude, warmth, or judgment wrapped quietly around that word in real conversation.", "href": "06_language_economics_and_coordination.html#concept-12-connotation-versus-denotation", "accent": "#be123c"}, {"book": "Book VI: Language & Coordination", "title": "Concept 1.3: Context and Shared Background", "definition": "Words rarely carry full meaning locked completely inside themselves; listeners assemble true meaning by combining spoken words with surrounding context and unspoken shared background knowledge.", "href": "06_language_economics_and_coordination.html#concept-13-context-and-shared-background", "accent": "#be123c"}, {"book": "Book VI: Language & Coordination", "title": "Concept 2.1: Scarcity and Trade-Offs", "definition": "Scarcity means useful resources\u2014including hours in a day, materials, attention, and clean land\u2014exist in limited amounts compared to human wants, forcing unavoidable trade-offs between competing goods.", "href": "06_language_economics_and_coordination.html#concept-21-scarcity-and-trade-offs", "accent": "#be123c"}, {"book": "Book VI: Language & Coordination", "title": "Concept 2.2: Opportunity Cost (The Invisible Price Tag)", "definition": "Opportunity cost is the true value of the next best alternative you had to give up the instant you made a choice.", "href": "06_language_economics_and_coordination.html#concept-22-opportunity-cost-the-invisible-price-tag", "accent": "#be123c"}, {"book": "Book VI: Language & Coordination", "title": "Concept 2.3: Marginal Thinking (The Next Single Step)", "definition": "Marginal thinking evaluates the extra benefit versus the extra cost of adding or subtracting just one more unit right now, rather than judging entire averages overall.", "href": "06_language_economics_and_coordination.html#concept-23-marginal-thinking-the-next-single-step", "accent": "#be123c"}, {"book": "Book VI: Language & Coordination", "title": "Concept 3.1: Subjective Value and Voluntary Trade", "definition": "Value is not stamped permanently inside physical objects; two people can swap goods voluntarily and both walk away genuinely richer simply because each values what they receive more than what they gave up.", "href": "06_language_economics_and_coordination.html#concept-31-subjective-value-and-voluntary-trade", "accent": "#be123c"}, {"book": "Book VI: Language & Coordination", "title": "Concept 3.2: Prices as Compact Signals", "definition": "In open markets, prices act like changing summary signals communicating how scarce something is and how urgently distant strangers want it\u2014coordinating millions of strangers without needing anyone to run a master plan.", "href": "06_language_economics_and_coordination.html#concept-32-prices-as-compact-signals", "accent": "#be123c"}, {"book": "Book VI: Language & Coordination", "title": "Concept 3.3: Incentives and Unintended Consequences", "definition": "An incentive is any reward or penalty shaping how people naturally act; poorly designed incentives reliably trigger clever workarounds that backfire against the designer's original wish.", "href": "06_language_economics_and_coordination.html#concept-33-incentives-and-unintended-consequences", "accent": "#be123c"}, {"book": "Book VI: Language & Coordination", "title": "Concept 4.1: Coordination Traps (The Prisoner's Dilemma)", "definition": "A coordination trap happens when every participant acting purely in their own isolated short-term interest produces an outcome that leaves every single participant worse off than if they had cooperated together.", "href": "06_language_economics_and_coordination.html#concept-41-coordination-traps-the-prisoners-dilemma", "accent": "#be123c"}, {"book": "Book VI: Language & Coordination", "title": "Concept 4.2: The Tragedy of Shared Commons", "definition": "When a valuable shared resource belongs to everyone without clear boundaries or shared stewardship rules, every individual gets the full private reward of taking one more unit while the damage gets split across the whole neighborhood\u2014steadily ruining the resource for all.", "href": "06_language_economics_and_coordination.html#concept-42-the-tragedy-of-shared-commons", "accent": "#be123c"}, {"book": "Book VI: Language & Coordination", "title": "Concept 4.3: Repeated Games, Reputation, and Institutions", "definition": "Strangers cooperate reliably when rules, courts, and repeated community visibility ensure that cheating today ruins tomorrow's trust and future gains.", "href": "06_language_economics_and_coordination.html#concept-43-repeated-games-reputation-and-institutions", "accent": "#be123c"}, {"book": "Book VI: Language & Coordination", "title": "Concept 5.1: Division of Labor and Comparative Advantage", "definition": "Division of labor multiplies total output by letting people specialize deeply in specific skills and trade freely; comparative advantage shows that even if one person is faster at everything, both still produce more when each focuses where their relative edge is greatest.", "href": "06_language_economics_and_coordination.html#concept-51-division-of-labor-and-comparative-advantage", "accent": "#be123c"}, {"book": "Book VI: Language & Coordination", "title": "Concept 5.2: External Memory (Writing and Shared Tools)", "definition": "Writing, books, tools, and shared standards store hard-won discoveries outside fragile individual brains so every generation begins standing atop what previous generations tested and refined.", "href": "06_language_economics_and_coordination.html#concept-52-external-memory-writing-and-shared-tools", "accent": "#be123c"}, {"book": "Book VI: Language & Coordination", "title": "Concept 5.3: Error-Correcting Cultures", "definition": "The strongest societies, teams, and sciences succeed not by preventing every mistake upfront, but by building open, non-defensive habits that spot errors quickly, expose false assumptions safely, and keep improvements compounding.", "href": "06_language_economics_and_coordination.html#concept-53-error-correcting-cultures", "accent": "#be123c"}];
   const root = document.documentElement;
-  const THEME_COLORS = { paper: '#faf8f4', sepia: '#f4ecd8', night: '#111318' };
+  const THEME_COLORS = { paper: '#f7f4ed', sepia: '#efe4cd', night: '#0d1017' };
   const BOOKMARKS_KEY = 'plain-books-bookmarks';
   const LAST_READ_KEY = 'plain-books-last-read';
+  const PROGRESS_KEY = 'plain-books-volume-progress';
+  const FOCUS_KEY = 'plain-books-focus';
   const savedTheme = localStorage.getItem('plain-books-theme') || 'paper';
   const savedSize = localStorage.getItem('plain-books-size') || 'md';
   root.setAttribute('data-theme', savedTheme);
   root.setAttribute('data-size', savedSize);
 
+  if (localStorage.getItem(FOCUS_KEY) === '1') {
+    document.body.classList.add('focus-mode');
+  }
+
   function syncThemeMeta(theme) {
     const meta = document.getElementById('meta-theme-color');
-    if (meta) meta.setAttribute('content', THEME_COLORS[theme] || '#faf8f4');
+    if (meta) meta.setAttribute('content', THEME_COLORS[theme] || '#f7f4ed');
   }
 
   function syncButtons() {
@@ -846,14 +1620,15 @@ html[data-theme="night"] .status-pill.is-offline {
     document.querySelectorAll('[data-set-size]').forEach((btn) => {
       btn.classList.toggle('active', btn.getAttribute('data-set-size') === size);
     });
+    const focusBtn = document.getElementById('focus-mode-btn');
+    if (focusBtn) {
+      focusBtn.classList.toggle('active', document.body.classList.contains('focus-mode'));
+    }
   }
 
   function readBookmarks() {
-    try {
-      return JSON.parse(localStorage.getItem(BOOKMARKS_KEY) || '[]');
-    } catch {
-      return [];
-    }
+    try { return JSON.parse(localStorage.getItem(BOOKMARKS_KEY) || '[]'); }
+    catch { return []; }
   }
 
   function writeBookmarks(list) {
@@ -877,11 +1652,12 @@ html[data-theme="night"] .status-pill.is-offline {
       const isSaved = savedSet.has(href);
       btn.classList.toggle('saved', isSaved);
       btn.setAttribute('aria-pressed', isSaved ? 'true' : 'false');
-      btn.textContent = isSaved ? 'Saved' : 'Bookmark';
+      const label = btn.querySelector('span');
+      if (label) label.textContent = isSaved ? 'Saved' : 'Save';
     });
   }
 
-  document.addEventListener('click', (e) => {
+  document.addEventListener('click', async (e) => {
     const tBtn = e.target.closest('[data-set-theme]');
     if (tBtn) {
       const val = tBtn.getAttribute('data-set-theme');
@@ -895,6 +1671,40 @@ html[data-theme="night"] .status-pill.is-offline {
       root.setAttribute('data-size', val);
       localStorage.setItem('plain-books-size', val);
       syncButtons();
+    }
+    const focusBtn = e.target.closest('#focus-mode-btn');
+    if (focusBtn) {
+      const on = document.body.classList.toggle('focus-mode');
+      localStorage.setItem(FOCUS_KEY, on ? '1' : '0');
+      syncButtons();
+    }
+    const menuBtn = e.target.closest('#mobile-menu-btn');
+    if (menuBtn) {
+      document.body.classList.toggle('drawer-open');
+    }
+    if (e.target.closest('#sidebar-close-btn') || e.target.closest('#sidebar-backdrop') || e.target.closest('.sidebar a')) {
+      document.body.classList.remove('drawer-open');
+    }
+    const topBtn = e.target.closest('#back-to-top');
+    if (topBtn) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    const copyBtn = e.target.closest('.copy-link-btn');
+    if (copyBtn) {
+      const id = copyBtn.getAttribute('data-copy-id');
+      const url = location.href.split('#')[0] + '#' + id;
+      try {
+        await navigator.clipboard.writeText(url);
+      } catch {
+        location.hash = id;
+      }
+      copyBtn.classList.add('copied');
+      const sp = copyBtn.querySelector('span');
+      if (sp) sp.textContent = 'Copied';
+      setTimeout(() => {
+        copyBtn.classList.remove('copied');
+        if (sp) sp.textContent = 'Link';
+      }, 1400);
     }
     const bBtn = e.target.closest('.bookmark-btn');
     if (bBtn) {
@@ -916,96 +1726,304 @@ html[data-theme="night"] .status-pill.is-offline {
     }
   });
 
-  // Track reading progress & last-read concept on book pages
+  // Scroll-Spy + Reading Progress + Last Read Persistence
   const conceptCards = Array.from(document.querySelectorAll('.concept-card[data-concept-id]'));
+  const chapterHeadings = Array.from(document.querySelectorAll('h2.chapter-heading[id]'));
+  const sidebarLinks = Array.from(document.querySelectorAll('.sidebar a[href^="#"]'));
+  const backTopBtn = document.getElementById('back-to-top');
+
   function updateReadingState() {
     const bar = document.getElementById('reading-progress');
     const total = document.documentElement.scrollHeight - window.innerHeight;
     const pct = total > 0 ? Math.min(100, Math.max(0, (window.scrollY / total) * 100)) : 0;
     if (bar) bar.style.width = pct.toFixed(1) + '%';
+    if (backTopBtn) backTopBtn.classList.toggle('visible', window.scrollY > 420);
 
     if (conceptCards.length) {
       let activeCard = conceptCards[0];
       for (const card of conceptCards) {
-        if (card.getBoundingClientRect().top <= 160) {
-          activeCard = card;
-        }
+        if (card.getBoundingClientRect().top <= 180) activeCard = card;
       }
+      let activeChap = chapterHeadings[0];
+      for (const ch of chapterHeadings) {
+        if (ch.getBoundingClientRect().top <= 180) activeChap = ch;
+      }
+
+      const activeId = activeCard.getAttribute('data-concept-id');
+      const activeChapId = activeChap ? activeChap.getAttribute('id') : '';
+      sidebarLinks.forEach((a) => {
+        const href = a.getAttribute('href').slice(1);
+        const match = href === activeId || href === activeChapId;
+        a.classList.toggle('active-nav', match);
+      });
+
       const page = currentPageFile();
-      const id = activeCard.getAttribute('data-concept-id');
       const title = activeCard.getAttribute('data-concept-title');
       const bookLabel = document.body.getAttribute('data-book-label') || document.title;
+      const pctRound = Math.round(pct);
       localStorage.setItem(LAST_READ_KEY, JSON.stringify({
-        href: page + '#' + id,
+        href: page + '#' + activeId,
         bookHref: page,
         book: bookLabel,
         title: title,
-        pct: Math.round(pct),
+        pct: pctRound,
       }));
+      try {
+        const prog = JSON.parse(localStorage.getItem(PROGRESS_KEY) || '{}');
+        prog[page] = Math.max(prog[page] || 0, pctRound);
+        localStorage.setItem(PROGRESS_KEY, JSON.stringify(prog));
+      } catch {}
     }
   }
 
   window.addEventListener('scroll', updateReadingState, { passive: true });
-  if (conceptCards.length) {
-    updateReadingState();
+  if (conceptCards.length) updateReadingState();
+
+  // Command Palette Global Concept Search (Ctrl+K or / or Topbar Search button)
+  const cmdBackdrop = document.getElementById('cmd-backdrop');
+  const cmdInput = document.getElementById('cmd-input');
+  const cmdList = document.getElementById('cmd-list');
+  let cmdSelected = 0;
+
+  function escHtml(str) {
+    return String(str).replace(/[&<>"']/g, (ch) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[ch]));
   }
 
-  // PWA Service Worker registration & Install button
+  function renderCmdList(query) {
+    if (!cmdList) return;
+    const q = query.trim().toLowerCase();
+    const hits = q
+      ? ALL_CONCEPTS.filter((c) =>
+          c.title.toLowerCase().includes(q) ||
+          c.definition.toLowerCase().includes(q) ||
+          c.book.toLowerCase().includes(q)
+        )
+      : ALL_CONCEPTS.slice(0, 12);
+
+    cmdSelected = 0;
+    if (!hits.length) {
+      cmdList.innerHTML = '<div style="padding: 1rem; color: var(--text-muted); font-size: 0.9rem;">No matching isolated concepts found.</div>';
+      return;
+    }
+    cmdList.innerHTML = hits.slice(0, 14).map((c, idx) => `
+      <a class="cmd-item ${idx === 0 ? 'selected' : ''}" href="${escHtml(c.href)}">
+        <div class="cmd-item-book" style="color:${escHtml(c.accent)}">${escHtml(c.book)}</div>
+        <div class="cmd-item-title">${escHtml(c.title)}</div>
+        <div class="cmd-item-def">${escHtml(c.definition)}</div>
+      </a>
+    `).join('');
+  }
+
+  function openCmd() {
+    if (!cmdBackdrop || !cmdInput) return;
+    cmdBackdrop.hidden = false;
+    cmdInput.value = '';
+    renderCmdList('');
+    setTimeout(() => cmdInput.focus(), 10);
+  }
+
+  function closeCmd() {
+    if (cmdBackdrop) cmdBackdrop.hidden = true;
+  }
+
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#open-cmd-btn')) openCmd();
+    if (e.target === cmdBackdrop || e.target.closest('#close-cmd-btn')) closeCmd();
+    if (e.target.closest('.cmd-item')) closeCmd();
+  });
+
+  if (cmdInput) {
+    cmdInput.addEventListener('input', () => renderCmdList(cmdInput.value));
+    cmdInput.addEventListener('keydown', (e) => {
+      const items = Array.from(cmdList.querySelectorAll('.cmd-item'));
+      if (!items.length) return;
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        cmdSelected = (cmdSelected + 1) % items.length;
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        cmdSelected = (cmdSelected - 1 + items.length) % items.length;
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        items[cmdSelected].click();
+        return;
+      }
+      items.forEach((it, idx) => it.classList.toggle('selected', idx === cmdSelected));
+      items[cmdSelected].scrollIntoView({ block: 'nearest' });
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      if (cmdBackdrop && cmdBackdrop.hidden) openCmd(); else closeCmd();
+    } else if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+      e.preventDefault();
+      openCmd();
+    } else if (e.key === 'Escape') {
+      closeCmd();
+      closeInstallModal();
+      document.body.classList.remove('drawer-open');
+    }
+  });
+
+  // PWA Service Worker & Install Handling
   const statusPill = document.getElementById('pwa-status-pill');
   const installBtn = document.getElementById('pwa-install-btn');
-  let deferredInstallPrompt = null;
+  const installBackdrop = document.getElementById('install-backdrop');
+  const installChecksEl = document.getElementById('install-checks');
+  const installInstructionsEl = document.getElementById('install-instructions');
+  const installNativeBtn = document.getElementById('install-native-btn');
+  let deferredInstallPrompt = window.__bipPrompt || null;
+  let swActiveState = false;
+
+  const isStandalone =
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true;
 
   function refreshConnectionStatus(cachedReady) {
+    swActiveState = Boolean(cachedReady || swActiveState);
     if (!statusPill) return;
     if (!navigator.onLine) {
       statusPill.hidden = false;
       statusPill.classList.add('is-offline');
       statusPill.textContent = 'Offline Mode';
-    } else if (cachedReady) {
+    } else if (swActiveState) {
       statusPill.hidden = false;
       statusPill.classList.remove('is-offline');
       statusPill.textContent = 'Offline Ready';
     }
   }
 
+  function updateInstallButtonUI() {
+    if (!installBtn) return;
+    if (isStandalone) {
+      installBtn.hidden = true;
+      return;
+    }
+    installBtn.hidden = false;
+    installBtn.textContent = 'Install App';
+  }
+
+  function renderInstallModal() {
+    if (!installChecksEl || !installInstructionsEl) return;
+    const isSecure = location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    const hasManifest = Boolean(document.querySelector('link[rel="manifest"]'));
+    const hasSwCtrl = Boolean(navigator.serviceWorker && navigator.serviceWorker.controller) || swActiveState;
+
+    installChecksEl.innerHTML = [
+      { label: 'Secure Origin', val: isSecure ? 'Ready (' + location.protocol.replace(':', '') + ')' : 'File mode (needs HTTPS/localhost)' },
+      { label: 'Web Manifest', val: hasManifest ? 'Linked' : 'Missing' },
+      { label: 'Offline Cache', val: hasSwCtrl ? 'Active' : (isSecure ? 'Registering...' : 'Unavailable on file://') },
+      { label: 'Browser Prompt', val: deferredInstallPrompt ? 'Ready (1-click)' : 'Use browser menu' },
+    ].map((item) => `<div class="install-check-item"><strong>${escHtml(item.label)}</strong><span>${escHtml(item.val)}</span></div>`).join('');
+
+    if (installNativeBtn) {
+      installNativeBtn.hidden = !deferredInstallPrompt;
+    }
+
+    const ua = navigator.userAgent;
+    const isIOS = /iPhone|iPad|iPod/i.test(ua);
+    const isFirefox = /Firefox/i.test(ua);
+
+    if (location.protocol === 'file:') {
+      installInstructionsEl.innerHTML =
+        '<li>You opened this page as a local <code>file://</code> file, where browsers block Service Workers and app installation.</li>' +
+        '<li>Open the live HTTPS app at <a href="https://nasakib.github.io/plain-english-foundations/">nasakib.github.io/plain-english-foundations</a>, or double-click <code>Launch_Library_PWA.bat</code> in your <code>books</code> folder.</li>';
+    } else if (isIOS) {
+      installInstructionsEl.innerHTML =
+        '<li>Tap the <strong>Share</strong> button in Safari.</li>' +
+        '<li>Scroll down and tap <strong>Add to Home Screen</strong>.</li>';
+    } else if (isFirefox) {
+      installInstructionsEl.innerHTML =
+        '<li>Desktop Firefox does not support standalone PWA installation natively.</li>' +
+        '<li>Open this URL in <strong>Chrome</strong> or <strong>Microsoft Edge</strong> to install it as a standalone desktop app (offline cache still works in Firefox!).</li>';
+    } else {
+      installInstructionsEl.innerHTML =
+        '<li>In <strong>Chrome</strong> or <strong>Microsoft Edge</strong>, look for the small <strong>Install</strong> icon inside the right side of the address bar.</li>' +
+        '<li>Or open the browser menu (<strong>&vellip;</strong> / <strong>&ctdot;</strong>) &rarr; <strong>Cast, save, and share</strong> (or <strong>Apps</strong>) &rarr; <strong>Install this site as an app</strong>.</li>' +
+        '<li><em>Note:</em> If you previously clicked Cancel on an install prompt, browsers hide the automatic popup for a short cooldown; the address-bar menu still installs immediately.</li>';
+    }
+  }
+
+  function openInstallModal() {
+    if (!installBackdrop) return;
+    renderInstallModal();
+    installBackdrop.hidden = false;
+  }
+
+  function closeInstallModal() {
+    if (installBackdrop) installBackdrop.hidden = true;
+  }
+
+  async function triggerInstall() {
+    if (deferredInstallPrompt) {
+      const promptEvt = deferredInstallPrompt;
+      deferredInstallPrompt = null;
+      updateInstallButtonUI();
+      try {
+        await promptEvt.prompt();
+        const choice = await promptEvt.userChoice;
+        if (choice && choice.outcome === 'accepted') {
+          if (installBtn) installBtn.hidden = true;
+          closeInstallModal();
+          return;
+        }
+      } catch {}
+    }
+    openInstallModal();
+  }
+
   if ('serviceWorker' in navigator && (location.protocol === 'http:' || location.protocol === 'https:')) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js').then((reg) => {
-        if (reg.active) {
-          refreshConnectionStatus(true);
+        if (reg.active) refreshConnectionStatus(true);
+        if (reg.installing || reg.waiting) {
+          const worker = reg.installing || reg.waiting;
+          worker.addEventListener('statechange', () => {
+            if (worker.state === 'activated') refreshConnectionStatus(true);
+          });
         }
       }).catch(() => {});
     });
     navigator.serviceWorker.addEventListener('message', (event) => {
-      if (event.data && event.data.type === 'OFFLINE_READY') {
-        refreshConnectionStatus(true);
-      }
+      if (event.data && event.data.type === 'OFFLINE_READY') refreshConnectionStatus(true);
     });
-    window.addEventListener('online', () => refreshConnectionStatus(true));
+    window.addEventListener('online', () => refreshConnectionStatus(swActiveState));
     window.addEventListener('offline', () => refreshConnectionStatus(true));
   }
 
+  window.addEventListener('plain-books-bip-ready', () => {
+    deferredInstallPrompt = window.__bipPrompt;
+    updateInstallButtonUI();
+  });
+
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
+    window.__bipPrompt = e;
     deferredInstallPrompt = e;
-    if (installBtn) installBtn.hidden = false;
+    updateInstallButtonUI();
   });
 
-  if (installBtn) {
-    installBtn.addEventListener('click', async () => {
-      if (!deferredInstallPrompt) return;
-      deferredInstallPrompt.prompt();
-      await deferredInstallPrompt.userChoice;
-      deferredInstallPrompt = null;
-      installBtn.hidden = true;
-    });
-  }
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('#pwa-install-btn') || e.target.closest('#install-native-btn')) {
+      triggerInstall();
+    }
+    if (e.target === installBackdrop || e.target.closest('#close-install-btn')) {
+      closeInstallModal();
+    }
+  });
 
   window.addEventListener('appinstalled', () => {
+    window.__bipPrompt = null;
     deferredInstallPrompt = null;
     if (installBtn) installBtn.hidden = true;
+    closeInstallModal();
   });
 
+  updateInstallButtonUI();
   syncButtons();
   syncBookmarksUI();
 })();
@@ -1019,6 +2037,13 @@ html[data-theme="night"] .status-pill.is-offline {
         return String(str).replace(/[&<>"']/g, (ch) => ({
           '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
         }[ch]));
+      }
+
+      function highlightMatch(text, query) {
+        const safe = esc(text);
+        if (!query) return safe;
+        const escapedQ = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        return safe.replace(new RegExp('(' + escapedQ + ')', 'ig'), '<mark>$1</mark>');
       }
 
       function renderPersonalShelves() {
@@ -1039,6 +2064,17 @@ html[data-theme="night"] .status-pill.is-offline {
         } catch {
           contPanel.hidden = true;
         }
+
+        try {
+          const prog = JSON.parse(localStorage.getItem('plain-books-volume-progress') || '{}');
+          document.querySelectorAll('[data-progress-for]').forEach((bar) => {
+            const key = bar.getAttribute('data-progress-for');
+            const pct = Math.min(100, Math.max(0, Number(prog[key] || 0)));
+            bar.style.width = pct + '%';
+            const lbl = document.querySelector('[data-progress-label="' + key + '"]');
+            if (lbl) lbl.textContent = pct + '%';
+          });
+        } catch {}
 
         const bmPanel = document.getElementById('bookmarks-panel');
         const bmGrid = document.getElementById('bookmarks-grid');
@@ -1073,6 +2109,14 @@ html[data-theme="night"] .status-pill.is-offline {
           localStorage.setItem('plain-books-bookmarks', JSON.stringify(list));
           renderPersonalShelves();
         }
+        const fBtn = e.target.closest('[data-filter-roman]');
+        if (fBtn) {
+          const targetRoman = fBtn.getAttribute('data-filter-roman');
+          document.querySelectorAll('.filter-chip').forEach((c) => c.classList.toggle('active', c === fBtn));
+          document.querySelectorAll('.volume-card').forEach((card) => {
+            card.hidden = targetRoman !== 'all' && card.getAttribute('data-roman') !== targetRoman;
+          });
+        }
       });
 
       const clearBtn = document.getElementById('clear-bookmarks-btn');
@@ -1088,16 +2132,17 @@ html[data-theme="night"] .status-pill.is-offline {
       renderPersonalShelves();
 
       input.addEventListener('input', () => {
-        const q = input.value.trim().toLowerCase();
-        if (!q) {
+        const q = input.value.trim();
+        const ql = q.toLowerCase();
+        if (!ql) {
           box.hidden = true;
           box.innerHTML = '';
           return;
         }
         const hits = concepts.filter((c) =>
-          c.title.toLowerCase().includes(q) ||
-          c.definition.toLowerCase().includes(q) ||
-          c.book.toLowerCase().includes(q)
+          c.title.toLowerCase().includes(ql) ||
+          c.definition.toLowerCase().includes(ql) ||
+          c.book.toLowerCase().includes(ql)
         );
         box.hidden = false;
         if (!hits.length) {
@@ -1107,8 +2152,8 @@ html[data-theme="night"] .status-pill.is-offline {
         box.innerHTML = hits.slice(0, 12).map((c) => `
           <a class="search-hit" style="--hit-accent: ${c.accent}" href="${c.href}">
             <div class="search-hit-book">${esc(c.book)}</div>
-            <div class="search-hit-title">${esc(c.title)}</div>
-            <div class="search-hit-def">${esc(c.definition)}</div>
+            <div class="search-hit-title">${highlightMatch(c.title, q)}</div>
+            <div class="search-hit-def">${highlightMatch(c.definition, q)}</div>
           </a>
         `).join('');
       });
